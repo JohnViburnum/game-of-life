@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Admin" />
+  <link rel="stylesheet" href="index.css" />
+  <title>Игра «Жизнь»</title>
+</head>
+
+<body class="body =landscape">
+  <header class="header">
+    <section class="title-box flx_all-center">
+      <h1 class="title">Игра «Жизнь»</h1>
+      <p class="count" id="textCount">Поколение: 0</p>
+    </section>
+    <section class="controllers-box">
+      <div class="btn-controller_box">
+        <button class="btn btn-controller btn-start-stop stop" id="btnStartStop">
+          <span class="ico ico_start-stop"></span>
+          <span class="text_hide-show text-start">Старт</span>
+          <span class="text_hide-show text-stop">Стоп</span>
+        </button>
+        <button class="btn btn-controller btn-one-step" id="btnOneStep">
+          <span class="ico ico_one-step"></span>
+          <span class="text_hide-show">1&nbsp;шаг</span>
+        </button>
+        <button class="btn btn-controller btn-clear" id="btnClear">
+          <span class="ico ico_clear"></span>
+          <span class="text_hide-show">Очистить</span>
+        </button>
+      </div>
+      <div class="btn_tab_drop-down_toggle_box">
+        <button class="btn btn_tab btn_tab_drop-down_toggle btn_tab_drop-down_toggle_colony close all-close">
+          <span class="ico ico_colony"></span>
+          <span class="text text_hide-show">Колонии</span>
+        </button>
+        <button class="btn btn_tab btn_tab_drop-down_toggle btn_tab_drop-down_toggle_settings close all-close" id="btnDropDownToggleSettings">
+          <span class="ico ico_settings"></span>
+          <span class="text text_hide-show">Настройки</span>
+        </button>
+      </div>
+    </section>
+  </header>
+
+  <main class="main">
+    <div class="wrapper-canvas" id="wrapperCanvas">
+      <canvas class="canvas" id="canvas"></canvas>
+    </div>
+  </main>
+
+  <section class="panel panel_drop-down_toggle_box none" id="dropDownToggleBox">
+    <div class="panel panel_drop-down_toggle panel_drop-down_toggle_colony none">
+      <button class="btn btn_tab btn_tab_drop-down btn_tab_drop-down_colony close">
+        <span class="text">Предпросмотр колонии</span>
+      </button>
+      <section class="panel panel_drop-down panel_drop-down_colony panel_drop-down_preview none">
+        <h2 class="sub-title sub-title_name-colony" id="nameColony">Название колонии</h2>
+        <div class="wrapper_canvas-preview flx_all-center">
+          <canvas id="canvasPreview"></canvas>
+          <div class="glass"></div>
+        </div>
+        <h2 class="sub-title sub-title_reflection">Отразить</h2>
+        <button class="btn btn_transform btn_transform_horiz-reflection" id="btnHorizReflection">
+          <span class="text_hide">по гори&shy;зонтали</span>
+          <img class="ico" src="icons/ico-horiz-reflection.svg" alt="отразить по горизонтали" title="отразить по горизонтали">
+        </button>
+        <button class="btn btn_transform btn_transform_vert-reflection" id="btnVertReflection">
+          <span class="text_hide">по верти&shy;кали</span>
+          <img class="ico" src="icons/ico-vert-reflection.svg" alt="отразить по вертикали" title="отразить по вертикали">
+        </button>
+        <h2 class="sub-title sub-title_turn">Повернуть</h2>
+        <button class="btn btn_transform btn_transform_left-turn" id="btnLeftTurn">
+          <span class="text_hide">на&nbsp;90° влево</span>
+          <img class="ico" src="icons/ico-left-turn.svg" alt="повернуть на 90° влево" title="повернуть на 90° влево">
+        </button>
+        <button class="btn btn_transform btn_transform_right-turn" id="btnRightTurn">
+          <span class="text_hide">на&nbsp;90° вправо</span>
+          <img class="ico" src="icons/ico-right-turn.svg" alt="повернуть на 90° вправо" title="повернуть на 90° вправо">
+        </button>
+        <button class="btn btn_transform btn_transform_rotate-180-deg" id="btnRotate180deg">
+          <span class="text_hide">на&nbsp;180°</span>
+          <img class="ico" src="icons/ico-rotate-180-deg.svg" alt="повернуть на 180°" title="повернуть на 180°">
+        </button>
+      </section>
+      <button id="btn-show-colony" class="btn btn_tab btn_tab_drop-down btn_tab_drop-down_colony close">
+        <span class="text">Вывести колонии на карту</span>
+      </button>
+      <section class="panel panel_drop-down panel_drop-down_colony panel_drop-down_colony-db none">
+        <div class="btn_tab_toggle_box">
+          <button class="btn btn_tab btn_tab_toggle btn_tab_toggle_default-colony open">Готовые</button>
+          <button class="btn btn_tab btn_tab_toggle btn_tab_toggle_custom-colony close">Мои</button>
+        </div>
+        <div class="panel panel_toggle panel_toggle_default-colony" id="defaultColony"></div>
+        <div class="panel panel_toggle panel_toggle_custom-colony none">
+          <select class="slct slct_custom-colony" id="slctCustomColony">
+            <option value="0" selected disabled>Выбрать</option>
+          </select>
+          <button class="btn" id="btnDelColony">Удалить</button>
+          <h2 class="sub-title">Сохранение новой колонии</h2>
+          <label class="lbl" for="inptCustomName">Введите название для своей колонии</label>
+          <input class="inpt" type="text" id="inptCustomName">
+          <label class="lbl" for="inpCustomCrdnts">
+            Введите свои координаты
+            <span class="ico_info" id="icoInpCustomCrdnts">?</span>
+          </label>
+          <input class="inpt" type="text" id="inpCustomCrdnts" pattern="(\d{1,3}:(,?\d{1,3},?\s?)*(,?\d{1,3}-\d{1,3},?)*(,?\d{1,3},?\s?)*(,?\d{1,3}-\d{1,3},?)*\s?)*">
+          <button class="btn" id="btnSaveStr">Сохранить</button>
+        </div>
+        <button class="btn btn_reset-colony" id="btnResetColony">Сбросить колонию</button>
+      </section>
+      <button class="btn btn_tab btn_tab_drop-down btn_tab_drop-down_colony close">
+        <span class="text">Координаты колоний на карте</span>
+      </button>
+      <section class="panel panel_drop-down panel_drop-down_colony panel_drop-down_colony-coordinates none">
+        <button class="btn btn-show-str" id="btnShowStr">Обновить</button>
+        <button class="btn btn-save-clipboard" id="btnSaveClipboard" disabled>Скопировать</button>
+        <p class="para para_text-str code" id="textStr"></p>
+        <p class="para para_length-arr" id="lengthArr">Количество клеток: 0</p>
+        <p class="para para_length-str" id="lengthStr">Длина строки: 0</p>
+      </section>
+      <button class="btn btn_landscape-mode" id="btnLandscapeMode">Широкий формат вкладки</button>
+    </div>
+    <div class="panel panel_drop-down_toggle panel_drop-down_toggle_settings none">
+      <h2 class="sub-title sub-title_size-world">Размер мира</h2>
+      <label class="lbl lbl_canvas-width" for="inptCnW">Ширина мира<br />(до 500 клеток)</label>
+      <input class="inpt inpt_canvas-width" id="inptCnW" type="number" min="1" max="500" step="1">
+      <label class="lbl lbl_canvas-height" for="inptCnH">Высота мира<br />(до 500 клеток)</label>
+      <input class="inpt inpt_canvas-height" id="inptCnH" type="number" min="1" max="500" step="1">
+      <h2 class="sub-title sub-title_scale">Масштаб</h2>
+      <button class="btn btn_scale-larger" id="btnScaleLarger">
+        <span class="text_hide">Увеличить</span>
+        <img class="ico" src="icons/ico-scale-larger.svg" alt="увеличить масштаб" title="увеличить масштаб">
+      </button>
+      <button class="btn btn_scale-smaller" id="btnScaleSmaller">
+        <span class="text_hide">Уменьшить</span>
+        <img class="ico" src="icons/ico-scale-smaller.svg" alt="уменьшить масштаб" title="уменьшить масштаб">
+      </button>
+      <button class="btn btn_in-window" id="btnInWindow">Вписать мир в окно</button>
+      <h2 class="sub-title sub-title_world-mode">Режимы мира</h2>
+      <button class="btn btn_limited-world" id="btnLimitedWorld">Ограничить мир</button>
+      <button class="btn btn_track-mode" id="btnTrackMode">Включит режим следов</button>
+      <label class="lbl lbl_gen-speed" for="slctGenSpeed">Скорость смены поколений (мс)</label>
+      <select class="slct slct_gen-speed" id="slctGenSpeed">
+        <option>25</option>
+        <option>50</option>
+        <option>100</option>
+        <option>250</option>
+        <option>500</option>
+      </select>
+      <h3 class="sub-title sub-title_h3">Константы эволюции: <span class="ico_info" id="icoInpLifeRules">?</span></h3>
+      <label class="lbl lbl_life-rule flx_all-center" for="lifeRule">B</label>
+      <input class="inpt inpt_life-constants inpt_life-rule" id="lifeRule" type="number" min="1" max="8" step="1">
+      <span class="lbl lbl_death-rule flx_all-center">S</span>
+      <input class="inpt inpt_life-constants inpt_death-rule-min" id="deathRuleMin" type="number" min="1" max="8" step="1">
+      <input class="inpt inpt_life-constants inpt_death-rule-max" id="deathRuleMax" type="number" min="1" max="8" step="1">
+      <h2 class="sub-title sub-title_color-settings">Цветовое оформление</h2>
+      <label class="lbl lbl_colony-color" for="colonyColor">для колоний<br />(живые клетки)</label>
+      <input class="inpt inpt_color inpt_colony-color" type="color" id="colonyColor" />
+      <label class="lbl lbl_empty-color" for="emptyColor">для фона<br />(пустые клетки)</label>
+      <input class="inpt inpt_color inpt_empty-color" type="color" id="emptyColor" />
+      <label class="lbl lbl_track-color" for="trackColor">для режима следов</label>
+      <input class="inpt inpt_color inpt_track-color" type="color" id="trackColor" />
+      <button class="btn btn_reset-set" id="btnResetSet">Сбросить настройки</button>
+      <button class="btn btn_inform-keys" id="btnInformKeys">Об управлении с клавиатуры</button>
+    </div>
+  </section>
+
+  <aside class="wrapper_warning-panel flx_all-center none" id="warningPanel">
+    <section class="panel warning-panel">
+      <p class="para para_warning-text" id="warningText"></p>
+      <div class="btn_warning_box">
+        <button id="ok" class="btn btn_warning btn_warning_ok">ОК</button>
+        <button id="yes" class="btn btn_warning btn_warning_yes">ДА</button>
+        <button id="no" class="btn btn_warning btn_warning_no">НЕТ</button>
+      </div>
+    </section>
+  </aside>
+
+  <script src="index.js" defer></script>
+</body>
+
+</html>
