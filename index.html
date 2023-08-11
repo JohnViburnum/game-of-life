@@ -15,6 +15,10 @@
     <section class="title-box flx_all-center">
       <h1 class="title">Игра «Жизнь»</h1>
       <p class="count" id="textCount">Поколение: 0</p>
+      <div class="mouse-coordinates flx_all-center">
+        <p class="mouse-x-coordinate" id="mouseXcoordinate">X: 0</p>
+        <p class="mouse-y-coordinate" id="mouseYcoordinate">Y: 0</p>
+      </div>
     </section>
     <section class="controllers-box">
       <div class="btn-controller_box">
@@ -37,7 +41,8 @@
           <span class="ico ico_colony"></span>
           <span class="text text_hide-show">Колонии</span>
         </button>
-        <button class="btn btn_tab btn_tab_drop-down_toggle btn_tab_drop-down_toggle_settings close all-close" id="btnDropDownToggleSettings">
+        <button class="btn btn_tab btn_tab_drop-down_toggle btn_tab_drop-down_toggle_settings close all-close"
+          id="btnDropDownToggleSettings">
           <span class="ico ico_settings"></span>
           <span class="text text_hide-show">Настройки</span>
         </button>
@@ -65,11 +70,13 @@
         <h2 class="sub-title sub-title_reflection">Отразить</h2>
         <button class="btn btn_transform btn_transform_horiz-reflection" id="btnHorizReflection">
           <span class="text_hide">по гори&shy;зонтали</span>
-          <img class="ico" src="icons/ico-horiz-reflection.svg" alt="отразить по горизонтали" title="отразить по горизонтали">
+          <img class="ico" src="icons/ico-horiz-reflection.svg" alt="отразить по горизонтали"
+            title="отразить по горизонтали">
         </button>
         <button class="btn btn_transform btn_transform_vert-reflection" id="btnVertReflection">
           <span class="text_hide">по верти&shy;кали</span>
-          <img class="ico" src="icons/ico-vert-reflection.svg" alt="отразить по вертикали" title="отразить по вертикали">
+          <img class="ico" src="icons/ico-vert-reflection.svg" alt="отразить по вертикали"
+            title="отразить по вертикали">
         </button>
         <h2 class="sub-title sub-title_turn">Повернуть</h2>
         <button class="btn btn_transform btn_transform_left-turn" id="btnLeftTurn">
@@ -106,7 +113,7 @@
             Введите свои координаты
             <span class="ico_info" id="icoInpCustomCrdnts">?</span>
           </label>
-          <input class="inpt" type="text" id="inpCustomCrdnts" pattern="(\d{1,3}:(,?\d{1,3},?\s?)*(,?\d{1,3}-\d{1,3},?)*(,?\d{1,3},?\s?)*(,?\d{1,3}-\d{1,3},?)*\s?)*">
+          <input class="inpt" type="text" id="inpCustomCrdnts" pattern="[x,y]([0-9a-zA-Zα-ωΑ-Ω]{1,3}:(,?-?[0-9a-zA-Zα-ωΑ-Ω]{1,3},?\s?)*)*">
           <button class="btn" id="btnSaveStr">Сохранить</button>
         </div>
         <button class="btn btn_reset-colony" id="btnResetColony">Сбросить колонию</button>
@@ -154,8 +161,10 @@
       <label class="lbl lbl_life-rule flx_all-center" for="lifeRule">B</label>
       <input class="inpt inpt_life-constants inpt_life-rule" id="lifeRule" type="number" min="1" max="8" step="1">
       <span class="lbl lbl_death-rule flx_all-center">S</span>
-      <input class="inpt inpt_life-constants inpt_death-rule-min" id="deathRuleMin" type="number" min="1" max="8" step="1">
-      <input class="inpt inpt_life-constants inpt_death-rule-max" id="deathRuleMax" type="number" min="1" max="8" step="1">
+      <input class="inpt inpt_life-constants inpt_death-rule-min" id="deathRuleMin" type="number" min="1" max="8"
+        step="1">
+      <input class="inpt inpt_life-constants inpt_death-rule-max" id="deathRuleMax" type="number" min="1" max="8"
+        step="1">
       <h2 class="sub-title sub-title_color-settings">Цветовое оформление</h2>
       <label class="lbl lbl_colony-color" for="colonyColor">для колоний<br />(живые клетки)</label>
       <input class="inpt inpt_color inpt_colony-color" type="color" id="colonyColor" />
