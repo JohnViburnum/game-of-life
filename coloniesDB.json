@@ -1,1000 +1,999 @@
 {
   "groups": [
     {
-      "name": "Натюрморты",
-      "subgroups": [
+      "name": "Игра «Жизнь» B3/S23",
+      "groups": [
         {
-          "name": "Строгие натюрморты",
-          "colonies": [
+          "name": "Натюрморты",
+          "groups": [
             {
-              "name": "Блок",
-              "coordinates": "x0:0-1 1:0-1"
+              "name": "Строгие натюрморты",
+              "colonies": [
+                {
+                  "name": "Блок",
+                  "pattern": "#N Block\n#C Самый распространенный четырехклеточный натюрморт.\n#C www.conwaylife.com/wiki/index.php?title=Block\nx = 2, y = 2, rule = B3/S23\n2o$2o!"
+                },
+                {
+                  "name": "Улей",
+                  "pattern": "#N Beehive\n#O John Conway\n#C Самый распространенный 6-клеточный натюрморт.\n#C www.conwaylife.com/wiki/index.php?title=Beehive\nx = 4, y = 3, rule = B3/S23\nb2ob$o2bo$b2o!"
+                },
+                {
+                  "name": "Каравай",
+                  "pattern": "#N Loaf\n#O John Conway\n#C Очень распространенный семиклеточный натюрморт.\n#C www.conwaylife.com/wiki/index.php?title=Loaf\nx = 4, y = 4, rule = B3/S23\nb2ob$o2bo$bobo$2bo!"
+                },
+                {
+                  "name": "Полупекарня",
+                  "pattern": "x = 7, y = 7, rule = b3/s23\n4b2o$3bo2bo$3bobo$b2obo$o2bo$obo$bo!"
+                },
+                {
+                  "name": "Ящик",
+                  "pattern": "x = 3, y = 3, rule = b3/s23\nbo$obo$bo!"
+                },
+                {
+                  "name": "Баржа",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\nbo$obo$bobo$2bo!"
+                },
+                {
+                  "name": "Лодка",
+                  "pattern": "x = 3, y = 3, rule = b3/s23\n2o$obo$bo!"
+                },
+                {
+                  "name": "Длинная лодка",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\n2o$obo$bobo$2bo!"
+                },
+                {
+                  "name": "Лодочный бант",
+                  "pattern": "x = 6, y = 6, rule = b3/s23\nbo$obo$b2o$3b2o$3bobo$4bo!"
+                },
+                {
+                  "name": "Корабль",
+                  "pattern": "x = 3, y = 3, rule = b3/s23\n2o$obo$b2o!"
+                },
+                {
+                  "name": "Длинный корабль",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\n2o$obo$bobo$2b2o!"
+                },
+                {
+                  "name": "Корабельный бант",
+                  "pattern": "x = 6, y = 6, rule = b3/s23\n2o$obo$b2o$3b2o$3bobo$4b2o!"
+                },
+                {
+                  "name": "Каноэ",
+                  "pattern": "x = 5, y = 5, rule = b3/s23\n2o$o$bo$2bobo$3b2o!"
+                },
+                {
+                  "name": "Авианосец",
+                  "pattern": "x = 4, y = 3, rule = b3/s23\n2o$o2bo$2b2o!"
+                },
+                {
+                  "name": "Интеграл",
+                  "pattern": "x = 5, y = 5, rule = b3/s23\n2o$o$b3o$4bo$3b2o!"
+                },
+                {
+                  "name": "Интеграл как пожиратель",
+                  "pattern": "x = 8, y = 9, rule = b3/s23\nbo$2bo$3o2$3b2o$3bo$4b3o$7bo$6b2o!"
+                },
+                {
+                  "name": "Рыболовный крючек",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\n2o$o$b3o$3bo!"
+                },
+                {
+                  "name": "Рыболовный крючек как пожиратель",
+                  "pattern": "x = 7, y = 8, rule = b3/s23\nbo$2bo$3o2$3b2o$3bo$4b3o$6bo!"
+                },
+                {
+                  "name": "Манго / Сигара",
+                  "pattern": "x = 5, y = 4, rule = b3/s23\nb2o$o2bo$bo2bo$2b2o!"
+                },
+                {
+                  "name": "Пруд",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\nb2o$o2bo$o2bo$b2o!"
+                },
+                {
+                  "name": "Змея",
+                  "pattern": "x = 4, y = 2, rule = b3/s23\n2obo$ob2o!"
+                }
+              ]
             },
             {
-              "name": "Улей",
-              "coordinates": "x0:1-2 1:0,3 2:1-2"
+              "name": "Псевдо-натюрморты",
+              "colonies": [
+                {
+                  "name": "Би-блок",
+                  "pattern": "x = 5, y = 2, rule = b3/s23\n2ob2o$2ob2o!"
+                },
+                {
+                  "name": "Блок на улье",
+                  "pattern": "x = 6, y = 4, rule = b3/s23\n4bo$2obobo$2obobo$4bo!"
+                }
+              ]
             },
             {
-              "name": "Каравай",
-              "coordinates": "x0:1-2 1:0,3 2:0,2 3:1"
+              "name": "Квази-натюрморты",
+              "colonies": [
+                {
+                  "name": "Два блока",
+                  "pattern": "x = 5, y = 5, rule = b3/s23\n2o$2o2$3b2o$3b2o!"
+                },
+                {
+                  "name": "Пекарня",
+                  "pattern": "x = 10, y = 10, rule = b3/s23\n4b2o$3bo2bo$3bobo$b2obo3bo$o2bo3bobo$obo3bo2bo$bo3bob2o$4bobo$3bo2bo$4b2o!"
+                }
+              ]
             },
             {
-              "name": "Полупекарня",
-              "coordinates": "x0:4-5 1:3,6 2:3,5 3:1-2,4 4:0,3 5:0,2 6:1"
-            },
-            {
-              "name": "Ящик",
-              "coordinates": "x0:1 1:0,2 2:1"
-            },
-            {
-              "name": "Баржа",
-              "coordinates": "x0:1 1:0,2 2:1,3 3:2"
-            },
-            {
-              "name": "Лодка",
-              "coordinates": "x0:0-1 1:0,2 2:1"
-            },
-            {
-              "name": "Длинная лодка",
-              "coordinates": "x0:0-1 1:0,2 2:1,3 3:2"
-            },
-            {
-              "name": "Лодочный бант",
-              "coordinates": "x0:1 1:0,2 2:1-2 3:3-4 4:3,5 5:4"
-            },
-            {
-              "name": "Корабль",
-              "coordinates": "x0:0-1 1:0,2 2:1-2"
-            },
-            {
-              "name": "Длинный корабль",
-              "coordinates": "x0:0-1 1:0,2 2:1,3 3:2-3"
-            },
-            {
-              "name": "Корабельный бант",
-              "coordinates": "x0:0-1 1:0,2 2:1-2 3:3-4 4:3,5 5:4-5"
-            },
-            {
-              "name": "Каноэ",
-              "coordinates": "x0:0-1 1:0,2 2:3 3:4 4:3-4"
-            },
-            {
-              "name": "Авианосец",
-              "coordinates": "y0:0-1 1:0,3 2:2-3"
-            },
-            {
-              "name": "Интеграл",
-              "coordinates": "y0:0-1 1:0 2:1-3 3:4 4:3-4"
-            },
-            {
-              "name": "Интеграл как пожиратель",
-              "coordinates": "y0:1 1:2 2:0-2 4:3-4 5:3 6:4-6 7:7 8:6-7"
-            },
-            {
-              "name": "Рыболовный крючек",
-              "coordinates": "y0:0-1 1:0 2:1-3 3:3"
-            },
-            {
-              "name": "Рыболовный крючек как пожиратель",
-              "coordinates": "y0:1 1:2 2:0-2 4:3-4 5:3 6:4-6 7:6"
-            },
-            {
-              "name": "Манго / Сигара",
-              "coordinates": "y0:1-2 1:0,3 2:1,4 3:2-3"
-            },
-            {
-              "name": "Пруд",
-              "coordinates": "x0:1-2 1:0,3 2:0,3 3:1-2"
-            },
-            {
-              "name": "Змея",
-              "coordinates": "y0:0-1,3 1:0,2-3"
+              "name": "Созвездия",
+              "colonies": [
+                {
+                  "name": "Пасека",
+                  "pattern": "x = 13, y = 13, rule = b3/s23\n6bo$5bobo$5bobo$6bo2$b2o7b2o$o2bo5bo2bo$b2o7b2o2$6bo$5bobo$5bobo$6bo!"
+                },
+                {
+                  "name": "Пожиратель(6)",
+                  "pattern": "x = 9, y = 10, rule = b3/s23\n5bo$6bo$4b3o2$2o$2o3bo$4bobo$5bobo$7bo$7b2o!"
+                },
+                {
+                  "name": "Пожиратель(25)",
+                  "pattern": "x = 15, y = 17, rule = b3/s23\n3bo$4bob2ob2obo$2b3o2bobob2o$7bobo$8b2o$2o$o2bob2o$2b2obo$3bobo5b2obo$2bo2b3o3bob2o$3b2o3bo$5b4o$5bo$3bobob2o$3b2o2bo$7bobo$8b2o!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Псевдо-натюрморты",
-          "colonies": [
+          "name": "Осциляторы",
+          "groups": [
             {
-              "name": "Би-блок",
-              "coordinates": "y0:0-1,3-4 1:0-1,3-4"
+              "name": "Период 2",
+              "colonies": [
+                {
+                  "name": "Мигалка",
+                  "pattern": "x = 1, y = 3, rule = b3/s23\no$o$o!"
+                },
+                {
+                  "name": "Жаба",
+                  "pattern": "x = 4, y = 2, rule = b3/s23\nb3o$3o!"
+                },
+                {
+                  "name": "1 Маяк",
+                  "pattern": "x = 7, y = 7, rule = b3/s23\n2b2o$bobo$o2bob2o$2obo2bo$bobo$bo2bo$2b2o!"
+                },
+                {
+                  "name": "4 Лодки",
+                  "pattern": "x = 8, y = 8, rule = b3/s23\n3bo$2bobo$bob2o$obo2b2o$b2o2bobo$3b2obo$3bobo$4bo!"
+                },
+                {
+                  "name": "Маяк",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\n2o$o$3bo$2b2o!"
+                },
+                {
+                  "name": "Часы",
+                  "pattern": "x = 4, y = 4, rule = b3/s23\n2bo$obo$bobo$bo!"
+                },
+                {
+                  "name": "Огненное кольцо",
+                  "pattern": "x = 34, y = 30, rule = b3/s23\n16bo$14bobobo$12bobobobobo$10bobobobobobobo$8bobobo2b2obobobobo$6bobobobo6bo2bobobo$4bobobo2bo10bobobobo$5b2obo14bo2bobobo$3bo3bo18bob2o$4b3o20bo3bo$2bo25b3o$3b2o27bo$bo3bo24b2o$2b4o23bo3bo$o29b3o$b3o29bo$o3bo23b4o$2b2o24bo3bo$bo27b2o$3b3o25bo$2bo3bo20b3o$4b2obo18bo3bo$3bobobo2bo14bob2o$5bobobobo10bo2bobobo$7bobobo2bo6bobobobo$9bobobobob2o2bobobo$11bobobobobobobo$13bobobobobo$15bobobo$17bo!"
+                },
+                {
+                  "name": "Очки",
+                  "pattern": "x = 18, y = 11, rule = b3/s23\n4bo8bo$2b3o8b3o$bo14bo$bo2b3o4b3o2bo$2obo3bo2bo3bob2o$3bo3b4o3bo$3bo3bo2bo3bo$4b3o4b3o2$4b2obo2bob2o$4bob2o2b2obo!"
+                }
+              ]
             },
             {
-              "name": "Блок на улье",
-              "coordinates": "y0:4 1:0-1,3,5 2:0-1,3,5 3:4"
+              "name": "Период 3",
+              "colonies": [
+                {
+                  "name": "1-2-3",
+                  "pattern": "x = 10, y = 9, rule = b3/s23\n2b2o$o2bo$2obob2o$bobo2bo$bo4bob2o$2b3obob2o$5bo$4bo$4b2o!"
+                },
+                {
+                  "name": "2 пожирателя",
+                  "pattern": "x = 9, y = 8, rule = b3/s23\n2o$bo$bobo$2b2o$5b2o$5bobo$7bo$7b2o!"
+                },
+                {
+                  "name": "Крест",
+                  "pattern": "x = 8, y = 8, rule = b3/s23\n2b4o$2bo2bo$3o2b3o$o6bo$o6bo$3o2b3o$2bo2bo$2b4o!"
+                },
+                {
+                  "name": "Звезда",
+                  "pattern": "x = 11, y = 11, rule = b3/s23\n4b3o2$2bobobobo2$obo5bobo$o9bo$obo5bobo2$2bobobobo2$4b3o!"
+                },
+                {
+                  "name": "Французский поцелуй",
+                  "pattern": "x = 9, y = 10, rule = b3/s23\n7b2o$7bo$4b2obo$3bo2bo$3bo$5bo$2bo2bo$bob2o$bo$2o!"
+                },
+                {
+                  "name": "Пульсар",
+                  "pattern": "x = 13, y = 13, rule = b3/s23\n2b3o3b3o2$o4bobo4bo$o4bobo4bo$o4bobo4bo$2b3o3b3o2$2b3o3b3o$o4bobo4bo$o4bobo4bo$o4bobo4bo2$2b3o3b3o!"
+                },
+                {
+                  "name": "Бриллиант",
+                  "pattern": "x = 13, y = 13, rule = b3/s23\n6bo$5bobo$4bobobo$4bo3bo$2b2o2bo2b2o$bo4bo4bo$obob2ob2obobo$bo4bo4bo$2b2o2bo2b2o$4bo3bo$4bobobo$5bobo$6bo!"
+                }
+              ]
+            },
+            {
+              "name": "Период 4",
+              "colonies": [
+                {
+                  "name": "1-2-3-4",
+                  "pattern": "x = 11, y = 11, rule = b3/s23\n5bo$4bobo$3bobobo$3bo3bo$2obobobob2o$obo5bobo$3b5o2$5bo$4bobo$5bo!"
+                },
+                {
+                  "name": "Часы-2",
+                  "pattern": "x = 12, y = 12, rule = b3/s23\n6b2o$6b2o2$4b4o$2obo2bobo$2obobo2bo$3bobo2bob2o$3bo4bob2o$4b4o2$4b2o$4b2o!"
+                },
+                {
+                  "name": "Вертушка",
+                  "pattern": "x = 12, y = 12, rule = b3/s23\n6b2o$6b2o2$4b4o$2obo2bobo$2obobo2bo$3bo3b2ob2o$3bo4bob2o$4b4o2$4b2o$4b2o!"
+                },
+                {
+                  "name": "Осцилятор Ахима (п4)",
+                  "pattern": "x = 11, y = 9, rule = b3/s23\n2b2o3b2o$bo2bobo2bo$bob2ob2obo$2o2bobo2b2o$2b3ob3o$2o2bobo2b2o$bob2ob2obo$bo2bobo2bo$2b2o3b2o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 5",
+              "colonies": [
+                {
+                  "name": "101",
+                  "pattern": "x = 18, y = 12, rule = b3/s23\n4b2o6b2o$3bobo6bobo$3bo10bo$2obo10bob2o$2obobo2b2o2bobob2o$3bobobo2bobobo$3bobobo2bobobo$2obobo2b2o2bobob2o$2obo10bob2o$3bo10bo$3bobo6bobo$4b2o6b2o!"
+                },
+                {
+                  "name": "Псевдополюсник",
+                  "pattern": "x = 12, y = 12, rule = b3/s23\n10b2o$11bo$9bo$7bobo2$5bobo2$3bobo2$2b2o$o$2o!"
+                },
+                {
+                  "name": "Осцилятор Сильвера",
+                  "pattern": "x = 11, y = 7, rule = b3/s23\n2o$o$bo2bo$3b2o$3bo3bob2o$2bo4b2obo$2b2o!"
+                },
+                {
+                  "name": "Осцилятор Элкиса",
+                  "pattern": "x = 9, y = 8, rule = b3/s23\nbo$o2b3o$2bo$3bobo2bo$2b2ob4o$4bo$4bobo$5b2o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 6",
+              "colonies": [
+                {
+                  "name": "Челнок Белюченко",
+                  "pattern": "x = 14, y = 14, rule = b3/s23\no$3o$3bo$2b2o2$4b3o$4bo2bo$5b4o$7bo2$10b2o$10bo$11b3o$13bo!"
+                }
+              ]
+            },
+            {
+              "name": "Период 8",
+              "colonies": [
+                {
+                  "name": "Восьмёрка",
+                  "pattern": "x = 6, y = 6, rule = b3/s23\n3o$3o$3o$3b3o$3b3o$3b3o!"
+                },
+                {
+                  "name": "Галактика Кока",
+                  "pattern": "x = 9, y = 9, rule = b3/s23\nbobo2bo$b3obob2o$o6bo$bo5b2o2$2o5bo$bo6bo$2obob3o$2bo2bobo!"
+                },
+                {
+                  "name": "Осцилятор Ахима (п8)",
+                  "pattern": "x = 9, y = 9, rule = b3/s23\nb2o$o$bo3bo$bo3b2o$3bobo$2b2o3bo$3bo3bo$8bo$6b2o!"
+                },
+                {
+                  "name": "R2D2",
+                  "pattern": "x = 11, y = 10, rule = b3/s23\n5bo$4bobo$3bobobo$3bobobo$2obo3bob2o$2obo3bob2o$3bo3bo$3bobobo$4bobo$5bo!"
+                }
+              ]
+            },
+            {
+              "name": "Период 15",
+              "colonies": [
+                {
+                  "name": "Пентадекатлон",
+                  "pattern": "x = 8, y = 3, rule = b3/s23\n8o$ob4obo$8o!"
+                },
+                {
+                  "name": "Пентадекатлон как пожиратель",
+                  "pattern": "x = 17, y = 7, rule = b3/s23\nbo$2bo$3o2$5bo2bob2obo2bo$5b4ob2ob4o$5bo2bob2obo2bo!"
+                },
+                {
+                  "name": "Пентадекатлон как отражатель",
+                  "pattern": "x = 19, y = 5, rule = b3/s23\n2bo6bo$b2o6b2o5b3o$3o6b3o4bo$b2o6b2o6bo$2bo6bo!"
+                }
+              ]
+            },
+            {
+              "name": "Период 16",
+              "colonies": [
+                {
+                  "name": "Осцилятор Ахима (п16)",
+                  "pattern": "x = 13, y = 13, rule = b3/s23\n7b2o$7bobo$2bo4bob2o$b2o5bo$o2bo$3o2$10b3o$9bo2bo$4bo5b2o$2b2obo4bo$3bobo$4b2o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 30",
+              "colonies": [
+                {
+                  "name": "Челнок пчелиной матки",
+                  "pattern": "x = 22, y = 9, rule = b3/s23\n10bo$8bobo$6b2o$2o4b2o$2o4b2o$8bobo7b2o$10bo7bobo$20bo$20b2o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 46",
+              "colonies": [
+                {
+                  "name": "Спаренный B-челнок",
+                  "pattern": "x = 27, y = 17, rule = b3/s23\nb2o$b2o2$15b2o$2o13bobo7b2o$2o15bo7b2o$15b3o4$15b3o$2o15bo$2o13bobo$15b2o2$b2o$b2o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 54",
+              "colonies": [
+                {
+                  "name": "Челнок Бакинэма",
+                  "pattern": "x = 29, y = 17, rule = b3/s23\n2o25b2o$bo25bo$bobo21bobo$2b2o21b2o$14bo$8b2o3b3o$8b2o3b2o$13bo2$13bo$8b2o3b2o$8b2o3b3o$14bo$2b2o21b2o$bobo21bobo$bo25bo$2o25b2o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 60",
+              "colonies": [
+                {
+                  "name": "Эстафета",
+                  "pattern": "x = 33, y = 7, rule = b3/s23\n8o$ob4obo$8o$16bo$17bo7b8o$15b3o7bob4obo$25b8o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 138",
+              "colonies": [
+                {
+                  "name": "Осцилятор Габриэля",
+                  "pattern": "x = 21, y = 21, rule = b3/s23\n10b3o$10bo2bo$10bo2bo$12b2o4$b3o$o2bo$o$3o15b3o$20bo$17bo2bo$17b3o4$7b2o$7bo2bo$7bo2bo$8b3o!"
+                }
+              ]
+            },
+            {
+              "name": "Период 144",
+              "colonies": [
+                {
+                  "name": "Осцилятор Ахима (п144)",
+                  "pattern": "x = 28, y = 19, rule = b3/s23\n2o24b2o$2o24b2o$20bobo$19bo2bo$22bo$17bo3bo$17bo2bo$16b2o$16b2o$10b2o4b2o$10b2o$10b2o$7bo2bo$6bo3bo$5bo$5bo2bo$5bobo$2o24b2o$2o24b2o!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Квази-натюрморты",
-          "colonies": [
+          "name": "Космические корабли",
+          "groups": [
             {
-              "name": "Два блока",
-              "coordinates": "x0:0-1 1:0-1 3:3-4 4:3-4"
+              "name": "Ортогональные",
+              "groups": [
+                {
+                  "name": "Скорость с/2",
+                  "colonies": [
+                    {
+                      "name": "Легкий космический корабль (п4)",
+                      "pattern": "x = 5, y = 4, rule = b3/s23\nb4o$o3bo$4bo$o2bo!"
+                    },
+                    {
+                      "name": "Средний космический корабль (п4)",
+                      "pattern": "x = 6, y = 5, rule = b3/s23\nb5o$o4bo$5bo$o3bo$2bo!"
+                    },
+                    {
+                      "name": "Тяжелый космический корабль (п4)",
+                      "pattern": "x = 7, y = 5, rule = b3/s23\nb6o$o5bo$6bo$o4bo$2b2o!"
+                    },
+                    {
+                      "name": "x66 (п4)",
+                      "pattern": "x = 9, y = 11, rule = b3/s23\n6bo$7b2o$o2b3o2bo$b3o4bo$b2o2b3o2$b2o2b3o$b3o4bo$o2b3o2bo$7b2o$6bo!"
+                    }
+                  ]
+                },
+                {
+                  "name": "Скорость с/3",
+                  "colonies": [
+                    {
+                      "name": "Дротик (п3)",
+                      "pattern": "x = 10, y = 15, rule = b3/s23\nbo$obo$2b2o$o$o3bo$4bo2bo$4o2bobo$6bo2bo$4o2bobo$4bo2bo$o3bo$o$2b2o$obo$bo!"
+                    },
+                    {
+                      "name": "Мозги (п3)",
+                      "pattern": "x = 11, y = 17, rule = b3/s23\nbo5b2o$bo7b2o$bob2o2bob2o$4bo$bo4bob2o$3b3o2b2o$o6bo$ob6o2$ob6o$o6bo$3b3o2b2o$bo4bob2o$4bo$bob2o2bob2o$bo7b2o$bo5b2o!"
+                    }
+                  ]
+                },
+                {
+                  "name": "Скорость с/6",
+                  "colonies": [
+                    {
+                      "name": "Дракон (п6)",
+                      "pattern": "x = 30, y = 16, rule = b3/s23\nbo$obo12b5o$obo3bob4o3b6o3bob2o$3bo2b2o6b2o5bob6o$obo8b2o6bo2bo6bo$obo2bo5b2o11b5o$bo4bo16b2ob2o$8b2o12bo$8b2o12bo$bo4bo16b2ob2o$obo2bo5b2o11b5o$obo8b2o6bo2bo6bo$3bo2b2o6b2o5bob6o$obo3bob4o3b6o3bob2o$obo12b5o$bo!"
+                    }
+                  ]
+                }
+              ]
             },
             {
-              "name": "Пекарня",
-              "coordinates": "x0:4-5 1:3,6 2:3,5 3:1-2,4,8 4:0,3,7,9 5:0,2,6,9 6:1,5,7-8 7:4,6 8:3,6 9:4-5"
+              "name": "Диагональные",
+              "groups": [
+                {
+                  "name": "Скорость с/4",
+                  "colonies": [
+                    {
+                      "name": "Планер / Глайдер (п4)",
+                      "pattern": "x = 3, y = 3, rule = b3/s23\nbo$2bo$3o!"
+                    },
+                    {
+                      "name": "Журавль (с/4 п4)",
+                      "pattern": "x = 19, y = 27, rule = b3/s23\nbo$bo$bobo2$bob2o$bob2o$2b2ob2o2$6bo$7bo$8bo$7b2o$6bo2$4bo3bo$8b2o$4b2o3bobo$ob3o$b2o6bo2bo$11bo$10b2o$9bobo$9bobo2b2o$10bo4bo$18bo$16bobo$17b2o!"
+                    },
+                    {
+                      "name": "Большой глайдер (с/4 п4)",
+                      "pattern": "x = 19, y = 19, rule = b3/s23\n4bob2o$6b2o$6bo$5bo2b2o$o5b2o2bo$3bo3bo2bo$3obo6bo$2o2b2o5b3o$3bo7b2o$3bo9bobo$4b2o10b2o$6b3o6b3o$7b2o6bobo$7bobo7b2o$16b2o$9bob2o$10b2o2bo$10b5o$13bo!"
+                    },
+                    {
+                      "name": "B-29 (с/4 п4)",
+                      "pattern": "x = 17, y = 7, rule = b3/s23\nob2o7b2o$b2ob5ob4o$4b4ob2o4bo$7bobo6bo$7bo6b3o$9bo$7b3o!"
+                    }
+                  ]
+                },
+                {
+                  "name": "Скорость с/7",
+                  "colonies": [
+                    {
+                      "name": "Лобстер (с/7 п7)",
+                      "pattern": "x = 26, y = 26, rule = b3/s23\n4bo5bo$4b2o5bo$7bo3bo$5bo4bo$2o8bo$bobo5bo3b2o$6b2o4bo2bo$2bo3bo3bo5bo$9b2o4bobo4b2o$5bo2bo6bo6b2o$o2b2o2b2o6bo3bo$b2o13b2o2bo4bo$6bo13b2obobo$5bo13bobo2b2o$5bo$6bob3o$7bo3bo$8bo2bo2$10bo2bo$11b2o$12b2o$8b2o$8b2o2bo$13bo$11b3o!"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Созвездия",
-          "colonies": [
+          "name": "Ружья",
+          "groups": [
             {
-              "name": "Пасека",
-              "coordinates": "x0:6 1:5,7 2:5,7 3:6 5:1-2,a-b 6:0,3,9,c 7:1-2,a-b 9:6 a:5,7 b:5,7 c:6"
+              "name": "1-ствольные",
+              "colonies": [
+                {
+                  "name": "Планерное ружьё Госпера (п30)",
+                  "pattern": "x = 36, y = 9, rule = b3/s23\n25bo$25bobo$8b2o18b2o$6bo3bo17b2o4b2o$5bo5bo16b2o4b2o$2o2b2obo3bo13bobo$2o3bo5bo13bo$6bo3bo$8b2o!"
+                },
+                {
+                  "name": "Новое ружье 1 (п46)",
+                  "pattern": "x = 35, y = 34, rule = b3/s23\n25b2o5b2o$25b2o5b2o8$26bo5bo$25b3o3b3o$24b2obo3bob2o3$27bo3bo$27bo3bo8$10b2o$2o7bobo$2o7bo$9b3o4$9b3o$2o7bo17b2o$2o7bobo15b2o$10b2o!"
+                },
+                {
+                  "name": "Краевой стрелок (п46)",
+                  "pattern": "x = 41, y = 34, rule = b3/s23\n13b2o$15bo$2o10b2o2bo10b2o$2o11bo2bo10b2o$14bobo$14b2o2$14b2o$14bobo$2o11bo2bo$2o10b2o2bo$15bo$13b2o10$30b2obo3bob2o$30bo2bo3bo2bo$31b3o3b3o8$31b2o5b2o$31b2o5b2o!"
+                },
+                {
+                  "name": "Фабрика (п144)",
+                  "pattern": "x = 52, y = 24, rule = b3/s23\n23b2o24b2o$23b2o23bo2bo$31b2o16bobo$30bo2bo14b3o$31b2o14b3o$46bo2bo$45b6o$35b2o9bo2bo$35b3o9b2o$35bo2bo$10b2o24b3o$10bobo24b2o$9bo2bo$10b2o$8b3o30b2o$7b2o12b2o17bo2bo$7b2o12b2o18b2o$49b2o$49b2o2$5b4o15b2o2bo$2o7bo10b2o2b2o3bo$2o2b2o3bo10b2o7bo$4b2o2bo16b4o!"
+                }
+              ]
             },
             {
-              "name": "Пожиратель(6)",
-              "coordinates": "x0:4-5 1:4-5 4:2,6 5:0,2,5,7 6:1-2,6 7:7-9 8:9"
-            },
-            {
-              "name": "Пожиратель(25)",
-              "coordinates": "x0:5-6 1:5 2:2,7,9 3:0,2,6-8,a,d-e 4:1-2,a,e 5:6-9,b-d 6:1,6,9,b 7:1-3,9,b,d-f 8:4,a-b,d,g 9:1-4,f-g a:1 b:2,8-9 c:1-2,8 d:9 e:8-9"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Осциляторы",
-      "subgroups": [
-        {
-          "name": "Период 2",
-          "colonies": [
-            {
-              "name": "Мигалка",
-              "coordinates": "x0:0-2"
-            },
-            {
-              "name": "Жаба",
-              "coordinates": "y0:1-3 1:0-2"
-            },
-            {
-              "name": "1 Маяк",
-              "coordinates": "x0:2-3 1:1,3-5 2:0,6 3:0-4,6 4:5 5:2 6:2-3"
-            },
-            {
-              "name": "4 Лодки",
-              "coordinates": "x0:3 1:2,4 2:1,3-4 3:0,2,5-6 4:1-2,5,7 5:3-4,6 6:3,5 7:4"
-            },
-            {
-              "name": "Маяк",
-              "coordinates": "x0:0-1 1:0 2:3 3:2-3"
-            },
-            {
-              "name": "Часы",
-              "coordinates": "x0:1 1:2-3 2:0-1 3:2"
-            },
-            {
-              "name": "Огненное кольцо",
-              "coordinates": "x0:e,g 1:c,f,i 2:a,d,f,h,k 3:8,b,d,f,h,j,m 4:6,9,b,d,g,j,l 5:7,9,c-d,j,l-n 6:5-7,9,k 7:8,l-o 8:4-7 9:n-p a:3-5,m b:6,n-r c:2-5 d:p-s e:1-3,o f:4,p-t g:0-4 h:p-u i:1-4,p j:5,r-t k:2-4 l:o-s m:3-6,n n:7,o-r o:4-6 p:m-p r:5-8,l s:9,k,m-o t:6-8,a,g-h,k,m u:8,a,d,g,i,k,n A:7,a,c,e,g,i,l B:9,c,e,g,j C:b,e,h D:d,f"
-            },
-            {
-              "name": "Очки",
-              "coordinates": "y0:4,d 1:2-4,d-f 2:1,g 3:1,4-6,b-d,g 4:0-1,3,7,a,e,g-h 5:3,7-a,e 6:3,7,a,e 7:4-6,b-d 9:4-5,7,a,c-d a:4,6-7,a-b,d"
+              "name": "2-ствольные",
+              "colonies": [
+                {
+                  "name": "Бомбардировщик B-52 (п104)",
+                  "pattern": "x = 39, y = 21, rule = b3/s23\nb2o$b2o17bo$19bobo12bobo$20bo12bo$2o7b2o23bo2bo$2obo5b2o23bobobo$3bo31bo2bo$3bo32b2o$o2bo5b2o$b2o4b2o2bo$7bo2b3o$7bo4bo23b2o$8b5o23b2o$b2o7b2o$o2bo$obobo23b2o5b2o$bo2bo23b2o5b2obo$5bo12bo19bo$2bobo12bobo18bo$18bo16bo2bo$36b2o!"
+                },
+                {
+                  "name": "Планерное ружьё Симкина (п120)",
+                  "pattern": "x = 33, y = 13, rule = b3/s23\n2o5b2o$2o5b2o2$4b2o17bo$4b2o17b2o$24b2o$21bo2bo$22b2o$27b2o$27b2o2$24b2o5b2o$24b2o5b2o!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Период 3",
-          "colonies": [
+          "name": "Паровозы",
+          "groups": [
             {
-              "name": "1-2-3",
-              "coordinates": "x0:1-2 1:2-4 2:0,5 3:0-3,5 4:5,7-8 5:2,6,8 6:2-5 8:4-5 9:4-5"
+              "name": "Ортогональные",
+              "colonies": [
+                {
+                  "name": "Паровоз мигалки 1 Уэйнрайта (с/2 п8)",
+                  "pattern": "x = 9, y = 17, rule = b3/s23\n6b2o$3b3ob2o$3b5o$4b3o3$3b5o$2bo4bo$2bo4bo$3bo2bo4$4b2o$4ob2o$6o$b4o!"
+                },
+                {
+                  "name": "Обратные грабли 1 Саммерса (с/2 п8)",
+                  "pattern": "x = 18, y = 27, rule = b3/s23\n10bobo$10bo2bo$13b2o$15bo$13b4o$12bo4bo$6b3o5bo2bo$8bo5bo2bo$6bobo7bo$10bob4o$7bo2bo3bo$2b2o9bo$o4bo3b5o$6bo$o5bo2b5o$b6o6bo$10bo3bo$10bob4o$8bo7bo$8bo5bo2bo$5bob2o5bo2bo$5bo6bo4bo$13b4o$15bo$13b2o$10bo2bo$10bobo!"
+                },
+                {
+                  "name": "Космические грабли (с/2 п20)",
+                  "pattern": "x = 22, y = 21, rule = b3/s23\n10b2o5bo2bo$9b4o8bo$9b2ob2o3bo3bo$11b2o5b4o4$9b2o$8b2o7b3o$9bo2bo6bo$10bo6bobo$12b2o3b2o3$17bo2bo$21bo$17bo3bo$b4o13b4o$o3bo$4bo$o2bo!"
+                }
+              ]
             },
             {
-              "name": "2 пожирателя",
-              "coordinates": "x0:0 1:0-2 2:3 3:2-3 5:4-5 6:4 7:5-7 8:7"
-            },
-            {
-              "name": "Крест",
-              "coordinates": "x0:2-5 1:2,5 2:0-2,5-7 3:0,7 4:0,7 5:0-2,5-7 6:2,5 7:2-5"
-            },
-            {
-              "name": "Звезда",
-              "coordinates": "x0:4-6 2:2,4,6,8 4:0,2,8,a 5:0,a 6:0,2,8,a 8:2,4,6,8 a:4-6"
-            },
-            {
-              "name": "Французский поцелуй",
-              "coordinates": "x0:9 1:7-9 2:6 3:3-4,7 4:2,7 5:2,5-6 6:3 7:0-2 8:0"
-            },
-            {
-              "name": "Пульсар",
-              "coordinates": "x0:2-4,8-a 2:0,5,7,c 3:0,5,7,c 4:0,5,7,c 5:2-4,8-a 7:2-4,8-a 8:0,5,7,c 9:0,5,7,c a:0,5,7,c c:2-4,8-a"
-            },
-            {
-              "name": "Бриллиант",
-              "coordinates": "x0:6 1:5,7 2:4,6,8 3:4,8 4:2-3,6,9-a 5:1,6,b 6:0,2,4-5,7-8,a,c 7:1,6,b 8:2-3,6,9-a 9:4,8 a:4,6,8 b:5,7 c:6"
+              "name": "Диагональные",
+              "colonies": [
+                {
+                  "name": "Ноев ковчег (с/2 п1344)",
+                  "pattern": "x = 15, y = 15, rule = b3/s23\n11bo$11b2o$11bo2bo2$12bobo$13bo6$3o$bo2bo$5bo$2bobo!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Период 4",
-          "colonies": [
+          "name": "Фитили",
+          "groups": [
             {
-              "name": "1-2-3-4",
-              "coordinates": "y0:5 1:4,6 2:3,5,7 3:3,7 4:0-1,3,5,7,9-a 5:0,2,8,a 6:3-7 8:5 9:4,6 a:5"
+              "name": "Горящие фитили",
+              "colonies": [
+                {
+                  "name": "Сырая диагональ",
+                  "pattern": "x = 13, y = 12, rule = b3/s23\n11b2o$10bobo$9bo$8bo$7bo$6bo$5bo$4bo$3bo$2bo$bo$o!"
+                },
+                {
+                  "name": "Пекарь (с п4)",
+                  "pattern": "x = 16, y = 14, rule = b3/s23\n14b2o$13bobo$12bo$11bo$10bo$9bo$8bo$7bo$6bo$5bo$4bo$3bo$3o$bo!"
+                },
+                {
+                  "name": "Бакенщик (с п8)",
+                  "pattern": "x = 16, y = 15, rule = b3/s23\n14b2o$13bobo$12bo$11bo$10bo$9bo$8bo$7bo$6bo$5bo$4bo$3bo$3o$2bo$2bo!"
+                },
+                {
+                  "name": "Лодочник (с п4)",
+                  "pattern": "x = 18, y = 17, rule = b3/s23\n16b2o$15bobo$14bo$13bo$12bo$11bo$10bo$9bo$8bo$7bo$6bo$5bo$5o$4bo$4bo$4bo$4bo!"
+                },
+                {
+                  "name": "Пасечник (с п4)",
+                  "pattern": "x = 17, y = 14, rule = b3/s23\n15b2o$14bobo$13bo$12bo$11bo$10bo$9bo$8bo$7bo$6bo$5bo$4bo$3bo$3o!"
+                },
+                {
+                  "name": "Корова (с п8)",
+                  "pattern": "x = 60, y = 7, rule = b3/s23\n2o7b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o$2o4bob3o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o3b2o$4b2obo49bobo$4b2o3b49o$4b2obo50bo$2o4bob3o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o$2o7b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o!"
+                },
+                {
+                  "name": "Жнейка (с п4)",
+                  "pattern": "x = 18, y = 15, rule = b3/s23\n16b2o$15bobo$14bo$13bo$12bo$11bo$10bo$9bo$8bo$7bo$6bo$5bo$5o$4o$ob2o!"
+                },
+                {
+                  "name": "Обратный фитиль (с)",
+                  "pattern": "x = 15, y = 13, rule = b3/s23\n13b2o$12bobo$11bo$10bo$9bo$8bo$7bo$6bo$5bo$4bo$3bo$2bo$2o!"
+                },
+                {
+                  "name": "Прачка (2c/3 п18)",
+                  "pattern": "x = 56, y = 5, rule = b3/s23\no$2o4bo5bo5bo5bo5bo5bo5bo5bo5bo$3o2bobo3bobo3bobo3bobo3bobo3bobo3bobo3bobo3bobo$2o4bo5bo5bo5bo5bo5bo5bo5bo5bo$o!"
+                },
+                {
+                  "name": "Двублочный фитиль (2с/3 п12)",
+                  "pattern": "x = 47, y = 5, rule = b3/s23\nb2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o$o2bob2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o$b2o$5b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o$5b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o2b2o!"
+                },
+                {
+                  "name": "Фитиль мигалок (2с/3 п18)",
+                  "pattern": "x = 37, y = 5, rule = b3/s23\n2o2bob2o$5obobo$8bob3ob3ob3ob3ob3ob3ob3o$5obobo$2o2bob2o!"
+                }
+              ]
             },
             {
-              "name": "Часы-2",
-              "coordinates": "x0:4-5 1:4-5 3:4-7 4:3,8,a-b 5:3,5-6,8,a-b 6:0-1,3-4,8 7:0-1,3,8 8:4-7 a:6-7 b:6-7"
-            },
-            {
-              "name": "Вертушка",
-              "coordinates": "x0:4-5 1:4-5 3:4-7 4:3,8,a-b 5:3,5,8,a-b 6:0-1,3-4,8 7:0-1,3,6,8 8:4-7 a:6-7 b:6-7"
-            },
-            {
-              "name": "Осцилятор Ахима (п4)",
-              "coordinates": "x0:3,5 1:1-3,5-7 2:0,4,8 3:0,2,4,6,8 4:1-7 6:1-7 7:0,2,4,6,8 8:0,4,8 9:1-3,5-7 a:3,5"
+              "name": "Бесконечные фитили",
+              "colonies": [
+                {
+                  "name": "Муравьи (с п5 шир44)",
+                  "pattern": "x = 44, y = 4, rule = b3/s23\n2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o$2b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o$2b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o$2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o3b2o!"
+                },
+                {
+                  "name": "Цикл планера-блока (п36 шир70)",
+                  "pattern": "x = 70, y = 10, rule = b3/s23\n6b2o12b2o12b2o12b2o12b2o$6b2o12b2o12b2o12b2o12b2o2$4bo4bo8bo4bo8bo4bo8bo4bo8bo4bo$5bo2bo10bo2bo10bo2bo10bo2bo10bo2bo$3b3o2b3o6b3o2b3o6b3o2b3o6b3o2b3o6b3o2b3o3$o12b2o12b2o12b2o12b2o12bo$o12b2o12b2o12b2o12b2o12bo!"
+                },
+                {
+                  "name": "Векс (п41 шир96)",
+                  "pattern": "x = 77, y = 21, rule = b3/s23\n6bo31bo31bo$6bo31bo31bo$6bo31bo31bo5$2bo7bo23bo7bo23bo7bo$2ob2o3b2ob2o19b2ob2o3b2ob2o19b2ob2o3b2ob2o$2bo7bo23bo7bo23bo7bo2$2bo7bo23bo7bo23bo7bo$2ob2o3b2ob2o19b2ob2o3b2ob2o19b2ob2o3b2ob2o$2bo7bo23bo7bo23bo7bo5$6bo31bo31bo$6bo31bo31bo$6bo31bo31bo!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "Период 5",
-          "colonies": [
-            {
-              "name": "101",
-              "coordinates": "x0:3-4,7-8 1:3-4,7-8 3:1-a 4:0,b 5:0-1,4-7,a-b 7:5-6 8:4,7 9:4,7 a:5-6 c:0-1,4-7,a-b d:0,b e:1-a g:3-4,7-8 h:3-4,7-8"
-            },
-            {
-              "name": "Псевдополюсник",
-              "coordinates": "x0:a-b 1:b 2:9 3:7,9 5:5,7 7:3,5 9:2-3 a:0 b:0-1"
-            },
-            {
-              "name": "Осцилятор Сильвера",
-              "coordinates": "y0:0-1 1:0 2:1,4 3:3-4 4:3,7,9-a 5:2,7-8,a 6:2-3"
-            },
-            {
-              "name": "Осцилятор Элкиса",
-              "coordinates": "y0:1 1:0,3-5 2:2 3:3,5,8 4:2-3,5-8 5:4 6:4,6 7:5-6"
-            }
-          ]
-        },
-        {
-          "name": "Период 6",
-          "colonies": [
-            {
-              "name": "Челнок Белюченко",
-              "coordinates": "y0:0 1:0-2 2:3 3:2-3 5:4-6 6:4,7 7:5-8 8:7 a:a-b b:a c:b-d d:d"
-            }
-          ]
-        },
-        {
-          "name": "Период 8",
-          "colonies": [
-            {
-              "name": "Восьмёрка",
-              "coordinates": "x0:0-2 1:0-2 2:0-2 3:3-5 4:3-5 5:3-5"
-            },
-            {
-              "name": "Галактика Кока",
-              "coordinates": "x0:2,5,7 1:0-1,3,5-7 2:1,8 3:0-1,7 5:1,7-8 6:0,7 7:1-3,5,7-8 8:1,3,6"
-            },
-            {
-              "name": "Осцилятор Ахима (п8)",
-              "coordinates": "x0:1 1:0,2-3 2:0,5 3:4-6 5:2-4 6:3,8 7:5-6,8 8:7"
-            },
-            {
-              "name": "R2D2",
-              "coordinates": "x0:4-5 1:4-5 3:2-7 4:1,8 5:0,2-3,7,9 6:1,8 7:2-7 9:4-5 a:4-5"
-            }
-          ]
-        },
-        {
-          "name": "Период 15",
-          "colonies": [
-            {
-              "name": "Пентадекатлон",
-              "coordinates": "y0:0-7 1:0,2-5,7 2:0-7"
-            },
-            {
-              "name": "Пентадекатлон как пожиратель",
-              "coordinates": "y0:1 1:2 2:0-2 4:5,8,a-b,d,g 5:5-8,a-b,d-g 6:5,8,a-b,d,g"
-            },
-            {
-              "name": "Пентадекатлон как отражатель",
-              "coordinates": "x0:2 1:1-3 2:0-4 9:0-4 a:1-3 b:2 g:1-2 h:1,3 i:1"
-            }
-          ]
-        },
-        {
-          "name": "Период 16",
-          "colonies": [
-            {
-              "name": "Осцилятор Ахима (п16)",
-              "coordinates": "x0:4-5 1:3,5 2:2-3,5,a 3:4,a-b 4:9,c 5:a-c 7:0-2 8:0,3 9:1-2,8 a:2,7,9-a b:7,9 c:7-8"
-            }
-          ]
-        },
-        {
-          "name": "Период 30",
-          "colonies": [
-            {
-              "name": "Челнок пчелиной матки",
-              "coordinates": "x0:3-4 1:3-4 6:2-4 7:2-4 8:1,5 a:0-1,5-6 i:5-6 j:5 k:6-8 l:8"
-            }
-          ]
-        },
-        {
-          "name": "Период 46",
-          "colonies": [
-            {
-              "name": "Спаренный B-челнок",
-              "coordinates": "x0:4-5,b-c 1:0-1,4-5,b-c,f-g 2:0-1,f-g f:3-4,6,a,c-d g:3,6,a,d h:4-6,a-c p:4-5 r:4-5"
-            }
-          ]
-        },
-        {
-          "name": "Период 54",
-          "colonies": [
-            {
-              "name": "Челнок Бакинэма",
-              "coordinates": "x0:0,g 1:0-2,e-g 2:3,d 3:2-3,d-e 8:5-6,a-b 9:5-6,a-b d:5-7,9-b e:4-6,a-c f:5,b p:2-3,d-e r:3,d s:0-2,e-g t:0,g"
-            }
-          ]
-        },
-        {
-          "name": "Период 60",
-          "colonies": [
-            {
-              "name": "Эстафета",
-              "coordinates": "y0:0-7 1:0,2-5,7 2:0-7 3:g 4:h,p-C 5:f-h,p,s-A,C 6:p-C"
-            }
-          ]
-        },
-        {
-          "name": "Период 138",
-          "colonies": [
-            {
-              "name": "Осцилятор Габриэля",
-              "coordinates": "x0:8-a 1:7,a 2:7,a 3:7-8 7:h-j 8:h,k 9:k a:0-2,i-k b:0 c:0,3 d:1-3 h:c-d i:a,d j:a,d k:a-c"
-            }
-          ]
-        },
-        {
-          "name": "Период 144",
-          "colonies": [
-            {
-              "name": "Осцилятор Ахима (п144)",
-              "coordinates": "x0:0-1,h-i 1:0-1,h-i 5:e-g 6:d 7:c,g 8:f a:9-d b:9-b g:7-9 h:5-9 j:3 k:2,6 l:5 m:2-4 r:0-1,h-i s:0-1,h-i"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Космические корабли",
-      "subgroups": [
-        {
-          "name": "Ортогональные",
-          "colonies": [
-            {
-              "name": "Легкий космический корабль (с/2 п4)",
-              "coordinates": "y0:1-4 1:0,4 2:4 3:0,3"
-            },
-            {
-              "name": "Средний космический корабль (с/2 п4)",
-              "coordinates": "y0:1-5 1:0,5 2:5 3:0,4 4:2"
-            },
-            {
-              "name": "Тяжелый космический корабль (с/2 п4)",
-              "coordinates": "y0:1-6 1:0,6 2:6 3:0,5 4:2-3"
-            },
-            {
-              "name": "x66 (с/2 п4)",
-              "coordinates": "y0:6 1:7-8 2:0,3-5,8 3:1-3,8 4:1-2,5-7 6:1-2,5-7 7:1-3,8 8:0,3-5,8 9:7-8 a:6"
-            },
-            {
-              "name": "Дротик (с/3 п3)",
-              "coordinates": "x0:1,3-4,6,8,a-b,d 1:0,6,8,e 2:1-2,6,8,c-d 3:2,6,8,c 4:4-5,9-a 6:6-8 7:5,9 8:6,8 9:7"
-            },
-            {
-              "name": "Мозги (с/3 п3)",
-              "coordinates": "y0:1,7-8 1:1,9-a 2:1,3-4,7,9-a 3:4 4:1,6,8-9 5:3-5,8-9 6:0,7 7:0,2-7 9:0,2-7 a:0,7 b:3-5,8-9 c:1,6,8-9 d:4 e:1,3-4,7,9-a f:1,9-a g:1,7-8"
-            },
-            {
-              "name": "Дракон (с/6 п6)",
-              "coordinates": "y0:1 1:0,2,f-j 2:0,2,6,8-b,f-k,o,r-s 3:3,6-7,e-f,l,n-t 4:0,2,b-c,j,m,u 5:0,2,5,b-c,o-t 6:1,6,n-o,r-s 7:8-9,m 8:8-9,m 9:1,6,n-o,r-s a:0,2,5,b-c,o-t b:0,2,b-c,j,m,u c:3,6-7,e-f,l,n-t d:0,2,6,8-b,f-k,o,r-s e:0,2,f-j f:1"
-            }
-          ]
-        },
-        {
-          "name": "Диагональные",
-          "colonies": [
-            {
-              "name": "Планер / Глайдер (с/4 п4)",
-              "coordinates": "y0:1 1:2 2:0-2"
-            },
-            {
-              "name": "Журавль (с/4 п4)",
-              "coordinates": "x0:h 1:0-2,4-5,i 2:6,h-i 3:2,4-6,h 4:4-5,e,g-h 5:6,g 6:6,8,c 7:9,b 8:a-b,e-f 9:f-g,i,l-m a:k,n b:g,j-m c:i e:m f:m-n g:p h:r i:o-r"
-            },
-            {
-              "name": "Большой глайдер (с/4 п4)",
-              "coordinates": "x0:4,6-7 1:6-7 2:6 3:5,8-9 4:0,6-7,a 5:3,7,a 6:0-2,4,b 7:0-1,4-5,b-d 8:3,b-c 9:3,d,f a:4-5,g-h b:6-8,f-h c:7-8,f,h d:7,9,h-i e:g-h f:9,b-c g:a-b,e h:a-e i:d"
-            },
-            {
-              "name": "B-29 (с/4 п4)",
-              "coordinates": "y0:0,2-3,b-c 1:1-2,4-8,a-d 2:4-7,9-a,f 3:7,9,g 4:7,e-g 5:9 6:7-9"
-            },
-            {
-              "name": "Лобстер (с/7 п7)",
-              "coordinates": "x0:4,a 1:4-5,b 2:7,b 3:5,a 4:0-1,a 5:1,3,9,d-e 6:6-7,c,f 7:2,6,a,g 8:9-a,f,h,m-n 9:5,8,f,m-n a:0,3-4,7-8,f,j b:1-2,g-h,k,p c:6,k-l,n,p d:5,j,l,o-p e:5 f:6,8-a g:7,b h:8,b j:a,d k:b-c l:c-d m:8-9 n:8-9,c o:d p:b-d"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Ружья",
-      "subgroups": [
-        {
-          "name": "1-ствольные",
-          "colonies": [
-            {
-              "name": "Планерное ружьё Госпера (п30)",
-              "coordinates": "y0:p 1:p,s 2:8-9,t-u 3:6,a,t-u,E-F 4:5,b,t-u,E-F 5:0-1,4-5,7,b,p,s 6:0-1,5,b,p 7:6,a 8:8-9"
-            },
-            {
-              "name": "Новое ружье 1 (п46)",
-              "coordinates": "y0:p-r,C-D 1:p-r,C-D 9:r,C a:p-s,B-D b:o-p,s,B,D-E e:s,B f:s,B n:a-b o:0-1,9,b p:0-1,9 r:9-b A:9-b B:0-1,9,s-t C:0-1,9,b,s-t D:a-b"
-            },
-            {
-              "name": "Краевой стрелок (п46)",
-              "coordinates": "x0:2-3,9-a 1:2-3,9-a c:2,a d:0,2-3,9-a,c e:0,4-5,7-8,c f:1,5,7,b g:2-4,8-a s:2-3 t:2-3 A:m-n B:m,o,C-D C:o,C-D D:m-o H:m-o I:o,C-D J:m,o,C-D K:m-n"
-            },
-            {
-              "name": "Фабрика (п144)",
-              "coordinates": "y0:n-o,U-α 1:n-o,T,β 2:B-C,U,β 3:A,D,T-α 4:B-C,S-U 5:R,U 6:P-α 7:F-G,R,U 8:F-H,S-T 9:F,I a:a-b,G-I b:a,c,H-I c:9,c d:a-b e:8-a,L-M f:7-8,l-m,K,N g:7-8,l-m,L-M h:U-α i:U-α k:5-8,o-p,t l:0-1,9,k-l,o-p,u m:0-1,4-5,9,k-l,u n:4-5,8,p-t"
-            }
-          ]
-        },
-        {
-          "name": "2-ствольные",
-          "colonies": [
-            {
-              "name": "Бомбардировщик B-52 (п104)",
-              "coordinates": "y0:1-2 1:1-2,k 2:j,l,E,G 3:k,D 4:0-1,9-a,E,H 5:0-1,3,9-a,E,G,I 6:3,F,I 7:3,G-H 8:0,3,9-a 9:1-2,7-8,b a:7,a-c b:7,c,G-H c:8-c,G-H d:1-2,a-b e:0,3 f:0,2,4,t-u,F-G g:1,4,t-u,F-G,I h:5,i,I i:2,4,h,j,I j:i,F,I k:G-H"
-            },
-            {
-              "name": "Планерное ружьё Симкина (п120)",
-              "coordinates": "y0:0-1,7-8 1:0-1,7-8 3:4-5,n 4:4-5,n-o 5:o-p 6:l,o 7:m-n 8:s-t 9:s-t b:o-p,B-C c:o-p,B-C"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Паровозы",
-      "subgroups": [
-        {
-          "name": "Ортогональные",
-          "colonies": [
-            {
-              "name": "Паровоз мигалки 1 Уэйнрайта (с/2 п8)",
-              "coordinates": "y0:6-7 1:3-5,7-8 2:3-7 3:4-6 6:3-7 7:2,7 8:2,7 9:3,6 d:4-5 e:0-3,5-6 f:0-5 g:1-4"
-            },
-            {
-              "name": "Обратные грабли 1 Саммерса (с/2 п8)",
-              "coordinates": "y0:a,c 1:a,d 2:d-e 3:f 4:d-g 5:c,h 6:6-8,e,h 7:8,e,h 8:6,8,g 9:a,c-f a:7,a,e b:2-3,d c:0,5,9-d d:6 e:0,6,9-d f:1-6,d g:a,e h:a,c-f i:8,g j:8,e,h k:5,7-8,e,h l:5,c,h m:d-g n:f o:d-e p:a,d r:a,c"
-            },
-            {
-              "name": "Космические грабли (с/2 п20)",
-              "coordinates": "y0:a-b,h,k 1:9-c,l 2:9-a,c-d,h,l 3:b-c,i-l 7:9-a 8:8-9,h-j 9:9,c,j a:a,h,j b:c-d,h-i e:h,k f:l g:h,l h:1-4,i-l i:0,4 j:4 k:0,3"
-            }
-          ]
-        },
-        {
-          "name": "Диагональные",
-          "colonies": [
-            {
-              "name": "Ноев ковчег (с/2 п1344)",
-              "coordinates": "x0:b 1:b-c 2:b,e 4:c,e 5:d b:0-2 c:1,4 d:5 e:2,4"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Фитили",
-      "subgroups": [
-        {
-          "name": "Горящие фитили",
-          "colonies": [
-            {
-              "name": "Сырая диагональ",
-              "coordinates": "y0:b-c 1:a,c 2:9 3:8 4:7 5:6 6:5 7:4 8:3 9:2 a:1 b:0"
-            },
-            {
-              "name": "Пекарь (с п4)",
-              "coordinates": "y0:e-f 1:d,f 2:c 3:b 4:a 5:9 6:8 7:7 8:6 9:5 a:4 b:3 c:0-2 d:1"
-            },
-            {
-              "name": "Бакенщик (с п8)",
-              "coordinates": "y0:e-f 1:d,f 2:c 3:b 4:a 5:9 6:8 7:7 8:6 9:5 a:4 b:3 c:0-2 d:2 e:2"
-            },
-            {
-              "name": "Лодочник (с п4)",
-              "coordinates": "y0:g-h 1:f,h 2:e 3:d 4:c 5:b 6:a 7:9 8:8 9:7 a:6 b:5 c:0-4 d:4 e:4 f:4 g:4"
-            },
-            {
-              "name": "Пасечник (с п4)",
-              "coordinates": "y0:f-g 1:e,g 2:d 3:c 4:b 5:a 6:9 7:8 8:7 9:6 a:5 b:4 c:3 d:0-2"
-            },
-            {
-              "name": "Корова (с п8)",
-              "coordinates": "y0:0-1,9-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R,U-α,δ-ε 1:0-1,6,8-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R,U-α,δ-ε,ι-κ 2:4-5,7,θ,κ 3:4-5,9-θ 4:4-5,7,ι 5:0-1,6,8-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R,U-α,δ-ε,θ-ι 6:0-1,9-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R,U-α,δ-ε"
-            },
-            {
-              "name": "Жнейка (с п4)",
-              "coordinates": "y0:g-h 1:f,h 2:e 3:d 4:c 5:b 6:a 7:9 8:8 9:7 a:6 b:5 c:0-4 d:0-3 e:0,2-3"
-            },
-            {
-              "name": "Обратный фитиль (с)",
-              "coordinates": "y0:d-e 1:c,e 2:b 3:a 4:9 5:8 6:7 7:6 8:5 9:4 a:3 b:2 c:0-1"
-            },
-            {
-              "name": "Прачка (2c/3 п18)",
-              "coordinates": "y0:0 1:0-1,6,c,i,o,A,G,M,T,ε 2:0-2,5,7,b,d,h,j,n,p,u,B,F,H,L,N,S,U,δ,ζ 3:0-1,6,c,i,o,A,G,M,T,ε 4:0"
-            },
-            {
-              "name": "Двублочный фитиль (2с/3 п12)",
-              "coordinates": "y0:1-2,5-6,9-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R 1:0,3,5-6,9-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R 2:1-2 3:5-6,9-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R 4:5-6,9-a,d-e,h-i,l-m,p-r,u-A,D-E,H-I,L-M,P-R"
-            },
-            {
-              "name": "Фитиль мигалок (2с/3 п18)",
-              "coordinates": "y0:0-1,4,6-7 1:0-4,6,8 2:8,a-c,e-g,i-k,m-o,r-t,A-C,E-G 3:0-4,6,8 4:0-1,4,6-7"
-            }
-          ]
-        },
-        {
-          "name": "Бесконечные фитили",
-          "colonies": [
-            {
-              "name": "Муравьи (с п5 шир44)",
-              "coordinates": "y0:0-1,5-6,a-b,f-g,k-l,p-r,A-B,F-G,K-L 1:2-3,7-8,c-d,h-i,m-n,s-t,C-D,H-I,M-N 2:2-3,7-8,c-d,h-i,m-n,s-t,C-D,H-I,M-N 3:0-1,5-6,a-b,f-g,k-l,p-r,A-B,F-G,K-L"
-            },
-            {
-              "name": "Цикл планера-блока (п36 шир70)",
-              "coordinates": "y0:6-7,k-l,E-F,T-U,ν-ξ 1:6-7,k-l,E-F,T-U,ν-ξ 3:4,9,i,n,C,H,R,β,λ,π 4:5,8,j,m,D,G,S,α,μ,ο 5:3-5,8-a,h-j,m-o,B-D,G-I,P-S,α-γ,κ-μ,ο-ρ 8:0,d-e,s-t,L-M,ζ-η,υ 9:0,d-e,s-t,L-M,ζ-η,υ"
-            },
-            {
-              "name": "Векс (п41 шир96)",
-              "coordinates": "y0:6,I,φ 1:6,I,φ 2:6,I,φ 7:2,a,E,M,ρ,w 8:0-1,3-4,8-9,b-c,C-D,F-G,K-L,N-O,ο-π,σ-τ,ψ-ω,Α-Β 9:2,a,E,M,ρ,w b:2,a,E,M,ρ,w c:0-1,3-4,8-9,b-c,C-D,F-G,K-L,N-O,ο-π,σ-τ,ψ-ω,Α-Β d:2,a,E,M,ρ,w i:6,I,φ j:6,I,φ k:6,I,φ"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Мафусаилы",
-      "subgroups": [
-        {
-          "name": "Безпланерные",
+          "name": "Мафусаилы",
           "colonies": [
             {
               "name": "Век (103)",
-              "coordinates": "y0:2-3 1:0-2 2:1"
+              "pattern": "x = 4, y = 3, rule = b3/s23\n2b2o$3o$bo!"
             },
             {
               "name": "Крепкий орешек (130)",
-              "coordinates": "y0:6 1:0-1 2:1,5-7"
+              "pattern": "x = 8, y = 3, rule = b3/s23\n6bo$2o$bo3b3o!"
             },
             {
               "name": "Пи-гептамино (173)",
-              "coordinates": "x0:0-2 1:0 2:0-2"
+              "pattern": "x = 3, y = 3, rule = b3/s23\n3o$obo$obo!"
             },
             {
               "name": "Пчелиная матка (191)",
-              "coordinates": "x0:0-1,5-6 1:2-4 2:1,5 3:2,4 4:3"
+              "pattern": "x = 5, y = 7, rule = b3/s23\no$obo$bobo$bo2bo$bobo$obo$o!"
             },
             {
               "name": "Лестничное гексомино (63)",
-              "coordinates": "y0:0-1 1:1-2 2:2-3"
+              "pattern": "x = 4, y = 3, rule = b3/s23\n2o$b2o$2b2o!"
             },
             {
               "name": "Тандербёрд (243)",
-              "coordinates": "x0:0 1:0,2-4 2:0"
+              "pattern": "x = 3, y = 5, rule = b3/s23\n3o2$bo$bo$bo!"
             },
             {
               "name": "Двухпланерное октомино (386)",
-              "coordinates": "x0:2 1:2-3 2:0-2 3:0-1"
-            }
-          ]
-        },
-        {
-          "name": "Планерные",
-          "colonies": [
+              "pattern": "x = 4, y = 4, rule = b3/s23\n2b2o$2b2o$3o$bo!"
+            },
             {
               "name": "Желудь (5206)",
-              "coordinates": "y0:1 1:3 2:0-1,4-6"
+              "pattern": "x = 7, y = 3, rule = b3/s23\nbo$3bo$2o2b3o!"
             },
             {
               "name": "B-гептамино (148)",
-              "coordinates": "y0:0,2-3 1:0-2 2:1"
+              "pattern": "x = 4, y = 3, rule = b3/s23\nob2o$3o$bo!"
             },
             {
               "name": "Гершель (128)",
-              "coordinates": "x0:0-2 1:1 2:1-3"
+              "pattern": "x = 3, y = 4, rule = b3/s23\no$3o$obo$2bo!"
             },
             {
               "name": "R-пентамино (1103)",
-              "coordinates": "x0:1 1:0-2 2:0"
+              "pattern": "x = 3, y = 3, rule = b3/s23\nb2o$2o$bo!"
             },
             {
               "name": "Блом (23314)",
-              "coordinates": "y0:0,b 1:1-4,b 2:2-3,b 3:a 4:8,a"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Агары",
-      "subgroups": [
-        {
-          "name": "Стабильные",
-          "colonies": [
-            {
-              "name": "Блочный агар 18х18",
-              "coordinates": "x0:0,2-3,5-6,8-9,b-c,e-f,h 2:0,2-3,5-6,8-9,b-c,e-f,h 3:0,2-3,5-6,8-9,b-c,e-f,h 5:0,2-3,5-6,8-9,b-c,e-f,h 6:0,2-3,5-6,8-9,b-c,e-f,h 8:0,2-3,5-6,8-9,b-c,e-f,h 9:0,2-3,5-6,8-9,b-c,e-f,h b:0,2-3,5-6,8-9,b-c,e-f,h c:0,2-3,5-6,8-9,b-c,e-f,h e:0,2-3,5-6,8-9,b-c,e-f,h f:0,2-3,5-6,8-9,b-c,e-f,h h:0,2-3,5-6,8-9,b-c,e-f,h"
-            },
-            {
-              "name": "Луковые кольца (n2) 16x16",
-              "coordinates": "x0:4-7,c-f 1:1-2,4,7,9-a,c,f 2:1-2,4,7,9-a,c,f 3:4-7,c-f 4:0-3,8-b 5:0,3,5-6,8,b,d-e 6:0,3,5-6,8,b,d-e 7:0-3,8-b 8:4-7,c-f 9:1-2,4,7,9-a,c,f a:1-2,4,7,9-a,c,f b:4-7,c-f c:0-3,8-b d:0,3,5-6,8,b,d-e e:0,3,5-6,8,b,d-e f:0-3,8-b"
-            },
-            {
-              "name": "Скатерть 20x20 стабилизированная",
-              "coordinates": "x0:1,3,6,8,b,d,g,i 1:0-1,3-6,8-b,d-g,i-j 3:0-1,3-6,8-b,d-g,i-j 4:1,3,6,8,b,d,g,i 5:1,3,6,8,b,d,g,i 6:0-1,3-6,8-b,d-g,i-j 8:0-1,3-6,8-b,d-g,i-j 9:1,3,6,8,b,d,g,i a:1,3,6,8,b,d,g,i b:0-1,3-6,8-b,d-g,i-j d:0-1,3-6,8-b,d-g,i-j e:1,3,6,8,b,d,g,i f:1,3,6,8,b,d,g,i g:0-1,3-6,8-b,d-g,i-j i:0-1,3-6,8-b,d-g,i-j j:1,3,6,8,b,d,g,i"
+              "pattern": "x = 12, y = 5, rule = b3/s23\no10bo$b4o6bo$2b2o7bo$10bo$8bobo!"
             }
           ]
         },
         {
-          "name": "Периодические",
-          "colonies": [
+          "name": "Агары",
+          "groups": [
             {
-              "name": "Агар одиночных точек 16x16",
-              "coordinates": "x0:2,a 1:4,6,c,e 2:0,2,8,a 3:6,e 4:1,9 5:5,7,d,f 6:1,3,9,b 7:5,d 8:2,a 9:4,6,c,e a:0,2,8,a b:6,e c:1,9 d:5,7,d,f e:1,3,9,b f:5,d"
+              "name": "Стабильные",
+              "colonies": [
+                {
+                  "name": "Блочный агар 18х18",
+                  "pattern": "x = 18, y = 18, rule = b3/s23\nob2ob2ob2ob2ob2obo2$ob2ob2ob2ob2ob2obo$ob2ob2ob2ob2ob2obo2$ob2ob2ob2ob2ob2obo$ob2ob2ob2ob2ob2obo2$ob2ob2ob2ob2ob2obo$ob2ob2ob2ob2ob2obo2$ob2ob2ob2ob2ob2obo$ob2ob2ob2ob2ob2obo2$ob2ob2ob2ob2ob2obo$ob2ob2ob2ob2ob2obo2$ob2ob2ob2ob2ob2obo!"
+                },
+                {
+                  "name": "Луковые кольца (n2) 16x16",
+                  "pattern": "x = 16, y = 16, rule = b3/s23\n4b4o4b4o$b2obo2bob2obo2bo$b2obo2bob2obo2bo$4b4o4b4o$4o4b4o$o2bob2obo2bob2o$o2bob2obo2bob2o$4o4b4o$4b4o4b4o$b2obo2bob2obo2bo$b2obo2bob2obo2bo$4b4o4b4o$4o4b4o$o2bob2obo2bob2o$o2bob2obo2bob2o$4o4b4o!"
+                },
+                {
+                  "name": "Скатерть 20x20 стабилизированная",
+                  "pattern": "x = 20, y = 20, rule = b3/s23\nbobo2bobo2bobo2bobo$2ob4ob4ob4ob2o2$2ob4ob4ob4ob2o$bobo2bobo2bobo2bobo$bobo2bobo2bobo2bobo$2ob4ob4ob4ob2o2$2ob4ob4ob4ob2o$bobo2bobo2bobo2bobo$bobo2bobo2bobo2bobo$2ob4ob4ob4ob2o2$2ob4ob4ob4ob2o$bobo2bobo2bobo2bobo$bobo2bobo2bobo2bobo$2ob4ob4ob4ob2o2$2ob4ob4ob4ob2o$bobo2bobo2bobo2bobo!"
+                }
+              ]
             },
             {
-              "name": "Агар одиночных точек стабилизированный",
-              "coordinates": "x0:4-5,8-9,c-d,g-h 1:4,6,9,c,e,h 2:8,g 3:5,d 4:0-1,7,9,f,h,k-l 5:0,3,5,b,d,j,l 6:1,9,h 7:4,c,k 8:0,2,8,a,g,i,l 9:0-1,4,6,c,e,k-l a:8,g b:5,d c:0-1,7,9,f,h,k-l d:0,3,5,b,d,j,l e:1,9,h f:4,c,k g:0,2,8,a,g,i,l h:0-1,4,6,c,e,k-l i:8,g j:5,d k:4,7,9,c,f,h l:4-5,8-9,c-d,g-h"
-            },
-            {
-              "name": "Венецианские жалюзи 20x20",
-              "coordinates": "x0:0-j 3:0-j 4:0-j 7:0-j 8:0-j b:0-j c:0-j f:0-j g:0-j j:0-j"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Эдемские сады",
-      "subgroups": [
-        {
-          "name": "5x45",
-          "colonies": [
-            {
-              "name": "Эдемский сад 5x45 Экера",
-              "coordinates": "y0:0-1,3,5,8,a-c,e,h-j,l-s,A-F,I,K,M,O 1:1-2,4,6-7,9,b,d,f,h,j-l,n,p,s,u,B,D,F-H,J,L,N 2:2-3,5-6,9-c,f-k,n-t,B-F,H-L,N 3:1-2,4,6-7,9,b,d,f,h,j-l,n,p,s,u,B,D,F-H,J,L,N 4:0-1,3,5,8,a-c,e,h-j,l-s,A-F,I,K,M,O"
-            }
-          ]
-        },
-        {
-          "name": "8x12",
-          "colonies": [
-            {
-              "name": "Эдемский сад 8x12 Экера",
-              "coordinates": "y0:0,3-4,6,9-b 1:1-2,5-6,8,a 2:0,2,4,7,9,b 3:1-4,7-8,b 4:0,4-6,8-b 5:0-1,3,5,8,a-b 6:0,2,5-7,9,b 7:1-4,6,8-b"
-            }
-          ]
-        },
-        {
-          "name": "9x11",
-          "colonies": [
-            {
-              "name": "Эдемский сад 9x11 Экера",
-              "coordinates": "y0:2-3,5-7,9 1:1,4,6,8 2:0,2-4,7-9 3:1,3,5,8,a 4:1-3,6-7,a 5:0-1,5-6,9 6:0,2,4,6-8 7:0,3,5,8 8:1-3,6-9"
+              "name": "Периодические",
+              "colonies": [
+                {
+                  "name": "Агар одиночных точек 16x16",
+                  "pattern": "x = 16, y = 16, rule = b3/s23\n2bo7bo$4bobo5bobo$obo5bobo$6bo7bo$bo7bo$5bobo5bobo$bobo5bobo$5bo7bo$2bo7bo$4bobo5bobo$obo5bobo$6bo7bo$bo7bo$5bobo5bobo$bobo5bobo$5bo7bo!"
+                },
+                {
+                  "name": "Агар одиночных точек стабилизированный",
+                  "pattern": "x = 22, y = 22, rule = b3/s23\n4b2o2b2o2b2o2b2o$4bobo2bo2bobo2bo$8bo7bo$5bo7bo$2o5bobo5bobo2b2o$o2bobo5bobo5bobo$bo7bo7bo$4bo7bo7bo$obo5bobo5bobo2bo$2o2bobo5bobo5b2o$8bo7bo$5bo7bo$2o5bobo5bobo2b2o$o2bobo5bobo5bobo$bo7bo7bo$4bo7bo7bo$obo5bobo5bobo2bo$2o2bobo5bobo5b2o$8bo7bo$5bo7bo$4bo2bobo2bo2bobo$4b2o2b2o2b2o2b2o!"
+                },
+                {
+                  "name": "Венецианские жалюзи 20x20",
+                  "pattern": "x = 20, y = 20, rule = b3/s23\no2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo$o2b2o2b2o2b2o2b2o2bo!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "9x33",
+          "name": "Эдемские сады",
           "colonies": [
             {
-              "name": "Эдемский сад 1 Бэнкса",
-              "coordinates": "y0:0-C 1:0-1,3,5-7,9-b,d-e,g,i,k,m,o,r,t,A,C 2:0,2,4-6,8-a,c-f,h-j,l,n,p,s,u,B 3:0-4,6-8,a-c,e-h,j-C 4:0,2,4-5,7-9,b-d,f,h-j,l,n,p,s,u,B 5:0-3,5-7,9-b,d-h,j-k,m,o,r,t,A,C 6:1-2,4-6,8-a,c-e,g,i,k-C 7:0-1,3-4,6-8,a-c,e-f,h-k,m,o,r,t,A,C 8:0-h,j-C"
+              "name": "Эдемский сад Экера (45x5)",
+              "pattern": "x = 45, y = 5, rule = b3/s23\n2obobo2bob3obo2b3ob7o2b6o2bobobobo$b2obob2obobobobobob3obobobobobobob3obobobo$2b2ob2o2b4o2b6o2b6o2b5ob5obo$b2obob2obobobobobob3obobobobobobob3obobobo$2obobo2bob3obo2b3ob7o2b6o2bobobobo!"
+            },
+            {
+              "name": "Эдемский сад Экера (12x8)",
+              "pattern": "x = 12, y = 8, rule = b3/s23\no2b2obo2b3o$b2o2b2obobo$obobo2bobobo$b4o2b2o2bo$o3b3ob4o$2obobo2bob2o$obo2b3obobo$b4obob4o!"
+            },
+            {
+              "name": "Эдемский сад Экера (11x9)",
+              "pattern": "x = 11, y = 9, rule = b3/s23\n2b2ob3obo$bo2bobobo$ob3o2b3o$bobobo2bobo$b3o2b2o2bo$2o3b2o2bo$obobob3o$o2bobo2bo$b3o2b4o!"
+            },
+            {
+              "name": "Эдемский сад 1 Бэнкса (33x9)",
+              "pattern": "x = 33, y = 9, rule = b3/s23\n33o$2obob3ob3ob2obobobobobobobobobo$obob3ob3ob4ob3obobobobobobo$5ob3ob3ob4ob14o$obob2ob3ob3obob3obobobobobobo$4ob3ob3ob5ob2obobobobobobo$b2ob3ob3ob3obobob13o$2ob2ob3ob3ob2ob4obobobobobobo$18ob14o!"
+            },
+            {
+              "name": "Эдемский сад 6 Белюченко (10x10)",
+              "pattern": "x = 10, y = 10, rule = b3/s23\nbob3obo$2bobobo2bo$ob3o2b2o$bob5obo$o2bo2b4o$4o2bo2bo$ob5obo$b2o2b3obo$o2bobobo$2bob3obo!"
+            },
+            {
+              "name": "Цветок Эдема (11x11)",
+              "pattern": "x = 11, y = 11, rule = b3/s23\nb3o2b2o$b2obobob3o$b3o2b5o$obobobobobo$4obobobo$4b3o$bobobob4o$obobobobobo$5o2b3o$3obobob2o$3b2o2b3o!"
+            },
+            {
+              "name": "45 клеточный сад Эдема (11x11)",
+              "pattern": "x = 11, y = 11, rule = b3/s23\n3b2o3bo$2bo2bobobo$bobo2bo3bo$obobo2bobo$o2bobo2bo$bo2b3o2bo$2bo2bobo2bo$bobo2bobobo$o3bo2bobo$bobobo2bo$2bo3b2o!"
+            },
+            {
+              "name": "Эдемский сад 4 Ахима (12x11)",
+              "pattern": "x = 12, y = 11, rule = b3/s23\nbob2ob2o2bo$2bob3ob3o$2b2ob3obobo$bob3ob3obo$5o2b4o$b2ob3obo2bo$b3obobo2bo$b2ob3o2b2o$ob3ob3obo$o2b2o2bobobo$10bo!"
+            },
+            {
+              "name": "Эдемский сад 3 Ахима (13x12)",
+              "pattern": "x = 13, y = 12, rule = b3/s23\n2bob3o$2obob5obo$obob2obobo$b4obob3o$obob2ob3obo$b3ob2obobo$2bo3b3o2b2o$bob2obobob2o$3ob4obobo$bob4o3bo$bobob2o2bo$b2obo2b2o2bo!"
+            },
+            {
+              "name": "Эдемский сад 2 Ахима (14x14)",
+              "pattern": "x = 14, y = 14, rule = b3/s23\n2obobobob2obo$ob3ob3ob2obo$4ob3ob2obo$3obobobob4o$b3obob3ob2o$7ob4obo$bobob8o$ob3ob2obobobo$6ob6o$ob2ob5obobo$3ob9o$b3obobobob3o$3obobobob2obo$ob12o!"
             }
           ]
         },
         {
-          "name": "10x10",
-          "colonies": [
+          "name": "Трубопроводы",
+          "groups": [
             {
-              "name": "Эдемский сад 6 Белюченко",
-              "coordinates": "x0:2,4-6,8 1:0,3,5,7 2:1-2,5-7,9 3:0,2-6,8 4:0-3,6,9 5:0,3,6-9 6:1,3-7,9 7:0,2-4,7-8 8:2,4,6,9 9:1,3-5,7"
+              "name": "Неконвертеры",
+              "colonies": [
+                {
+                  "name": "F116 (F 32,1 116)",
+                  "pattern": "x = 35, y = 28, rule = b3/s23\n8bo$8b3o$11bo$10b2o11$o$obo29bo$3o29bo$2bo29b3o$34bo5$25b2o$19b2o5bo$19bobob3o$12b2o7bobo$12b2o7b2o!"
+                },
+                {
+                  "name": "F117 (F 40,-6 117)",
+                  "pattern": "x = 45, y = 22, rule = b3/s23\n22b2o$23bo$10bo11bo$10b3o9b2o$13bo$2o10b2o$bo$bobo$2b2o$25b2o15bo$25b2o15bo$42b3o$44bo3$2bo$2bobo$2b3o$4bo11b2o$16bo$17b3o$19bo!"
+                },
+                {
+                  "name": "F131 (F 32,4 131)",
+                  "pattern": "x = 37, y = 35, rule = b3/s23\n17bo$16bobo$2o15b2o2b2o$bo19b2o$bobo$2b2o7$2bo$2bobo$2b3o$4bo$34bo$34bo$23b2o9b3o$23b2o11bo5$27b2o$28bo$25b3o$12b2ob2o8bo$11bobobobo$9b3o3bobo$8bo4bobob3o$9b3ob2obo3bo$11bo4bo2b2o$13b3o$12b2o!"
+                },
+                {
+                  "name": "F166 (F 49,3 166)",
+                  "pattern": "x = 56, y = 31, rule = b3/s23\n33b2o$34bo$33bo$33b2o3$b2o$3ob2o$b2ob3ob2o$3ob2o2b2o26b2o15bo$2o34b2o15bo$53b3o$55bo4$6b2o$5bobo38b2o$5bo41bo$4b2o25b2o11b3o$31b2o11bo3$17b2o$18bo$15b3o$15bo$27b2o$27bo$28b3o$30bo!"
+                },
+                {
+                  "name": "F171 (F 29,-17 171)",
+                  "pattern": "x = 33, y = 35, rule = b3/s23\n10bo$10b3o$13bo$12b2o$5bo$5b3o$8bo$7b2o2$30bo$4b2o24bo$5bo24b3o$5bobo24bo$6b2o3$o$3o$3bo$2b2o7$bo$bobo$b3o$3bo2$10b2o$11bo$8b3o$8bo!"
+                },
+                {
+                  "name": "Канал свитч-двигателя (F 8,8 96)",
+                  "pattern": "x = 56, y = 56, rule = b3/s23\n14b2o$13bobo$14bo6$22b2o$21bobo$22bo6$15b3o12b2o$16bo2bo9bobo$20bo9bo$17bobo2$bo$obo$2o$38b2o$37bobo$38bo3$9bo$8bobo$8b2o$46b2o$45bobo$46bo3$17bo$16bobo$16b2o$54b2o$53bobo$54bo3$25bo$24bobo$24b2o6$33bo$32bobo$32b2o!"
+                },
+                {
+                  "name": "B60 (B -6,-10 60)",
+                  "pattern": "x = 21, y = 13, rule = b3/s23\no11b2o5b2o$3o9b2o5b2o$2bo$2bo12b2o$15b2o5$6bo$6bobo$6b3o$8bo!"
+                },
+                {
+                  "name": "Bx125 (Bx -9,-17 125)",
+                  "pattern": "x = 38, y = 27, rule = b3/s23\n27bo$2bo23bobo$2bo23bobo$3o9b2o11b2ob3o$o11b2o17bo$25b2ob3o$25b2obo9$36b2o$36b2o2$9bo$9bobo$9b3o$11bo2$23b2o$23bo$24b3o$26bo!"
+                },
+                {
+                  "name": "Bx222 (Bx -6,-16 222)",
+                  "pattern": "x = 42, y = 36, rule = b3/s23\n13bo$4b2o5b3o7b2o$5bo4bo10bo$5bobo3bo10bo$6bobo3bo8b2o$7bo3b2o17bo6bo$28b3o5bobo$27bo8bobo$27b2o6b2ob3o$41bo$2bo15b2o15b2ob3o$2bo15b2o15b2obo$3o$o3$40b2o$40bo$38bobo$38b2o7$6bo$6bobo$6b3o$8bo20b2o$29bo$18b2o10bo$18b2o2b2o5b2o$22bobo$24bo$24b2o!"
+                },
+                {
+                  "name": "Fx119 (Fx 20,14 119)",
+                  "pattern": "x = 23, y = 24, rule = b3/s23\no$obo$3o$2bo12$9b2o11bo$4b2o3b2o9b3o$4b2o14bo$20bo2$3b2o$4bo4b2o$b3o5b2o$bo!"
+                },
+                {
+                  "name": "L112 (L 12,-33 112)",
+                  "pattern": "x = 24, y = 42, rule = b3/s23\n15b2o$15bo$13b3o16$13b2o$13b2o$4b2o$4bo2bo$2o4b2o$bo20b2o$bobo18bo$2b2o16bobo$20b2o6$2bo$2bobo$2b3o$4bo2$14b2o$14b2o2b2o$18bobo$20bo$20b2o!"
+                },
+                {
+                  "name": "Lx200 (Lx 17,-40 200)",
+                  "pattern": "x = 36, y = 61, rule = b3/s23\n21b2o$22bo$22b3o16$23b2o$23b2o2$30bob2o$30b2obo3$14bob2o$14b2obo11$32b2o$32bobo$b2o31bo$3ob2o28b2o$b2ob3ob2o$3ob2o2b2o$2o4$32b2o$32b2o2$6b2o$7bo$4b3o25b2o$4bo27b2o$18b2o$17bobo$17bo$16b2o8b2o$26bo$27b3o$29bo!"
+                },
+                {
+                  "name": "R126 (R -2,8 126)",
+                  "pattern": "x = 27, y = 24, rule = b3/s23\n2o$bo$bobo$2b2o7$19b2o$18bo2bo$3bo15b2o$3bobo$3b3o$5bo$24b2o$24bobo$25b2o3$2b3o$2bo$b2o!"
+                },
+                {
+                  "name": "BRx46B (Rx 6,16 46)",
+                  "pattern": "x = 13, y = 25, rule = b3/s23\n11b2o$2b2o7b2o$2b2o3$o10bo$bo8bobo$b2o7bobo$2o9bo$o13$6bob2o$6bobo$7bo!"
+                },
+                {
+                  "name": "PT8P (T -2,-1 8)",
+                  "pattern": "x = 10, y = 10, rule = b3/s23\n5b2o$5bo$7bo$6b2o2$6b2o$3o2bobo$obo3bo$obo4b3o$9bo!"
+                }
+              ]
+            },
+            {
+              "name": "Конвертеры",
+              "colonies": [
+                {
+                  "name": "BF20H (F 8,0 20)",
+                  "pattern": "x = 51, y = 60, rule = b3/s23\n49bo$48bobo$48bobo$49bo$38bo$30b2o6bo$31b2o5b3o$30b2o8bo$30bo$12bo$12b3o$15bo$14b2o6$5bo$5b3o23b2o$8bo21bo2bo$7b2o22b2o8$17b2o$17b2o6$49bo$48bobo$48bobo$9b2o38bo$4b2o2bo2bo26bo$bo2bo4bobo18b2o6bo$obobo5bo20b2o5b3o$bo2bob2o22b2o8bo$4bo2bo22bo$5bo4bo$6b5o2$8bo$7bobo26b2o$8bo23b2o2b2o$31bobo$32bo2$27b3o4b2o$27b3o4bo$27b3o5b3o$24b3o10bo$24b3o$24b3o!"
+                },
+                {
+                  "name": "HF95P (F 23,-7 95)",
+                  "pattern": "x = 22, y = 26, rule = b3/s23\n14b2o$6bo7b2o$6b3o$9bo$8b2o2$2o$bo$bobo$2b2o7$2bo$2bobo$2b3o$4bo2$14b2o$14b2o2b2o$18bobo$20bo$20b2o!"
+                },
+                {
+                  "name": "PF35W (F 5,8 35)",
+                  "pattern": "x = 15, y = 27, rule = b3/s23\no9b2o$3o4b2o2bo$3bo2bo2b2o$2b2o3b2o2b3o$9bobo2bo$9bo3b2o$10bo$9b2o5$3b3o$5bo$3b3o9$2b2o$3bo$3o$o!"
+                },
+                {
+                  "name": "RF28B (F 12,1 28)",
+                  "pattern": "x = 13, y = 10, rule = b3/s23\n3bo$2bobo7bo$3bo6b3o$9bo$9b2o3$bo$b2o$2o!"
+                },
+                {
+                  "name": "RF48H (F 20,1 48)",
+                  "pattern": "x = 28, y = 9, rule = b3/s23\n6bo18bo$6b2o17bo$5b2o18b3o$27bo2$b2o$o2bo$obo$bo!"
+                },
+                {
+                  "name": "Трубопровод 1 (Fx 21,0 59)",
+                  "pattern": "x = 24, y = 13, rule = b3/s23\nb2o$2bo$bo$b2o6$o3b2o15bo$2o2b2o15bo$b2o18b3o$2o21bo!"
+                },
+                {
+                  "name": "HL75P (L 11,-19 75)",
+                  "pattern": "x = 28, y = 26, rule = b3/s23\n14b2o$6bo7b2o$6b3o$9bo$8b2o2$2o$bo$bobo$2b2o$25b2o$27bo$25b2o4$2bo$2bobo$2b3o$4bo2$14b2o$14b2o2b2o$18bobo$20bo$20b2o!"
+                },
+                {
+                  "name": "HLx111R (Lx 16,-24 111)",
+                  "pattern": "x = 27, y = 32, rule = b3/s23\n17bo$16bobo$16bo8$24b2o$24b2o12$o$obo20b2o$3o20bo$2bo10b2o3b2o4b3o$11bo2bo4bo6bo$11b3o4bo$18b2o$11b2obo$11bob2o!"
+                },
+                {
+                  "name": "RR56H (R 11,13 56)",
+                  "pattern": "x = 15, y = 22, rule = b3/s23\n2b2o$2b2o2$11b2o$11b2o2$bo$b2o$2o9b2o$11b2o6$b2o$b2o3$12b3o$12bo$11b2o!"
+                },
+                {
+                  "name": "HRx65R (Rx 25,-1 65)",
+                  "pattern": "x = 29, y = 21, rule = b3/s23\n9bo$o8b3o$3o9bo$3bo7b2o$2b2o7$bo26bo$bobo13bo8bobo$b3o12bobo8bo$3bo11bo2bo$16b2o2$13b2o$12bobo$12bo$11b2o!"
+                },
+                {
+                  "name": "PT9B (T -3,-1 9)",
+                  "pattern": "x = 11, y = 10, rule = b3/s23\n10bo$b2o5b3o$b2o4bo$7b2o3$6b2o$3o3b2o$obo$obo!"
+                }
+              ]
             }
           ]
         },
         {
-          "name": "11x11",
+          "name": "Зубья пилы",
           "colonies": [
             {
-              "name": "Цветок Эдема",
-              "coordinates": "x0:3-4,7-9 1:0-2,4,6,8-9 2:0-4,7-9 3:0,2,4,6,8,a 4:1,3,5,7-a 5:4-6 6:0-3,5,7,9 7:0,2,4,6,8,a 8:1-3,6-a 9:1-2,4,6,8-a a:1-3,6-7"
+              "name": "Подвижный зуб пилы (ExFactor 3)",
+              "pattern": "x = 173, y = 128, rule = b3/s23\n74bo$75b2o$75b2o23bo$74bo26b2o$76bo24b2o$75b3o22bo$77bo24bo$77b2o19bo3bo$77bo19bo5bo$73bo2bo22b5o$72bo9bo14bo5bo$74b2o6b2o14b4o$73bobo7bob2o7b2obo3bo41bo$75b2o6bo3b2o4b3o2b3o43b2o$73bobo7bo4bo4b3obo46b2o23bo$74bo8bo2bo3bo2bo3b3o43bo26b2o$83bo4bo4b2o2b3o45bo24b2o$67b3o10bo3b2o2bobo2bo50b3o22bo$67b3o9b2o7bo2b2obo51bo24bo$78bo2bo9bobo52b2o19bo3bo$79b2o7bo2b2obo51bo19bo5bo$80bo3b2o2bobo2bo48bo2bo22b5o$67b2obo12bo4bo4b2o2b3o41bo9bo14bo5bo$68b3o12bo2bo3bo2bo3b3o43b2o6b2o14b4o$69bo13bo4bo4b3obo44bobo7bob2o7b2obo3bo$83bo3b2o4b3o2b3o43b2o6bo3b2o4b3o2b3o$76bo6bob2o7b2obo3bo40bobo7bo4bo4b3obo$77b2o3b2o14b4o41bo8bo2bo3bo2bo3b3o$77b2o3bo14bo5bo48bo4bo4b2o2b3o$76bo22b5o33b3o13b2o2bobo2bo$78bo18bo5bo37bo7b2o6bo2b2obo$77b3o18bo3bo33bo4bo7bobo8bobo$79bo22bo38bo7b2o6bo2b2obo$66bo7bo4b2o19bo36bo2bo12b2o2bobo2bo$65bo2b2o4b2o3bo21b2o35b3o11bo4bo4b2o2b3o$68b5obo2b2o22b2o49bo2bo3bo2bo3b3o$71b2o27bo51bo4bo4b3obo$67b4o3b3o75bo3b2o4b3o2b3o$145bo6bob2o7b2obo3bo$67b4o3b3o69b2o3b2o14b4o$44bo26b2o73b2o3bo14bo5bo$42b2o24b5obo2b2o66bo22b5o$43b2o20bo2b2o4b2o3bo11bo55bo18bo5bo$66bo7bo4b2o9bobo53b3o18bo3bo$79bo12b2o54bo22bo$77b3o12bo36bobo3bo7bo4b2o19bo$78bo12bobo35b2o3bo2b2o4b2o3bo21b2o$76bo16bo36bo6b5obo2b2o22b2o$77b2o15bo45b2o27bo$77b2o13bobo41b4o3b3o$76bo15bobo$90b4o42b4o3b3o$89bobo48b2o$89bobo45b5obo2b2o$11bobo78bo41bo2b2o4b2o3bo$11b2o78b2o42bo7bo4b2o$12bo77bobo55bo$91bo54b3o$99bo47bo$97b2o46bo20b2o$98b2o46b2o16bo4bo$146b2o22bo$145bo18bo5bo$165b6o3$2o16b2o16b2o16b2o16b2o$2o16b2o16b2o16b2o16b2o$147b3ob3ob3ob3ob3o4b2o$2o16b2o16b2o16b2o16b2o94b2ob2o$2o16b2o16b2o16b2o16b2o94b4o$168b3o$169bo$167bo3bo$145bo26bo$146b2o19bo4bo$98b2o46b2o20b5o$57bo39b2o46bo$58b2o39bo47bo$10b2o46b2o31bo54b3o$9b2o46bo32bobo55bo$11bo47bo31b2o42bo7bo4b2o$58b3o31bo41bo2b2o4b2o3bo$60bo28bobo45b5obo2b2o$47bo7bo4b2o27bobo48b2o$46bo2b2o4b2o3bo29b4o42b4o3b3o$49b5obo2b2o32bobo$52b2o38bobo41b4o3b3o$48b4o3b3o36bo45b2o27bo$93bo36bo6b5obo2b2o22b2o$48b4o3b3o33bobo35b2o3bo2b2o4b2o3bo21b2o$52b2o27bo10bo36bobo3bo7bo4b2o19bo$42bo6b5obo2b2o22b2o8b2o54bo22bo$41b2o3bo2b2o4b2o3bo21b2o6bobo53b3o18bo3bo$41bobo3bo7bo4b2o19bo9bo55bo18bo5bo$60bo22bo61bo22b5o$58b3o18bo3bo62b2o3bo14bo5bo$59bo18bo5bo61b2o3b2o14b4o$57bo22b5o60bo6bob2o7b2obo3bo$58b2o3bo14bo5bo67bo3b2o4b3o2b3o$58b2o3b2o14b4o69bo4bo4b3obo$57bo6bob2o7b2obo3bo69bo2bo3bo2bo3b3o$64bo3b2o4b3o2b3o56b3o11bo4bo4b2o2b3o$64bo4bo4b3obo58bo2bo12b2o2bobo2bo$64bo2bo3bo2bo3b3o60bo7b2o6bo2b2obo$50b3o11bo4bo4b2o2b3o55bo4bo7bobo8bobo$49bo2bo12b2o2bobo2bo66bo7b2o6bo2b2obo$53bo7b2o6bo2b2obo61b3o13b2o2bobo2bo$48bo4bo7bobo8bobo77bo4bo4b2o2b3o$53bo7b2o6bo2b2obo67bo8bo2bo3bo2bo3b3o$49b3o13b2o2bobo2bo67bobo7bo4bo4b3obo$64bo4bo4b2o2b3o63b2o6bo3b2o4b3o2b3o$55bo8bo2bo3bo2bo3b3o61bobo7bob2o7b2obo3bo$54bobo7bo4bo4b3obo64b2o6b2o14b4o$56b2o6bo3b2o4b3o2b3o59bo9bo14bo5bo$54bobo7bob2o7b2obo3bo59bo2bo22b5o$55b2o6b2o14b4o63bo19bo5bo$53bo9bo14bo5bo61b2o19bo3bo$54bo2bo22b5o61bo24bo$58bo19bo5bo59b3o22bo$58b2o19bo3bo61bo24b2o$58bo24bo59bo26b2o$56b3o22bo62b2o23bo$57bo24b2o60b2o$55bo26b2o59bo$56b2o23bo$56b2o$55bo!"
             },
             {
-              "name": "45 клеточный сад Эдема",
-              "coordinates": "x0:3-4,8 1:2,5,7,9 2:1,3,6,a 3:0,2,4,7,9 4:0,3,5,8 5:1,4-6,9 6:2,5,7,a 7:1,3,6,8,a 8:0,4,7,9 9:1,3,5,8 a:2,6-7"
-            }
-          ]
-        },
-        {
-          "name": "11x12",
-          "colonies": [
-            {
-              "name": "Эдемский сад 4 Ахима",
-              "coordinates": "x0:4,8-9 1:0,3-7 2:1-2,4-8 3:0,2-4,6,8-9 4:0-1,3-5,7-9 5:1-3,5-7 6:0-2,5,7-8 7:0,2-4,6,8-9 8:1,3-5,8 9:1-4,7,9 a:0-1,4,6-8,a b:2-3,5,9"
-            }
-          ]
-        },
-        {
-          "name": "12x13",
-          "colonies": [
-            {
-              "name": "Эдемский сад 3 Ахима",
-              "coordinates": "x0:1-2,4,8 1:1,3,5,7-b 2:0,2-6,8,b 3:1,3,5,7,9-a 4:0,2-4,7-9,b 5:0-2,4-5,8-a 6:0-1,3,5-a 7:1-2,4,6,8,b 8:1,3-7,b 9:1-4,8,a a:3,5,7,9 b:1,4,6-8,b c:6"
-            }
-          ]
-        },
-        {
-          "name": "14x14",
-          "colonies": [
-            {
-              "name": "Эдемский сад 2 Ахима",
-              "coordinates": "y0:0-1,3,5,7,9-a,c 1:0,2-4,6-8,a-b,d 2:0-3,5-7,9-a,c 3:0-2,4,6,8,a-d 4:1-3,5,7-9,b-c 5:0-6,8-b,d 6:1,3,5-c 7:0,2-4,6-7,9,b,d 8:0-5,7-c 9:0,2-3,5-9,b,d a:0-2,4-c b:1-3,5,7,9,b-d c:0-2,4,6,8,a-b,d d:0,2-d"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Трубопроводы",
-      "subgroups": [
-        {
-          "name": "Неконвертеры",
-          "colonies": [
-            {
-              "name": "F116 (F 32,1 116)",
-              "coordinates": "y0:8 1:8-a 2:b 3:a-b e:0 f:0,2,C g:0-2,C h:2,C-E i:E n:p-r o:j-k,r p:j,l,n-p r:c-d,l,n s:c-d,l-m"
+              "name": "Зуб пилы 260 (ExFactor 4)",
+              "pattern": "x = 154, y = 100, rule = b3/s23\n46bo$45bobo2$45bo2bo3bob3o$47bo4bo$48bob2obobo$49b2o3bo$50bo15b2o$66b2o7$74b2o$57bo16b2o$57b3o$49bo6bo3bo$49bo3b3o4bo$49bo3b3obob2o$53b2o3bo2$39bo$39bo$39bo8bo$46bobo$40b3o2bo3bo$41bob5o$47bo$42b2o9$23b3o$27bo$27b2o$27bo2bo$28bobo$28bo$bobo23b2o$o25bobo$bo2bo23b2o$3bobo19b2o$6bo11b3o6bo$5b3o94bo$5bo95bobo17b2o$3b2o95bo3bo9b2o5b2o$5bo13b3o79bo3bo8b2o$3bo2bo12b3o80bo3bo$3bobo13b2o82bo3bo$3bo14bo85bobo9b2o27b2o$16b2o2bo84bo10b2o18b2obo5b2o$17bo3bo88b2o24bob2o$17bo2bo89b2o$18b3o130b2o$151b2o$147b2o$147b2o3$7b2o$7b2o143b2o$152b2o2$97b2o$95bob2o$94bo$97bo$15b2o76b2obo$15b2o76b2o7$105b2o39b2o$105b2o40bo$146bo$146b2o$126bo$110b2o15b3o$110b2o18bob2o$106b2o20bo4bo$106b2o22b3o$147b2o$119b2obo24b2o$112b2o5bob2o18b2o$112b2o27b2o3$143b2o$136b2o5b2o$136b2o!"
             },
             {
-              "name": "F117 (F 40,-6 117)",
-              "coordinates": "x0:5 1:5-7 2:8,f-h 3:7-8,h 4:g-i a:2-3 b:3 c:3,5 d:4-5 g:i-j h:i,k i:k j:k-l m:0,2-3 n:0-1,3 p:9-a r:9-a M:9-b N:b O:b-c"
+              "name": "Зуб пилы 362 (ExFactor 4)",
+              "pattern": "x = 168, y = 306, rule = b3/s23\n13b2o$13bo2bo2$17bo2$15b2o$14bo3$11b2o3b2o$11b2o3b2o$12b5o$13bobo2$13b3o2$2bo6bo$b2o6b2o$3o6b3o$b2o6b2o$2bo6bo103$141b2o$141bobo$132b2o2b2o6bo11bobo$132b2obo2bo2bo2bo10bo2bo4bo$136b2o6bo9b2o5b2o$141bobo8b2o3bo8b2o$141b2o11b2o10b2o$146bo8bo2bo$144b2o10bobo$131b2o12b2o$131bobo$131bo4$137bobo$137b2o$138bo3$126b2o$126bobo$117b2o2b2o6bo11bobo$117b2obo2bo2bo2bo10bo2bo4bo$121b2o6bo9b2o5b2o$126bobo4b2o2b2o3bo8b2o$126b2o11b2o10b2o$131bo8bo2bo$129b2o10bobo$130b2o$108bobo2bobo$104b2obo2bo2bo2bob2o$108bobo2bobo2$136b3o$135bo3bo$134bo5bo2$133bo7bo$133bo7bo2$134bo5bo$135bo3bo$136b3o68$46b2o$46b2o$50b2o$51b2o$51bo$51b2o$50b2o2$38b2o11bo$38b2o9b3o$52bobo$50bo3b2o$54bo2$50b3o2$30b2o$30b2o4$65bo$64b3o$34bo$22b2o5b3obob4o23bo3bo4bobo$22b2o8b2obo26bo4b2ob5o$30b2o4b2obo22bo2bobo2bo3bo$41bo25bo$39b2obob2o30b2o$41b2obo32b2o$43bo33bo$77b2o$76b2o$46bo$43b3ob2o28bo$41b2ob3o28b3o$45bo32bobo$23bo52bo3b2o$44bo35bo$18bob2o22bo$18bobo6bo16bo31b3o$17bo4b2o3bo14bobo$18bo8bo15bo$18bo7bo$31b3o$22bo9b2ob2o$32b2obo9bo38b2o$32bobo10b2o37b2o$32bobo11bo$33b2o8bobo$35bo6bo2bo$32bobo7bobo$31bo10bobo$43bo$76b2o$33bo3bo38b2o$29bo3bo$35bo$34b2o2$31b2ob2o$33bo$68b2o$49bo18b2o$58b3o$44bob2o10bobo$44bobo6bo2b2o2bo$43bo4b2o3bo2b3o$44bo8bo2b3o$44bo7bo2$48bo!"
             },
             {
-              "name": "F131 (F 32,4 131)",
-              "coordinates": "y0:h 1:g,i 2:0-1,h-i,l-m 3:1,l-m 4:1,3 5:2-3 c:2 d:2,4 e:2-4 f:4 g:E h:E i:n-o,E-G j:n-o,G o:s-t p:t r:p-s s:c-d,f-g,p t:b,d,f,h u:9-b,f,h A:8,d,f,h-j B:9-b,d-e,g,k C:b,g,j-k D:d-f E:c-d"
+              "name": "Съемник шнура (ExFactor 6)",
+              "pattern": "x = 98, y = 93, rule = b3/s23\n28b3o$27bo3bo$26bo4bo8b2o3b3o$26bo2bobo7b4o$26b2obobo6bo3b2o$28b2obo2bo4b2obobo$18b3o9b2o2bo$17bo2bo10b3o13bo6b2o$16bo4bo22bo2bo6bo$16bo2b3o23b3o$16bo5bo$17b7o$23bo$23bo$21b2o$62b2o$62bo2$24b3obo$24b3obo$25bo8b2o$26bo3b3ob2o$27bo6bo$28bobobobo35b2o$29bo40bo9bo$61bo16b3o$2b3o55bobo14bo$bo3bo53b2ob2o13b2o$o4bo53b2ob2o$o2bobo52b3o$2obobo52b3o3bo$2b2obo2bo50b2o$4b2o2bo50bobo$5b3o64b2o3b2o$72bobobobo$73b5o$74b3o$75bo3$47b2o$45b6o$44b6o$43bo6bo26b2o$44b3o30bo$8b2o35b2o31b3o$8bo39bo8bo22bo$53b2o2b2ob3o$53bo5b4o$57b2o2$35bo15bo29bo2bo$34bobo12b3o28bo3b2o2b2o$16b2o15b2ob2o10bo31bo7bo$16bo16b2ob2o10b2o19bo11b4o8b2o$32b3o32b3o23bo$32b3o3bo27bo12bo$33b2o31b2o3bo6b2o$33bobo35b3o4bobo$74bo$73b2o$24b2o17b2o3b2o$24bo27b3o$43bo5bo4bo6b2o3b2o$53bo8b5o$44b2ob2o14b3o$46bo17bo8b2o3b2o12b5o$58b3o12bo5bo11bob3obo$58bo33bo3bo$48bo10bo14bo3bo14b3o$47bobo25b3o16bo$46bo3bo41b2o$46b5o40bobo$45b2o3b2o39bobo$46b5o41bo$47b3o11b3o$48bo$61bobo14bo10b2obob2o$60b5o11b2ob2o8bo5bo$59b2o3b2o24bo3bo$59b2o3b2o9bo5bo9b3o2$75b2o3b2o3$48b2o$48bo2$61b2o28b2o$61bo29bo2$78b2o$78bo!"
             },
             {
-              "name": "F166 (F 49,3 166)",
-              "coordinates": "y0:D-E 1:E 2:D 3:D-E 6:1-2 7:0-2,4-5 8:1-2,4-6,8-9 9:0-2,4-5,8-9,G-H,δ a:0-1,G-H,δ b:δ-ζ c:ζ g:6-7 h:5,7,R-S i:5,S j:4-5,B-C,O-R k:B-C,O n:h-i o:i p:f-h r:f s:s-t t:s u:t-A A:A"
+              "name": "Зуб пилы 562 (ExFactor 6)",
+              "pattern": "x = 114, y = 74, rule = b3/s23\n50b2o21bo$51bo19bobo$51bobo8bo2b2o3bobo$52b2o7b2o2bo3bo2bo14b2o$60b2o8bobo14bobo$47bo11b3o9bobo16bo11bobo$45bobo12b2o11bo13bo2bo10bo2bo$35b2o6b2o16b2o27bo9b2o$34bo8b2o17bo24bobo8b2o3bo9bo$33bo5bo3b2o42b2o11b2o10b2o$23bo9bo5b2o4bobo7b2o44bo2bo$23b2o8bo6bo6bo7bobo44bobo$34bo22bo$35b2o20b2o8$29bobo$29bo2bo$20b2o10b2o11b2o$20bo9bo3b2o8bobo$32b2o9bo$29bo2bo10bo2bo$29bobo11bo$44bobo5b2o$2o23bo19b2o5bobo$bo23bobo26bo$bobo4b2o18b2o4b2o18b2o$2b2o6bo17b2o5bo$11bo16b2o$11bo13bobo$11bo13bo$10bo$8b2o54bo$3b2o56bo3b2o$3bo56b2o2bo$60b2o$61bo$61b2o$61bo$62bo$34b2o2b3o2b2o11b2o4b3o$34bo2b5o2bo10bobo3bo$2obob2o28b9o11bo4b2o3bo$o5bo25b3o9b3o7b2o4b2o$bo3bo26bo2bo7bo2bo14bob2o$2b3o3bo24b2o9b2o14b2ob2o$8b2o40b2o7bo3bo$7bobo40bo10bobob2o$43bo4bobo10bo3bo$32bo9bobo3b2o15bo$26bobo2b2o9b2obo16bobo$25bo2bo2bobo8b2ob2o14bo$24b2o16b2obo14b3o$5bo16b2o3bo14bobo$5bo18b2o17bo18bo$4bobo11b2o5bo2bo33bo2bo$3b2ob2o9bobo6bobo31b2o2b2o$2bo5bo8bo21bo25bo$5bo10b2o20b2o$2b2o3b2o18b2o8b2o4b2o5bo$27bo8b3o4b2o3bobo29bo$37b2o4b2o2bobo30bobo$38b2o6bo2bo16b2o15b2o4b2o$39bo7bobo16bo16b2o5bo$48bobo12b2o18b2o$50bo11b3o15bobo$63b2o15bo$6bo59bo$5b2o59b2o!"
             },
             {
-              "name": "F171 (F 29,-17 171)",
-              "coordinates": "x0:g-h 1:h,r-t 2:h,j,t 3:i-j,s-u 4:a 5:4-5,a-c 6:5,d 7:5,7,c-d 8:6-7,D-E 9:D a:0-1,B,D b:1,B-C c:1,3 d:2-3 A:9-b B:b C:b-c"
+              "name": "Ножовка (ExFactor 9)",
+              "pattern": "x = 199, y = 102, rule = b3/s23\n17b2o$18bo$91bo$91bobo$94b2o6b2o$52b2o24bo15b2o3bo4bo$53bo23b2o15b2o3b2o4bo$34b2o17bobo5b2o13b2o13bobo11bo9bo$33bobo18b2o5b3o11b3o13bo13bo8b2o$23b2o7b3o12bo15b2obo9b2o26bo$23bo7b3o13b4o12bo2bo10b2o23b2o$16b3o13b3o4bobo6b4o11b2obo11bo$15bo3bo13bobo3b2o7bo2bo9b3o$14bo5bo13b2o4bo7b4o9b2o$15bo3bo27b4o4b2o17b2o$16b3o28bo7bobo16bo$16b3o38bo$57b2o$40b2o9b2o64b2o$39bo2bo7bo2bo63bo$39b3o9b3o61bobo$14b3o25b9o64b2o$13b2ob2o23bo2b5o2bo$13b2ob2o23b2o2b3o2b2o134bo$13b5o169bo$12b2o3b2o163bo4bo$46bo136b5o$47bo$43bo3bo12bo$44b4o13bo$56bo4bo123b2o$57b5o120b3ob2o$177b3o3b4o$184b2o$15bo$15b2o$67b2o115bo$66bobo116bo$9bobo40bo12b3o8b2o101bo5bo$7bo3bo40b4o8b3o10bo102b6o$2o5bo10b2o3b2o28b4o8b3o24bo$o5bo10bobo3bo2bo15bo10bo2bo9bobo18b3ob2o3bo$7bo11bo7bo7bo6b2o9b4o10b2o18b4o4b2o$7bo3bo15bo6b2o16b4o35b2o$9bobo15bo24bo$23bo2bo38b2o16b2o$23b2o40bo16bobo$81b3o$81b2o79bo$84b2o77bo$83b3o71bo5bo$158b6o2$84bo$83b2o2$57bo126b2o$56b2o122b4ob2o$45b2o8b2o11bo26bo84b6o$45bo8b3o9bobo26b2o84b4o12bo$55b2o8bobo12bo54b5o58bo$56b2o2b2o2bo2bo11b2o14bo38bo4bo54bo3bo$57bo2bo4bobo26bobo42bo55b4o$66bobo25bo2bo40bo20b4o27b3o$68bo26bo2bo59bo3bo25b2ob2o$162bo21b3o3b3o$95bo65bo33b4o$95b2o97bo3bo$172b2o24bo$171b4o22bo$171b2ob2o$66b2o105b2o6b6o$65b3o27bo73bo10bo5bo$55b2o5bob2o12bo15b2o71bobo16bo$55bo6bo2bo12b2o29b2o58bo15bo$62bob2o13b2o27bo64b2o$65b3o11b3o11bo13bo9b2o52b2ob2o$66b2o11b2o10bobo13bo10bo17b2o33b4o$78b2o9b2o16bo27bo2bo33b2o$78bo10b2o17bo29bo$89b2o18b2o27bo22b6o$91bobo41b2obo21bo5bo$93bo42bo29bo$149b2obo2bo9bo$148b2o6bo$137bo12bobo3bo$136b2o15b4o4$168bo$137bo29b2o$137b2o12bo14b2o8b2o$125bo23bobo13b3o9bo$125bobo20bobo15b2o$114b2o12b2o9b2o6bo2bo16b2o$114bo13b2o9bo8bobo17bo$128b2o6b2o6b2o3bobo$125bobo7b3o7bo5bo$125bo10b2o$139bo$139b2o!"
             },
             {
-              "name": "Канал свитч-двигателя (F 8,8 96)",
-              "coordinates": "y0:e-f 1:d,f 2:e 8:m-n 9:l,n a:m g:f-h,A-B h:g,j,u,B i:k,A j:h,j l:1 m:0,2 n:0-1 o:I-J p:H,J r:I u:9 A:8,a B:8-9 C:R-S D:P,S E:R H:h I:g,i J:g-h K:ε-ζ L:δ,ζ M:ε P:p R:o,r S:o-p δ:D ε:C,E ζ:C-D"
+              "name": "Зуб пилы 633 (ExFactor 11)",
+              "pattern": "x = 113, y = 69, rule = b3/s23\n40bo$39b4o$38b2ob4o5b2o$9b2o16b2o8b3ob2o3bo3bo2bo$10bo16bo10b2ob2o3bo7bo$39b5o3bo6bo7bo$40bo3b3o7bo6b2o12b2o$50bo2bo19bo2bo$9bo40b2o20bo15bobo$7bo3bo48bo11bo15bo3bo$7b5o46bobo11bo7bo11bo$6b2o3b2o35b2o6b2o15bo2bo3bobo10bo5bo$7b5o35bo8b2o17b2o3b2o10bo5b2o$8b3o35bo5bo3b2o30bo3bo$9bo36bo5b2o4bobo27bobo$46bo6bo6bo$38b2o7bo$32bobo2bobo8b2o$32b2o3bo21bo$33bo2b2o22b2o$59b2o$10bobo$11b2o22b2o9b2o$11bo22bo2bo7bo2bo$34b3o9b3o44bo3b2o$37b9o29b2o15bo4b3o$36bo2b5o2bo28bo18b3o3bo$4b2o3b2o25b2o2b3o2b2o32bo9bo3bob2obob2o$79b2o8b3o6bobo$4bo5bo69bob2obob2o2bo4bo2b3o$14bo18bo29bo16bo3b3o3bo8bob2obo$5b2ob2o3bobo18bo29bo15bo5b2o2bo4b6o4b2o$7bo6bo15bo3bo25bo3bo13bobo4b2o18b2o$o30b4o26b4o6b2o7bo5b2o2bo4b6o4b2o$3o67b4o6bo3b3o3bo8bob2obo$3bo5b2o59b2ob2o5bob2obob2o2bo4bo2b3o$2b2o5bo62b2o5b2o8b3o6bobo$10b3o47b2o17bo9bo3bob2obob2o$12bo47bo33b3o3bo$48bo9bobo31bo4b3o$47bobo8b2o17b2o14bo3b2o$4b3o30b2o6b2o3bo27bo$3bo3bo7b2o19bobo7bo3bo27bobo5bobo$14bobo18b3o7b2o3bo28b2o5bo2bo$2bo5bo7bo9bo7b3o10bobo39b2o8bo$2b2o3b2o17b2o7b3o10bo38bo3b2o5bobo$36bobo50b2o6bob2o$37b2o47bo2bo6b2ob2o11bo$86bobo8bob2o10b2o$55b2o41bobo$54bobo42bo$56bo31bo$88b2o2$83b3o$38bo44bo$36bobo45bo$4b2o3b2o18b2o4bobo14b2o$29bo4bo2bo14b3o42b2o$4bo5bo24bobo16b2obo6bo33bo$36bobo15bo2bo5b2o21b2o12b2o6b2o$5b2ob2o28bo15b2obo27bo14b3o6bo$7bo44b3o19bo9bo15b2o$52b2o20b2o8bo13bo$84bo12b2o$85bo$86b2o$7bo$7b2o!"
             },
             {
-              "name": "B60 (B -6,-10 60)",
-              "coordinates": "y0:0,c-d,j-k 1:0-2,c-d,j-k 2:2 3:2,f-g 4:f-g 9:6 a:6,8 b:6-8 c:8"
+              "name": "Зуб пилы 1212 (ExFactor 21)",
+              "pattern": "x = 173, y = 114, rule = b3/s23\n39b2o$39bo16b2o$28b2o7bobo16bo$28bo2bo5b2o$14bobo15bo$12bo3bo15bo$12bo19bo$5b2o4bo16bo2bo6b2o$5bo6bo15b2o8bobo15bo$12bo3bo22b3o13b3o$14bobo23b2o13b3o$37b2o$37b3o13b2o3b2o$31bo21bo5bo$32bo$30b3o5b2o$38bo22b2o$55bo6bo$56bo5bobo7b2o$54b3o6b2o6b3o$9bobo56bob2o15bo$7bo3bo56bo2bo15bobo$2o5bo15b2o43bob2o16bobo$o5bo16bo2bo24bo5bo13b3o14bo2bo3b2o$7bo19bo23bo5bo14b2o14bobo4bo$7bo3bo15bo6b2o16bo3bo30bobo28b2o$9bobo15bo6bo18b3o31bo31bo$23bo2bo76b2o14bobo9bo$23b2o78bo16b2o8b4o$38b2o52bobo6bobo25b2obo8b2o$38bo53bo2bo5b2o25b3obobo6bo2bo$26b2o8bobo38bo17b2o32b2obo12bo$28bo7b2o38bobo14bo3b2o20b2o9b4o11bo6b2o$15b2o12bo26b2o17bob2o16b2o21bo2bo9bo13bo6bo$15bo13bo26bo17b2ob2o13bo2bo6b2o14bo22bo2bo$12b2o15bo27b3o15bob2o13bobo6bo2bo13bo22b2o$4b2o5b3o14bo8b2o20bo11b2o3bobo25bo13bob2o$4bo7b2o12b2o9bo24bo7bobo4bo26bo15bo8bo$15bo31b2o12bo8bo30b2obo22b2o$15b2o30bo13b3o5b2o31bo25b2o$37b3o79b2o$29bo8b2o55bo23bo12b2o$30bo4b2o9b3o47b2o4b2o28bo$28b3o4b3o8b2o18b2o27b2o5bo41bo$36bobo10b2o16bo74bobo$24b2o11b2o9b3o16bobo7b2o42b2o7b2o9bobo11b2o$24bo22bobo18b2o5bo2bo42bo8b3o7bo2bo11bo$14bo32b2o25bo13bo43b2obo5bobo$13bobo58bo11b4o42bo2bo6bobo$b2o10b2obo8bobo46bo12bob2o41b2obo8bo$bo11b2ob2o6bo2bo47bo2bo6bobob3o31b2o5b3o$13b2obo6b2o52b2o8bob2o31bobo5b2o$13bobo5b2o3bo59b4o8b2o22bo$14bo8b2o63bo9bobo20b2o$24bo2bo5b2o65bo$25bobo5bobo64b2o$35bo$35b2o2$53bo7b3o$53b2ob2obo2b2o$54bo4b3o$34b2ob2obo13bo3bobo2bo$33b2o2b2ob2o12bo4bo4bo$41bo12bo4bo4bo$33b2o19bo3bobo2bo$33b2o5b2o12bo4b3o$40b2o11b2ob2obo2b2o$33bo13b3o3bo7b3o$33b2ob2o2b2o5b3o$34bob2ob2o6b3o$50b3o$50b3o$50b3o2$39b2o23b2o$38b3o23bo44bo27b2o$26bo8bob2o9b2o59bobo26bo$26bobo6bo2bo9bo63b2o6b2o16bobo9bo$27bobo5bob2o25bo47b2o4bo3bo16b2o8b4o$14b2o11bo2bo7b3o22b2obo45b2o3bo5bo24b2ob4o5b2o$14bo12bobo9b2o25bo33b2o7bobo4b2obo3bo23b3ob2o3bo3bo2bo$26bobo37bo32bobo7bo7bo5bo24b2ob2o3bo7bo$26bo36bo2bo32bo18bo3bo7b2o17b5o3bo6bo6b2o$37b2o25b2o32b2o20b2o8bobo17bo3b3o7bo6bo$37bo43b2o27bo21bo27bo2bo$81bo26b2o22b2o26b2o$70b2o7bobo27b2o$70bobo6b2o54bo$57bobo13bo61b2o$56bo2bo5bo4bo2bo18b2o$55b2o9bo6bo17bo2bo41bo$53b2o3bo5b3o3bobo21bo40bobo$55b2o13b2o22bo39bo2bo$49b2o5bo2bo31b2obo38bo2bo24bo$48bobo6bobo32bo67bobo$48bo66bobo18bo7bobo13b2obo4b2o$47b2o34b2o29bo2bo17b2o6bo2bo13b2ob2o3bo$23bo24bob2o30bobo7b2o6b2o11b2o10b2o15b2o16b2obo$23b2o23bobo30b3o8bo7bobo8b2o3bo8bo14b2o3bo14bobo$14b2o8b2o14bo5bobo2bo29b2o20bo9b2o27b2o17bo$14bo9b3o13bobo3b2o2b2o32b2o14bo2bo10bo2bo18b2o5bo2bo$24b2o15bobo39b3o17bo11bobo17bobo6bobo$23b2o16bo2bo13b2o33b2o5bobo32bo$23bo17bobo16bo8b3o20bobo5b2o32b2o$40bobo7b2o9bo9bo3bo7b2o7bo$40bo9bo10bo8bo4bobo5bo7b2o$61bo16b2o$60bo17b2o$58b2o18b2o$75bobo4b2o$75bo6bobo$84bo$84b2o!"
             },
             {
-              "name": "Bx125 (Bx -9,-17 125)",
-              "coordinates": "y0:s 1:2,r,t 2:2,r,t 3:0-2,c-d,p-r,t-A 4:0,c-d,B 5:p-r,t-A 6:p-r,t f:G-H g:G-H i:9 j:9,b k:9-b l:b n:n-o o:n p:o-r r:r"
+              "name": "Зуб пилы 1846 (ExFactor 25)",
+              "pattern": "x = 370, y = 118, rule = b3/s23\n235b2o$236bo$222bo15b2o$220bobo15b3o11bo$166b2o50b2o18b2o12bobo$166bo45bo5b2o16bo16bobo7bo$61bo40bo60b2o15bo31b2o4b2o15b2o16bo2bo6b2o$60bobo38bobo46bo11b3o15bobo37bobo30bobo3bo4b2o9bo$43b2o14bo3b2o36b2obo7b2o34bobo12b2o18b2o37bo29bobo3b2o4b3o7b2o44bo$43bobo13bo3b2o3b2o19b2o10b2obobo5bobo24bo7bobo16bo16b2o5bo44b2o15bo11b2o52bobo$44b3o12bo3b2o4bo19bo11b2obo10bo22b2o6bo2bo16b2o15b2o4b2o44bo27b2o43b2o6b2o$34bo10b3o12bobo38bobo8bo2bo8bo2bo9b2o4bo3bobo30bobo80bo43bo8b2o15bo31bo$34b2o8b3o14bo40bo12bo7b2o2b2o7b3o4b2o3bobo29bo125bo6bo2b2o15b2o29bobo$43bobo66bobo22b2o11bo145b2o8bo5b2o4bobo13b2o13b2o15b2o$43b2o67b2o24b2o156bo9bo5bo7bo13b3o11b3o14bo$139bo94b2o71bo26b2o9bob2o17b2o$234bo73b2o23b2o10bo2bo10bo5b3o$333bo11bob2o9b2o$208bo139b3o13bo2bo$207b3o23b3o113b2o14bobo$31b2o72bo127b2o132bo$32bo71b2o130b2o128bo$32bobo6bo73bobo117b3o126bobo$33b2o4bobo71bo3bo116bobo81b2o45bo$37b2o15b2o45b2o10bo12b2o31bo47b3o12b2o5b2o3b2o82bo46b2o$37b2o16bo45bo2bo7bo14bo29bobo48bo13bo7bo$2o23b2o10b2o18b2o46bo7bo44b2o204bo2bo$bo23bo13bobo15b3o45bo7bo3bo36b2o161b2obo47bo$bobo7bo10b2o17bo15b2o46bo9bobo36b3o161bobo44bo2b2o$2b2o7bobo7b3o10b2o19bo7b2o29b2o5bo2bo43bo3bo2bobo161bo44b4o$14b2o6b2o11bo18b2o7bobo27bobo5b2o45b2o2b2o2b2o160b2o44b2obo$14b2o9bo39bo27bo58b2o164b2o45bobo$14b2o9b2o38b2o25b2o224b2o45b3o$o10bobo352b2o$3o8bo351b2obo$3bo60bo59bo59bo59bo59bo58bo$2b2o61bo59bo59bo59bo59bo57bo$61bo3bo10bo44bo3bo10bo44bo3bo10bo44bo3bo10bo44bo3bo57b3o$62b4o11bo44b4o11bo44b4o11bo44b4o11bo44b4o60b2o$73bo3bo55bo3bo55bo3bo55bo3bo105bo2b2o$74b4o56b4o56b4o56b4o106bo$52b2o311b2o$2b2o3b2o25b2o7b2o6b3o310b3o$2bo5bo25bo9bo5bobo2bo3bo$35b9o6b2o2b2o2b2o32b2o$3bo3bo2b2o20b3o2b5o2b3o7b2o32b2o2b2o2b2o$4b3o4b2o19bo2bo2b3o2bo2bo41bo3bo2bobo$10bo22b2o9b2o48b3o$94b2o114bo6bo89bo$29b2o178b2obo2bob2o88bobo$28b2o10bobo167bobo2bobo89b2o$30bo8bo2bo168bo4bo$25b2o11b2o10b2o$7bo17bobo8b2o3bo9bo10bo$5b2ob2o6bo11bo9b2o21b2o49b2o75bo47b2o$16b2o7bo2bo10bo2bo17b2o11bo38bo74bobo48bo$4bo5bo17bo11bobo16b3o4b2o3bobo29bo6bobo17bobo55b2o48bobo$25bobo32b2o4bo3bobo30bobo4b2o18bo2bo17b2o9b2o75b2o44bo$4b2o3b2o14b2o25b2o7b2o6bo2bo16b2o15b2o7bo17b2o6b2o7bo2bobo3bobo2bo9bo109b2o$51bobo8bo7bobo16bo16b2o6bobo14bo3b2o5bo7b3o9b3o8bo110bobo$51bo19bobo12b2o18b2o5bob2o16b2o18b2o5b2o7bo2bo4bo$50b2o21bo11b3o15bobo6b2ob2o13bo2bo18bo2b5o2bo5b2obo2bob2o$86b2o15bo9bob2o13bobo19b2o7b2o9b2o$89bo19b2o3bobo231b3o$89b2o17bobo4bo233b2o$108bo54b2o58b2o58b2o63bo$107b2o53b4o56b4o56b4o61bo2b2o$8bo153b2ob2o55b2ob2o5b4o46b2ob2o5b4o54b2o$7b2o155b2o58b2o5bo3bo48b2o5bo3bo51b3o$235bo59bo51bo$234bo59bo52bo$347b2obo$184b2o164b2o$184bo122b2o40b3o$150b2o23b2o5bobo27bo4bo90bo40bobo$151bo22bobo5b2o26b2obo2bob2o88bobo5b2o30b2obo$151bobo5bobo11bo36b2o6b2o89b2o5bo2bo28b4o$152b2o5bo2bo10bo2bo33b3o4b3o100bo9bobo16bo2b2o$103b2o9b2o46b2o9bo146bo7bo3bo19bo$103bobo7bobo44bo3b2o8bobo7bo135bo7bo13bo5bo2bo$94b2o10bo8bo5bo25bobo12b2o11b2o7b2o38bo91bo2bo7bo13b2o$94bo8bo2bo13bobo24bo3bo7bo2bo20bobo3bo32bobo91b2o10bo20b2o$106bo13b2obo10b2o3b2o10bo7bobo27b2o30bobo17bo86bo3bo16bo$103bobo14b2ob2o7bo2bo3bobo10bo57bo4b2o3bo2bo16b2o88bobo15bobo$103b2o15b2obo7bo7bo11bo37bo19b2o4bo5bobo15b2o77b2o30bo$120bobo8bo15bo3bo3b2o31bobo18bobo10bobo13b3o9bo55bo12bo31bo$121bo9bo15bobo5bobo30bo2bo32bo4bobo7b2o8b2o54b2o42bobo$125b2o5bo2bo21bo31bo2bo36b2o9b2o106bo2bo$124bobo7b2o21b2o48b2o21bo10bo64bo$124bo64bo17bo97bobo41b3o$123b2o40b2o22b2o87b4o22bo2bo42b2o$164bo42bo2bo62b2o7bo20bo2bo20b2o20bo$153b2o8bo6bo6bo28bo2bo63bo3b2o3bo44bobo20b2o$153bo9bo5b2o4bobo28bobo52b2o15bo2bo24bo10bo12bo7b2o8bobo$163bo5bo3b2o13bo18bo52bo2bo41b2o9bobo8bo2bo8bo9bo$164bo8b2o12b2o74bo52b2obo10bo$165b2o6b2o32b2o54bo52b2obobo5bobo$175bobo29bo52b2obo52b2obo7b2o$177bo58bo24bo44b2o8bobo$235b2o68bobo9bo$219bo14b2o8b2o59bo$217bobo13b3o9bo16bo41b2o$210bo5bobo15b2o25b2o$210b2o3bo2bo16b2o$216bobo17bo$217bobo$219bo73bo$263bo29bobo$263b2o14b2o15b2o$249b2o28bo16b2o4b2o$249bo2bo23b2o18b2o5bo$240b2o11bo13bo7b3o15bobo$240bo12bo12b4o6b2o15bo$253bo11b2obobo8bo$249bo2bo11b3obo2bo7b2o$249b2o14b2obobo$266b4o$267bo!"
             },
             {
-              "name": "Bx222 (Bx -6,-16 222)",
-              "coordinates": "x0:c-d 1:c 2:a-c 4:1 5:1-3 6:4,r-t 7:3,5,t 8:4,s-u a:2 b:1,3,5 c:1,4-5 d:0-1 i:a-b,B-C j:a-b,B-C l:1-2,4 m:1,3-4,C-D n:C o:D-F p:F s:7-8 t:6,8 u:6,u-A,C A:5-6,u,B-C F:8,a-b G:6-8,a-b H:5 I:6-8,a-b,i-j J:8,a,j K:8,a,g-i L:9,g"
+              "name": "Зуб пилы 201 (ExFactor 47)",
+              "pattern": "x = 55, y = 79, rule = b3/s23\n49b2o$49b2o2$23b2o5b2o$23b2o5b2o5$43bo5bo$42b3o3b3o$41b2obo3bob2o3$23bo7bo12bo3bo$22bo2bo3bo2bo11bo3bo$26bobo$26bobo$26bobo$22bo2bo3bo2bo$23b3o3b3o7$43bo$43bobo$43b2o$30b2o$30b2o2$10b2o$8b2ob2o8bobo$8bo2bo10bo$8bo2bo$9b2o33b2obo3bob2o$32bo11bo2bo3bo2bo$9b2o20bo13b3o3b3o$8bo2bo19b3o$2o6bo2bo$2o6b2ob2o$10b2o9bobo$21b2o$22bo2$45b2o$45b2o2$20bo$20bobo$20b2o2$25b2o$25b2o$6b4o15b2o$4b2o4b2o13bo$4b2o5bo12bobo$6b2obobo12bob2o$11bo$7bo3bo$7bo4bo12b2o$9b3o3bo9b2o$9b2o4bo$15b2o$17bo$17b3o3$20bo$19bob5o$18b2o5bo$18b2o3bo2bo$26bo$20b2obo2bo$23bo2bo$24b2o$24b2o!"
             },
             {
-              "name": "Fx119 (Fx 20,14 119)",
-              "coordinates": "x0:0-2 1:2,m-n 2:1-3,m 3:k,m 4:g-h,k-l 5:g-h 9:f-g,l-m a:f-g,l-m k:g-i l:g m:f-g"
+              "name": "Параболический зуб пилы (Без ExFactor)",
+              "pattern": "x = 126, y = 144, rule = b3/s23\n34b2o11b2o36b2o18b2o$34bo12bo37bo19bo6$16b2o16bo$16bo16b3o$33b3o36b2o29bo5bo$72bo11b3o16b2o3b2o$31b2o3b2o6b2o3b2o32bo3bo$31bo5bo44bo5bo16b3o$45bo3bo32bo5bo16b3o$46b3o57bo$46b3o24bo10bo$35bo35b2ob2o7b2o$34bo$34b3o33bo5bo$14b5o$13bob3obo50b2o3b2o5b3o$14bo3bo26bo5bo30b3o$15b3o15bo5bo4b3o5bo28bo3bo$16bo16bo5bo4b3o3b3o$34bo3bo41b2o3b2o20b3o6b2o$35b3o4b2o3b2o57bo3bo5bo$42bo5bo56bo5bo$5b2o7bo90bo5bo$5bo8bo$13bobo$12b2ob2o99b3o$11bo5bo98b3o$14bo23b2o7b2o23b2o3b2o36bo3bo$11b2o3b2o20bo8bo24bo5bo$5bo33b3o6b3o31b2o23b2o5b2o3b2o$4b3o27b2o5bo8bo4b2o16bo3bo4bo24bo$4b3o28bo19bo18b3o21b2o$35bobo5bo9bobo42bo$2b2o3b2o27b2o4bobo8b2o$2bo5bo32bob2o$40b2ob2o$13b2o26bob2o13bo$13bo9b2o17bobo12bo40bo$4bo15bo4b4o14bo13b3o14b2o4bobo13b2ob2o$5bo13b2o2b2ob3o36b2o7bo5b2o$3b3o17bo37b4o4b2o10bo13bo5bo$61b3ob2o2bo18bo2bo$66bo16b2o2b2o3bo2b2o3b2o14bo5bo$83bo8bo23b2o3b2o$o5bo81b4o$o5bo111b3o$bo3bo21bo15bo74b3o$2b3o22b2o15bo74bo$26bobo13b3o3$34bo$34b3o$37bo$36b2o55b2o3b2o2b2o$25b2o66bo5bo2bo$26bo32bo9b2o51bo$57bobo10bo23bo3bo22b3o$23bo2bo31b2o10bobo5bo16b3o22b5o$3b2o3b2o14bo2bo43b2o3b4o39b2o3b2o$3b2o3b2o15bobo8bo5bo34bob2o9b2o$4b5o17bo9bo5bo32bobob3o8bo$5bobo29bo3bo35bob2o$25b2o11b3o35b4o32b2o$5b3o17bo30bo21bo33bobo$57b2o37b2o11b2obobo$56b2o38bo12bobobo$111bo$111b2o$8bo43b2o57b3o$7bobo42bo23bo34b3o3b2o3b2o$6bo3bo63bobo34b3o3b2o3b2o$7b3o28b2o35b2o34b2o5b5o$5b2o3b2o26bo15b2o55bo7bobo$54bo32b2o20bobobo$45b2o5bobo32bo21b2obobo4b3o$44b3o5b2o19bo38bobo$32bo8bob2o29bo37b2o$32bobo6bo2bo27b3o$20b2o11bobo5bob2o$20bo12bo2bo7b3o$33bobo9b2o63b2o7b2o$32bobo75bo8bo$32bo$8b2o33b2o$8bo34bo12b2o51b3o$55bo2bo50b2o$47b2o6bo56b2o$48b2o5bo55b3o$47bo7bob2o51bobo$57bo52b2o3$56b2o$56bo2$28bobo$28bo3bo$18b2o12bo10b2o$18bo14bo7bo2bo21b2o42b2o$32bo7bo11b2o12bo43bo$28bo3bo7bo11bo$28bobo9bo$41bo2bo20b3o$43b2o20b2o$68b2o$34bo32b3o$34bobo29bobo$17b2o18b2o4b2o21b2o41b2o$19bo17b2o4bo65bo$20bo16b2o9b3o23bo$9b2o9bo8bo4bobo13bo22b2o$9bo10bo9bo3bo14bo7b2o13b2o8b2o$19bo8b3o26b3o11b3o8bo$17b2o40b2obo9b2o$59bo2bo10b2o$59b2obo11bo$50b2o5b3o$49bobo5b2o$49bo44bo$48b2o40b2o2b2ob3o$90bo5b4o$86b2o6b2o$85bobo18b2o$22b2o60b3o19bo$24bo59b2o21b3o$14b2o9bo13bo47b2o20bo$14bo10bo13bobo44b3o$25bo16b2o4b2o12b2o$24bo17b2o4bo13b3o$22b2o18b2o9b2o9b2obo11bo6b2o$39bobo11bo10bo2bo10b2o6bo$39bo24b2obo9b2o$62b3o11b3o$62b2o13b2o$78b2o5b2o$79bo5bobo$87bo$87b2o!"
             },
             {
-              "name": "L112 (L 12,-33 112)",
-              "coordinates": "x0:m 1:m-o 2:p,C-E 3:o-p,E 4:k-l,D-F 5:k 6:m 7:l-m d:2,i-j e:2,i-j,H-I f:0-2,H-I g:0 i:I-J j:I k:p-r,J-L l:r,L m:n-p n:n"
-            },
-            {
-              "name": "Lx200 (Lx 17,-40 200)",
-              "coordinates": "x0:K,M-N 1:J-N 2:J-M 4:K-M,γ-δ 5:K-M,γ 6:L,α,γ 7:α-β 8:L-M 9:L-M e:p-r f:r g:p,θ h:p-r,ζ-θ i:ε j:ε-ζ l:0 m:0-2 n:2,i-j o:2,i-j r:θ-ι s:θ,κ t:κ u:κ-λ A:l-m B:m C:l,H-I,S-T,γ-δ D:l-m,H,S-T,γ-δ E:I-K F:K"
-            },
-            {
-              "name": "R126 (R -2,8 126)",
-              "coordinates": "x0:0 1:0-2,n 2:3,l-n 3:2-3,c-e,l 4:e,l 5:d-f i:b j:a,c k:a,c l:b o:g-h p:g,i r:h-i"
-            },
-            {
-              "name": "BRx46B (Rx 6,16 46)",
-              "coordinates": "x0:5,8-9 1:6-8 2:1-2,7 3:1-2 6:m-n 7:o 8:m-n 9:m a:6-7 b:0-1,5,8 c:0-1,6-7"
-            },
-            {
-              "name": "PT8P (T -2,-1 8)",
-              "coordinates": "x0:6-8 1:6 2:6-8 5:0-1,6 6:0,3,5,7 7:2-3,5-6,8 8:8 9:8-9"
-            }
-          ]
-        },
-        {
-          "name": "Конвертеры",
-          "colonies": [
-            {
-              "name": "BF20H (F 8,0 20)",
-              "coordinates": "x0:M 1:L,N 2:M 4:K-O 5:i-j,K,P 6:j,N,R 7:j,l,N-O,R,U 8:k-l,K,R,T,α 9:J,L,R,U a:J,M,P-R b:K-L c:9-a d:a e:a,c f:b-c h:u-A i:u-A o:θ-κ p:θ-κ r:θ-κ s:ε-η t:ε-η u:ε-η A:5,7-8,k,L,N-O B:5-7,j,l,L-N,β C:6,j,l,M,α,γ D:k,α-β E:ε-ζ F:ε,η G:U-α,η H:U-α,η-θ I:4-6,K-M J:6,M K:6-7,M-N T:1-2,H-I U:0,3,G,J α:1-2,H-I"
-            },
-            {
-              "name": "HF95P (F 23,-7 95)",
-              "coordinates": "x0:6 1:6-8 2:9,g-i 3:8-9,i 4:h-j 6:1-2 7:2 8:2,4 9:3-4 e:0-1,l-m f:0-1,l-m i:m-n j:m k:n-p l:p"
-            },
-            {
-              "name": "PF35W (F 5,8 35)",
-              "coordinates": "y0:0,a-b 1:0-2,7-8,b 2:3,6,9-a 3:2-3,7-8,b-d 4:9,b,e 5:9,d-e 6:a 7:9-a c:3-5 d:5 e:3-5 n:2-3 o:3 p:0-2 r:0"
-            },
-            {
-              "name": "RF28B (F 12,1 28)",
-              "coordinates": "y0:3 1:2,4,c 2:3,a-c 3:9 4:9-a 7:1 8:1-2 9:0-1"
-            },
-            {
-              "name": "RF48H (F 20,1 48)",
-              "coordinates": "y0:6,p 1:6-7,p 2:5-6,p-s 3:s 5:1-2 6:0,3 7:0,2 8:1"
-            },
-            {
-              "name": "Трубопровод 1 (Fx 21,0 59)",
-              "coordinates": "x0:9-a,c 1:0,2-3,a-c 2:0-1,3,b 4:9-a 5:9-a l:9-b m:b n:b-c"
-            },
-            {
-              "name": "HL75P (L 11,-19 75)",
-              "coordinates": "x0:6 1:6-8 2:9,g-i 3:8-9,i 4:h-j 6:1-2 7:2 8:2,4 9:3-4 e:0-1,l-m f:0-1,l-m i:m-n j:m k:n-p l:p p:a,c r:a,c s:b"
-            },
-            {
-              "name": "HLx111R (Lx 16,-24 111)",
-              "coordinates": "y0:h 1:g,i 2:g a:o-p b:o-p n:0 o:0,2,n-o p:0-2,n r:2,d-e,i-j,o-r s:b,e,j,r t:b-d,i u:i-j A:b-c,e B:b,d-e"
-            },
-            {
-              "name": "RR56H (R 11,13 56)",
-              "coordinates": "x0:8 1:6-8,f-g 2:0-1,7,f-g 3:0-1 b:3-4,8-9,l c:3-4,8-9,j-l d:j e:j"
-            },
-            {
-              "name": "HRx65R (Rx 25,-1 65)",
-              "coordinates": "y0:9 1:0,9-b 2:0-2,c 3:3,b-c 4:2-3 b:1,t c:1,3,h,r,t d:1-3,g,i,s e:3,f,i f:g-h h:d-e i:c,e j:c k:b-c"
-            },
-            {
-              "name": "PT9B (T -3,-1 9)",
-              "coordinates": "x0:7-9 1:1-2,7 2:1-2,7-9 6:6-7 7:2-3,6-7 8:1,3 9:1 a:0-1"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Зубья пилы",
-      "subgroups": [
-        {
-          "name": "ExFactor 3",
-          "colonies": [
-            {
-              "name": "Подвижный зуб пилы",
-              "coordinates": "x0:ρ-σ,υ-φ 1:ρ-σ,υ-φ 9:Ζ a:Ε-Ζ b:ε-ζ,Ε,Η c:ζ-η d:ε i:ρ-σ,υ-φ j:ρ-σ,υ-φ G:ρ-σ,υ-φ H:ρ-σ,υ-φ L:Τ-Υ M:L,Σ-Τ N:L-M,Υ O:K,M R:Λ,Τ S:Κ,Υ T:Ξ,Π,a8 U:Λ-Μ,Ξ,Π,Σ-Τ,a6,1a α:Λ-Μ,Ξ,Π,Σ-Τ,a5,1a β:Μ,Ξ,Π,Σ,a5,1a γ:Μ-Ν,Ρ-Σ,a5-a6 δ:Μ-Ν,Ρ-Σ,a7-a9,b7 ε:ρ-σ,υ-φ,b3,b5,b8 ζ:ρ-σ,υ-φ,Κ-Μ,Ξ,Π,Σ-Υ,b2,b6,c4,c7 η:Λ,Ξ,Π,Τ,b3-b6,c2,c5-c6 θ:Γ,Ζ,Ξ,Π,Ω,a1,b4,b8,c2-c3,c5-c6 ι:Δ-Ε,Θ,Μ,Σ,Χ,W-a0,b9-c2 κ:Δ-Ε,Η-Θ,Μ,Σ,Χ-Ψ,W-a0,c0 λ:Θ-Λ,Τ-Χ μ:Κ,Υ,a7-a9 ν:a7,a9 ξ:W-a0,a8,b6-b7 ο:a0-a5,b1-b6 π:E,M,a6,1a ρ:D,N,a1,a6,1a,b5 σ:h-i,m,H,J,a1,a4,b2,b5 τ:h-i,m-n,E-F,H,J,L-M,a2,b4 υ:h-i,n-o,E-F,H,J,L-M,a2-a3,a5-a7,a9-b1,b3-b4 φ:m-n,F,H,J,L χ:F-G,K-L,a4,a6,1a,b2 ψ:a,F-G,K-L,ρ-σ,υ-φ,a7-a9 ω:9,c,e,ρ-σ,υ-φ,a7,a9 w:0,3,b,f,D-F,H,J,L-N,a2-a6,a8,1a-b4 Α:1-2,5,b-e,E,H,J,M,a1-a3,a5,a7,a9,b1,b3-b5 Β:1-2,4-5,9,d,r,u,H,J,S,α,a1-a3,b3-b5 Γ:5-8,s-t,B,F,L,P,T-U Δ:7,j,s-t,A-B,F,L,P-R,T-U,Ψ,W,a1,a3-a5,b1-b3,b5,b7,b9 Ε:i,k,B-E,M-P,Χ,a0,a2,a4-a5,b1-b2,b4,b6,c0 Ζ:h-i,k-l,D,N,Ω,a0,a2,a4-a5,b1-b2,b4,b6,b8 Η:j,Ρ,Υ,Ω,a0,a2,b4,b6,b8,c2,c5 Θ:a-b,s-t,Σ-Τ,Ω,a0-a1,b5-b6,b8,c3-c4 Ι:b-g,m-s,Σ-Τ,Φ-Χ,Ω,b8,c0-c1,c3-c4 Κ:h,l,Ψ-W,b7-b9 Λ:c,h,l,r Μ:c,f,n,r Ν:d,p Ξ:d-e,g-i,k-m,o-p Ο:γ-δ,Ι-Κ Π:f,h,l,n,N,β,η,Ζ,Λ,Τ Ρ:i-k,M,R,β-δ,ζ,θ,Ε,Η,Ι-Λ,Π,Υ Σ:i,k,N-P,U-β,ε-η,Ζ-Θ,Λ-Ν,Ρ-Τ Τ:d-h,j,l-p,O,R-S,β,Λ,Ο-Π,Σ Υ:c-e,g,i,k,m,o-r,T-α,Μ-Ξ Φ:c-e,o-r Ψ:8,a,c,e-g,m-o,r,t,A,κ,Γ Ω:7,b,d,f-g,m-n,p,s,B,κ-λ,Β-Γ W:9,b,d,f-g,m-n,p,s,u,ι,λ,Β,Δ a0:2,5,9,b,d,p,s,u,D,G a1:3-4,9,b-c,r-s,u,E-F a2:3-4,6-7,9,u,B-C,E-F a3:8-a,t-A c9:P-R,Π-Ρ d0:R-S,Ο-Π d1:P,Ρ d4:R,ε,Θ,Π d5:P,ζ,Η,Ρ d6:B,U,β,Λ,Ν,a5 d7:u,D,R-S,U,β,δ-ε,Θ-Ι,Λ,Ν,Ο-Π,a3,a7 d8:u,E,R-S,U,β,δ-ε,Θ-Ι,Λ,Ν,Ο-Π,a2,a7 d9:u,E,S,U,β,δ,Ι,Λ,Ν,Ο,a2,a7 e0:D-E,S-T,γ-δ,Ι-Κ,Ξ-Ο,a2-a3 e1:m,A-C,S-T,γ-δ,Ι-Κ,Ξ-Ο,a4-a6,b4 e2:l,o,r,1a,b2,b5 e3:c,f,n,s,P-S,U,β,δ-ζ,Η-Ι,Λ,Ν,Ο-Ρ,a9,b3,c1,c4 e4:d-e,h,n-r,R,U,β,ε,Θ,Λ,Ν,Π,1a-b3,b9,c2-c3 e5:d-e,g-h,l,p,I,L,U,β,κ,ν,w,Γ,Λ,Ν,Φ,Ω,b1,b5,b9-c0,c2-c3 e6:h-k,J-K,N,S,δ,θ,λ-μ,Α-Β,Ε,Ι,Ο,Τ,Χ-Ψ,b6-b9 e7:j,J-K,M-N,S,δ,θ-ι,λ-μ,τ,Α-Β,Δ-Ε,Ι,Ο,Τ-Υ,Χ-Ψ,b7 e8:N-R,ε-θ,τ,Ε-Θ,Π-Τ e9:A-C,P,ζ,τ,Η,Ρ,a4-a6 1α:A,C,a4,a6 1β:m-n,B,J-K,τ,Χ-Ψ,a5,b3-b4 1γ:n-t,E-J,τ,Ψ-a2,a8-b3 1δ:u,D,τ,a3,a7 1ε:o,u,D,I,Ω,a3,a7,b2 1ζ:o,s,F,I,τ,Ω,a1,a9,b2 1η:p,H,τ,W,b1 1θ:p-r,t-A,C-E,G-H,τ,W-a0,a2-a4,a6-a8,1a-b1 1κ:s,u,D,F,τ,a1,a3,a7,a9 1λ:A-C,τ,a4-a6 1μ:A,C,τ,a4,a6 1ν:p-u,B,D-H,W-a3,a5,a7-b1 1ξ:o-r,t,A,C,E,G-I,τ,Ω-a0,a2,a4,a6,a8,1a-b2 1ο:o-r,G-I,λ,ν,τ,Ω-a0,1a-b2 1π:ξ,τ 1ρ:k,m,o,r-t,E-G,I,K,M,κ,ξ,Υ,Χ,Ω,a0-a2,a8-1a,b2,b4,b6 1σ:j,n,p,s-t,E-F,H,J,N,κ,ξ,ω,Α,Τ,Ψ,W,a1-a2,a8-a9,b1,b3,b7 1τ:l,n,p,s-t,E-F,H,J,L,ξ,υ-χ,Β,Φ,Ψ,W,a1-a2,a8-a9,b1,b3,b5 1υ:e,h,l,n,p,H,J,L,P,T,λ,ξ,υ-ψ,Β,Ξ,Ρ,Φ,Ψ,W,b1,b3,b5,b9,c2 1φ:f-g,l,n-o,I-J,L,R-S,μ-ξ,τ,φ-χ,Β,Ο-Π,Φ,Ψ-Ω,b2-b3,b5,c0-c1 1χ:f-g,i-j,l,L,N-O,R-S,τ-φ,ω,Β,Ο-Π,Σ-Τ,Φ,b5,b7-b8,c0-c1 1ψ:k-m,K-M,υ,w-Β,Υ-Χ,b4-b6"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 4",
-          "colonies": [
-            {
-              "name": "Зуб пилы 260",
-              "coordinates": "x0:R 1:P,S 3:P,T,γ,ε-η 4:S,γ 5:T,α-β,δ,ζ 6:U-α,ε 7:α,ρ-σ 8:ρ-σ f:w-Α g:θ,w-Α h:θ-κ i:U,η,λ j:U,δ-ζ,λ k:U,δ-ζ,θ,κ-λ l:δ-ε,ι n:J o:J p:J,T r:R,T s:K-M,P,U t:L,N-S u:S A:M-N J:n-p K:s L:s-t M:s,A N:t,A O:t P:1,3,s-t R:0,r,t S:1,4,t-u T:3,5,p-r U:6,i-k,s α:5-7 β:5 γ:3-4 δ:5,j-l ε:3,6,j-l ζ:3,5,j-k η:3,i θ:g-h,k ι:h,l κ:h,k λ:i-k ρ:7-8 σ:7-8 w:f-g Α:f-g Τ:w-Α Υ:ψ,w-Α Φ:χ Χ:w Ψ:φ-χ,ω Ω:φ-χ a0:γ a1:β,δ a2:α,ε a3:β,ζ a4:γ,η a5:δ,θ,Θ-Ι a6:ε,η,Θ-Ι,Ο-Π a7:ζ,Ο-Π 1a:ι-κ,Ν-Ξ b1:ι-κ,Ν-Ξ b2:Τ-Υ b3:Τ-Υ b4:γ-δ b5:γ-δ b6:η-θ b7:η-θ b9:Σ-Τ c0:Σ c1:β-γ,Τ c2:β-γ,Σ-Τ c6:Μ c7:Ν c8:Ν,Ο c9:Ν d0:Ξ,Π d1:Π d2:Ξ,Π d3:Ξ-Ο d6:θ-ι,Ω-W d7:θ,Ω-W d8:ι d9:θ-ι e1:Τ-Υ e2:Τ-Υ e3:Ψ-Ω e4:Ψ-Ω e5:η-θ e6:η-θ,Θ,Κ-Λ e7:ν-ξ,Θ-Ι,Λ,Ρ-Σ e8:ν-ξ,Ρ-Σ 1β:λ-μ 1γ:λ-μ,σ-τ 1δ:σ-τ"
-            },
-            {
-              "name": "Зуб пилы 362",
-              "coordinates": "y0:d-e 1:d,g 3:h 5:f-g 6:e 9:b-c,g-h a:b-c,g-h b:c-g c:d,f e:d-f g:2,9 h:1-2,9-a i:0-2,9-b j:1-2,9-a k:2,9 c3:e1-e2 c4:e1,e3 c5:d2-d3,d6-d7,e4,1η,1ι c6:d2-d3,d5,d8,e1,e4,1ζ,1ι,1ξ c7:d6-d7,e4,1ε-1ζ,1μ-1ν c8:e1,e3,1γ-1δ,1θ,1ρ-1σ c9:e1-e2,1ε-1ζ,1ρ-1σ d0:e6,1ζ,1ι d1:e4-e5,1η,1ι d2:d1-d2,e5-e6 d3:d1,d3 d4:d1 d8:d7,d9 d9:d7-d8 e0:d8 e3:c6-c7 e4:c6,c8 e5:b7-b8,c1-c2,c9,e1,e3 e6:b7-b8,c0,c3,c6,c9,e0,e3,e8 e7:c1-c2,c9,d9-e0,e6-e7 e8:c6,c8,d3-d4,d7-d8,e2,1β-1γ e9:c6-c7,d9-e0,1β-1γ 1α:d1,e0,e3 1β:c9-d0,e1,e3 1γ:d0-d1 1δ:a8,1a,b3,b5 1ε:a4-a5,a7,1a,b3,b6,b8-b9 1ζ:a8,1a,b3,b5 1θ:d6-d8 1ι:d5,d9 1κ:d4,e0 1μ:d3,e1 1ν:d3,e1 1ο:d4,e0 1π:d5,d9 1ρ:d6-d8 n4:R-S n5:R-S n6:α-β n7:β-γ n8:β n9:β-γ o0:α-β o2:I-J,β o3:I-J,U-β o4:γ,ε o5:α,ε-ζ o6:ε o8:α-γ 2α:A-B 2β:A-B 2ζ:π 2η:ο-ρ 2θ:E 2ι:m-n,u-B,D,F-I,ν,ρ,χ,ω 2κ:m-n,C-D,F,ν,σ-τ,φ-w 2λ:A-B,G-H,J,ν,π,σ,φ,w 2μ:L,σ 2ν:J-K,M,O-P,Β-Γ 2ξ:L-M,O,Γ-Δ 2ο:N,Γ 2π:Γ-Δ 2ρ:Β-Γ 2σ:R 2τ:N-P,S-T,Γ 2υ:L-M,O-R,Α-Γ 2φ:P,Δ,Ζ 2χ:n,Β,Ζ-Η 2ψ:O,Ζ 2ω:i,k-l,O 2w:i,k,s,O,Β-Δ 2Α:h,m-n,s,M,O 2Β:i,s,N 2Γ:i,r 2Δ:B-D 2Ε:m,C-D,F-G 2Ζ:C-D,F,P,Κ-Λ 2Η:C,E,P-R,Κ-Λ 2Θ:C,E,R 2Ι:D-E,N,P 2Κ:F,M,P 2Λ:C,E,M,O 2Μ:B,M,O 2Ν:N 2Ξ:Β-Γ 2Ο:D,H,Β-Γ 2Π:u,D 2Ρ:F 2Σ:E-F 2Υ:B-C,E-F 2Φ:D 2Χ:τ-υ 2Ψ:U,τ-υ 2Ω:ι-λ 2W:O,R-S,ι,λ A0:O,R,δ,η-θ,λ A1:N,T-U,δ,η-ι A2:O,δ,η-ι A3:O,γ A5:T"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 6",
-          "colonies": [
-            {
-              "name": "Съемник шнура",
-              "coordinates": "y0:t-A 1:s,B 2:r,B,K-L,P-S 3:r,u,B,J-M 4:r-s,u,B,I,M-N 5:t-u,B,E,J-K,M,O 6:i-k,A-B,E 7:h,k,B-D,S,ε-ζ 8:g,l,O,S,ε 9:g,j-l,P-S a:g,m b:h-n c:n d:n e:l-m f:ν-ξ g:ν i:o-r,t j:o-r,t k:p,E-F l:r,A-C,E-F m:s,E n:t,A,C,E,φ-χ o:u,φ,Ζ p:μ,Δ-Ζ r:2-4,λ,ν,Γ s:1,5,κ-λ,ν-ξ,Γ-Δ t:0,5,κ-λ,ν-ξ u:0,3,5,ι-λ A:0-1,3,5,ι-λ,ο B:2-3,5,8,κ-λ C:4-5,8,κ,μ D:5-7,ψ-ω,Γ-Δ E:ψ,w,Β,Δ F:ω-Γ G:w-Β H:Α K:S-T L:P-α M:O-U N:N,α,Γ-Δ O:O-R,Γ P:8-9,P-R,Δ-Ζ R:8,T,θ,Ζ S:δ-ε,θ-ι,λ-ν T:δ,κ-ν U:θ-ι β:F,β,Η,Κ γ:E,G,U-β,Ζ,Κ-Λ,Ξ-Ο δ:g-h,D-E,G-H,T,Ζ,Ξ ε:g,D-E,G-H,T-U,υ,Η-Κ,Τ-Υ ζ:C-E,σ-υ,Τ η:C-E,I,ρ,Ε θ:D-E,ρ-σ,χ,Δ-Ε ι:D,F,χ-ω,Δ,Ζ κ:w λ:ω-w μ:o-p,N-O,T-U ν:o,γ-ε ξ:N,U,ε,μ-ν,ρ-σ ο:δ,ν-ρ π:O-P,S-T,ξ-π ρ:R,ο,ω-w,Δ-Ε,Σ-Χ σ:ι-λ,ω,Ε,Ρ,Τ-Φ,Ψ τ:ι,Σ,Χ υ:T,κ,w,Δ,Τ-Φ φ:S,U,Α-Γ,Υ χ:R,α,Σ-Τ ψ:R-α,Ρ,Τ ω:P-R,α-β,Ρ,Τ w:R-α,Σ Α:S-U,μ-ξ Β:T Γ:μ,ξ,Δ,Ο-Π,Σ,Υ-Φ Δ:λ-ο,Β-Γ,Ε-Ζ,Ο,Φ Ε:κ-λ,ο-π,Π,Υ Ζ:κ-λ,ο-π,Α,Η,Ρ-Τ Θ:Α-Β,Ζ-Η Λ:T-U Μ:T Ξ:μ-ν,Ρ-Σ Ο:μ,Ρ Ρ:Δ-Ε Σ:Δ"
-            },
-            {
-              "name": "Зуб пилы 562",
-              "coordinates": "x0:u,S-T 1:u-B,S,U 2:C,α,ν,ο 3:B-C,I-J,S,α,μ,ο 4:I,α,λ-μ 5:S,U,ι-κ,ξ,ω 6:S-T,λ-μ,ψ-ω 7:γ,μ,ο 8:B,H,α-β,ν,ο 9:B,H,β-γ a:C,G b:D-F g:ξ h:μ-ξ i:λ j:λ-μ k:n-o l:n m:ι n:a-b,ι o:b,θ,κ p:u-A,E-F,η-θ,κ-λ r:ζ,μ s:A,E,ι,ο-π t:B-D,ζ-η,λ-μ,ο u:l-m,r-s,B-D A:o B:l,s,ζ-η C:m-n,p-r,T-U,ε-ζ D:9-b,n,p,T,α,η E:8,c,o,B,P-R,T,α F:7,d,o,B-C,P,S,U G:7,d,S,π H:R-S,ο-ρ I:P-S,ξ-σ J:9-a,P-S,ν-ξ,σ-τ K:a-b,P-S L:R-S M:S,ε-ι N:7-9,p-s,P,S,U,δ,ζ-θ,κ,ο-ρ O:7-9,o,t,P-R,T,α,ε,ι,ο-ρ P:6,a,n,u,T,α,ζ-θ R:n-o,r,t-u,T-U,η,σ S:5-6,a-b,ρ,τ T:δ-ε,π,υ U:ε,ρ-τ α:0,β-δ,ο-π,υ-φ β:0-2,β γ:3,t-u δ:2-3,t ε:u-B,T ζ:a-b,B,R-T η:a,P θ:b-d,P-R ι:d κ:5,β λ:4-6,J-K,S-T,α,θ,μ μ:3-7,I-N,R-α,γ-δ,η-θ,μ ν:2-3,7-8,M,O-P,ζ,θ,κ-λ,φ ξ:P,U-γ,υ-χ ο:H,J,P,U-α,ζ,μ,υ-χ π:2-3,I,S,γ-ε,λ-ν ρ:2,I,γ,σ-τ,ψ-ω σ:σ,ω υ:3 φ:2,4 χ:1,5 ψ:2-4 ω:0-1,5-6 Ζ:π-ρ,φ-χ Θ:ρ,φ Ι:σ-υ Κ:σ-υ Ν:3-4,6,8-9 Ξ:3,9 Ο:4,8,σ Π:5-7,σ-τ Ω:8 W:8 a0:7,9 a1:6-7,9-a a2:5,b a3:8 a4:5-6,a-b b2:9 b3:8-9"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 9",
-          "colonies": [
-            {
-              "name": "Ножовка",
-              "coordinates": "x0:K-L 1:K 6:L 7:J-K,M-N 9:I,O b:I-J,N-O c:p d:m-p e:d,l-o f:c,e,l,o,E-F g:b,f-g,l-o,F h:0,b,f-g,m-p,L i:0-1,b,f-g,p,K j:c,e,K-M k:d n:9-a,K-L,P-R o:9,K,R r:L,P s:M-O B:a C:9-b D:8-c E:7,9,b,d,N F:7-8,c-d,M-N J:b-c,j-k K:c-d,i,k L:b,i,k,m-n M:j,l,n,L-M N:l,t,M O:l-m,u P:l-n,u,ι-κ R:l-n,r,u,ι S:9-a,e-f,l-n,s-u T:a-e,l-m U:a-b,d-e,l α:a-b,d-e,j,l,n β:b-d,i,k,m-n γ:5,i,k,I-J,N-O δ:5-7,j-k,J-N ε:8,J-K,M-N,κ ζ:7-8,e-f,J-K,M-N,ι-λ,ω-w η:e,A,K-M,θ-μ,ω θ:f-h,B,η-θ,μ-ν ι:h,B κ:B λ:t,B,μ-ν μ:7-8,c-d,u-B,μ ν:7-8,c-d,ω-Α ξ:8-c ο:9,b,J,μ,ω,Α π:I-K,P-R,λ,ν,ψ-Β ρ:9-b,H-L,P,κ,ξ,χ-ψ,Β-Γ σ:G,I,K,M,λ-ν,χ-ψ,Β-Γ τ:G-H,L-M,ι-κ,ξ-ο w:e-f Α:8,e Β:7-9,I Γ:6-a,I-J Δ:5-6,a-b,ω-w,Δ-Ε Ε:μ,w-Δ Ζ:λ-μ,Α-Γ Η:S-T,Β Θ:R-T Ι:P,S,α,ε Κ:P-R,U-α,δ-ε Λ:U-α Ν:L-M Ξ:L-M Ο:L-M,Δ-Ζ Π:M,Δ-Ζ Ρ:2-3,7-8,L,N,Γ,Η Σ:K-L,N Τ:3,7,Β-Γ,Η-Θ Υ:4-6,ν-ξ,ω Φ:4-6,M,ι-κ,μ,ο,ρ-σ,ψ-ω Χ:L-M,κ,ν,σ Ψ:ξ Ω:ο W:5-6 a0:6 a2:4,a a3:4,a a4:5,9 a5:6-8 a7:Β-Δ a8:Α,Ε a9:w,Ζ 1a:w,Ζ b4:8,Φ-Χ b5:7-8,k-l,Φ b6:l b7:i-k,Β b8:i,Β-Γ c5:Τ-Υ,Ω-W c7:Υ,Ω c8:Φ-Ψ c9:Φ-Ψ d4:μ d5:λ,Δ,Η,Ω d6:λ,Γ,Η-Θ,Μ,Ψ-W d7:λ,Γ,Λ-Μ,Ρ-Σ,Ψ-W d8:λ,ξ,Δ-Η,Σ d9:λ-ν,Φ-Χ,a0-a1 e0:Φ,a1 e4:Ψ e5:Ψ-Ω e7:Φ e8:Κ,Υ,Χ e9:Ι-Κ,Τ,Ψ 1α:Ι,Λ,Υ-Χ 1β:Σ-Τ,Ψ-Ω 1γ:Ι,Λ 1δ:Μ 1ε:Μ 1ζ:Ι,Μ 1η:Κ-Μ 1θ:α 1ι:β,ο 1κ:β,ξ 1λ:β,ξ,Η 1μ:β,ξ,ρ,Ζ 1ν:T,β,ξ-π,Ζ 1ξ:U-β,Ζ 1ο:Ζ 1π:Ζ,Ι,Τ 1ρ:Ζ-Θ,Σ-Υ 1σ:ω,Ρ-Φ 1τ:Π-Ρ,Φ-Χ 1υ:ψ-w 1χ:υ-φ,Β-Γ 1ψ:τ-φ,Β-Δ 1ω:τ-υ,χ,Α,Γ-Δ 1w:υ-χ,Α-Γ 1Α:φ,Β 1Β:Σ 1Γ:C,Σ-Τ 1Δ:C 1Ε:C,I 1Ζ:J,θ-ι,ψ 1Η:J,θ-κ,χ 1Θ:p,B,J,θ-κ,χ 1Ι:r,B-C,J,θ-κ,χ 1Κ:r,B-D,G,J,η,ι-κ,π,χ 1Λ:r,A,C-D,H-J,η-ι,π,χ,w 1Μ:n,r,A-C,θ,π,χ-ω 1Ν:o-r,B 1Ξ:ο 1Ο:ο 1Π:ξ,π 1Ρ:ξ-π 1Σ:ξ-π 1Υ:μ,σ 1Φ:ν,ρ 1Χ:ν,ρ 1Ψ:κ,ν,ρ,υ 1Ω:λ-ν,ρ-τ"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 11",
-          "colonies": [
-            {
-              "name": "Зуб пилы 633",
-              "coordinates": "y0:K 1:J-M 2:I-J,L-O,α-β 3:9-a,s-t,H-J,L-M,R,α,δ 4:a,s,I-J,L-M,R,ε 5:J-N,S,ε,ν 6:K,O-R,ε,μ-ν,Α-Β 7:α,δ,ω,Β 8:9,α-β,ψ,Ξ,Π 9:7,b,λ,ψ,Ξ,Σ a:7-b,ι,λ,ψ,Ζ,Σ b:6-7,b-c,T-U,η-θ,ω,Β,Ζ,Θ,Τ,W c:7-b,S,η-θ,Α-Β,Ζ-Η,Σ,Ω-W d:8-a,R,γ,η-θ,Ξ,Σ e:9,R,γ-δ,ι,λ,Ξ,Π f:R,δ,λ g:I-J,S h:C,E,H,J,T-U i:C-D,H,κ j:D,G-H,λ-μ k:κ-λ l:a,c m:b-c,F-G,R-S n:b,E,H,P,T o:E-G,R-T,Τ,Ψ-Ω p:H-P,Α-Β,Σ,Ψ-W r:G,J-N,R,Α,Υ-Χ,a0 s:4-5,9-a,G-H,K-M,P-R,Ε,Ο,Τ,Φ-Χ,Ω,a0-a1 t:Ε-Ζ,Ο-Ρ,Ω,a0 u:4,a,Ζ,Θ-Ι,Λ,Ν-Ξ,Ρ,Χ,W-a1 A:e,D,ξ,Ζ,Κ-Μ,Π,W,a1-a2,a4 B:5-6,8-9,d,f,E,ο,Ζ,Μ-Ν,Π,Φ-a0,a5-a6 C:7,e,A,E,λ,ο,Δ,Ζ,Λ-Μ,a5-a6 D:0,B-E,μ-ο,χ-ψ,Ζ,Μ-Ν,Π,Φ-a0,a5-a6 E:0-2,φ-ω,Ζ,Κ-Μ,Π,W,a1-a2,a4 F:3,9-a,φ-χ,ω-w,Ζ,Θ-Ι,Λ,Ν-Ξ,Ρ,Χ,W-a1 G:2-3,9,ψ-ω,Ε-Ζ,Ο-Ρ,Ω,a0 H:a-c,λ-μ,Ε,Ο,Τ,Φ-Χ,Ω,a0-a1 I:c,λ,Υ-Χ,a0 J:T,ι,λ,Σ,Ψ-W K:S,U,ι-κ,Γ-Δ,Τ,Ψ-Ω L:4-6,H-I,P-R,α,Δ M:3,7,f-g,G,I,R,α,Δ,Ζ,Μ,Ξ N:e,g,F-H,P-R,α,Ε-Ζ,Μ,Ο O:2,8,g,r,E-G,S,U,Ο-Π,W P:2-3,7-8,r-s,F-H,T,Ν,Ρ-Σ,Ω,a0 R:G,I,Ο-Π,Ψ,W-a0 S:H-I,Μ,Ο,Χ-Ψ,W-a0,b2 T:Μ,Ξ,Ψ,W-a0,b1-b2 U:ζ-η,Ω,a0 α:ε,η,W β:η,Ξ γ:Ξ-Ο ε:Ι-Λ ζ:I,Ι η:G,I,Κ θ:4-5,9-a,u-A,F,H,γ-δ ι:u,E,H,γ-ε,Ψ-Ω κ:4,a,F,H,ε-ζ,θ,ο,Ω λ:G,I,ε,θ,ξ-ο,Μ-Ν,a0-a1,a8-a9 μ:5-6,8-9,I,ε-ζ,θ,Λ,a0-a2,a9 ν:7,γ-ε,w,Κ,a0-a1 ξ:γ-δ,w-Α,Κ,Ω ο:Κ,Ψ-Ω π:Λ ρ:Μ-Ν σ:7 τ:7-8"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 21",
-          "colonies": [
-            {
-              "name": "Зуб пилы 1212",
-              "coordinates": "x0:m-n 1:m,U-α 2:U 4:G-H 5:7-8,G 6:7,n 7:l-m,o-p 9:k,r b:7,k-l,p-r,G c:5-6,8-9,F-H d:F-H,T-γ e:4,a,S,U-β,δ,Ζ-Η,a0-a1 f:D-E,I-J,T,γ,Ζ,a0 g:4-5,9-a,D,J,U-β h:α l:γ m:γ n:m-n,s-t,β,δ,Ω-W,a3-a4 o:m,t,P-R,α-β,δ-ε,W-a3 p:P,U,ζ,a0-a2 r:n,s,B,H,γ,Γ-Δ,Θ-Ι,a1 s:o-r,B,H,U-α,ε-ζ,Ε-Η t:2-3,7-8,C,G,N,Δ,Θ u:2,8,D-F,L,N,Ε,Η A:f,M-N,Ζ B:3,7,d,f C:4-6,e-f D:ε-ζ,ξ,π-ρ,τ-υ E:p-r,ε,ν-ξ,π-ρ,υ-φ F:p,M-N,ζ-θ,ν,Γ-Ε G:B-C,M-O,θ,υ-φ H:2-3,b-c,C,G-H,K,N,P,ν-ξ,υ-φ,Γ,Ε,Κ-Λ I:3,7-8,b-c,f-g,u-B,G,K-L,O-P,ν-ξ,Β-Ζ,Κ J:0-2,7,9,c,f,u,K-L,φ,Α-Β,Ζ-Η K:0,8-a,ν-ξ,ρ-σ,υ-φ,Α-Β,Ζ-Η,a0-a1,a5-a6 L:9-a,ξ-ο,ρ-σ,υ,a2-a4 M:a1,a5 N:a2,a4 O:a3 R:M-N,a0-a1 S:I-J,M-N,R-S,τ-φ,Ψ,a1 T:I,M,P,S,τ-φ,Γ-Δ,Φ-a0 U:O-R,τ-φ,Γ,Υ α:O-P,χ-ω,Υ-Φ,Ω-W,a1,a5-a6 β:n-o,χ-ω,Ω,a0-a1,a5 γ:p,χ-ω δ:c-d,r,κ-λ,σ-τ,Σ ε:c,j,r,λ-σ,Σ ζ:9-a,h,j,r,Ρ,Τ η:1-2,8-a,i-j,p,D-E,λ,σ,Π-Ρ,Τ-Υ θ:1,9-a,n-o,D,F,λ,σ,Ο,Φ ι:c,F,ν,π,Σ,a3,a9 κ:c-d,F-G,λ-μ,ξ-ο,ρ-σ,Ο-Π,Υ-Φ,a3,a9 λ:μ-ν,π-ρ,a4,a8 μ:g,I-J,κ,μ,ρ,τ,a5-a7 ν:g-i,H,J,κ-λ,σ-τ ξ:j,J,κ-λ,ν,π,σ-τ,Ζ,Ι ο:i-j,ξ-ο,Α-Β,Ε-Ζ,Κ,Σ π:Α,Κ,Π,Σ ρ:N,Ζ-Ι,Ρ-Σ σ:N-P τ:k-m,R υ:J,P-R,a4 φ:k,m,H-J,Ν-Ξ,Π,Σ-Τ,a4,a6 χ:j-n,G,Ν,Τ,a4-a5 ψ:i-j,n-o,G-H,Ξ,Σ ω:i-j,n-o,Ο-Ρ w:E,S-U Α:D-F,R,α,a5-a6,1a-b1 Β:C,G Γ:B,D-F,H,P,β,a6,1a Δ:C-G,P-R,α-β,a7-a9 Ε:Ν-Ξ,a7-a9 Ζ:Ξ Η:Λ-Ν,W-a0 Θ:Λ,Ω-a0,1a-b1 Ι:Ψ,W,a2,a5-a6,1a Κ:Ψ-Ω,a1-a2,a5,b1-b3 Λ:α,a1-a2,b3 Μ:T,γ Ν:k-l,p-r,T-γ Ξ:m-o,S-T,γ-δ Ο:l,p,T-γ Π:m,o,U-β Ρ:n,α,Ρ,Υ,a6 Σ:u-A,E-F,Π,Υ-Φ,Ω-W,a4-a6 Τ:C,Π,Ω,a3 Υ:u,F,Ρ-Υ,a3-a4 Φ:n-o,A-B,D-E,L,N Χ:n,B,D,M-N Ψ:C,M Ω:C,γ-δ,Κ W:γ,Θ-Κ a0:δ-ζ,Η,Ω-W,a1,a3-a4 a1:u-A,F,I,ζ,Η-Θ,Ω,a4 a2:A,E,I-J,M-N,W,a3 a3:s-u,E,M,a0-a2 a4:s,F-I a8:Μ a9:Β-Γ,Η-Θ,Μ-Ν 1a:Λ,Ν b1:Γ,Η,W b2:Δ-Ζ,W b3:Δ-Ζ,Ω,a0 b4:Ψ-Ω,a0-a1 b5:Χ,a2 b6:Η,W b7:Ζ-Θ,Χ-Ψ,a1-a2 b8:p,D-G,Ε,Ι b9:p-s,C,K-L,Η c0:t,C,G-H,K,Δ,Κ c1:s-t,D,G,P-R,δ,Δ,Κ c2:P,β-δ,Ε,Ι c3:α,Ζ-Θ c4:α-β c5:Ω-W c6:Ω c7:I c8:A,I-J c9:u-B,H,J d0:t-C,P-R,α-β,Ι-Κ d1:s-t,C-D,P-R,α-β,Ι d2:t-C,L-M,R-α,Κ-Μ d3:t,C,L,S,U,Μ,Υ d4:A,Τ,a4 d5:S-U,Ξ-Ο,Σ,Ψ,a2-a4 d6:Ο,Ρ,Υ,Χ-Ψ,a1 d7:Β,Σ-Τ,a1-a2 d8:Β-Δ d9:Ε e0:R,Δ-Ε,W e1:u-A,E-F,P,S,W e2:u,F,O,T,Ω,a0 e3:P-S,Ψ-Ω,a0-a1 e4:A,E,N-O,T-U,Χ,a2 e5:B-D,W e6:Χ-Ψ,a1-a2 e7:Η e8:Ζ-Θ e9:Ε-Ι 1α:Δ-Ε,Ι-Κ 1β:Ε-Ι 1γ:C-D,Ε-Ι 1δ:C,Ζ,Ι 1ε:Ζ,Κ 1ζ:P-R,Κ 1η:P,Η-Θ,Κ 1θ:Ι 1λ:Ζ-Η,Λ-Μ,Φ-W 1μ:Ζ,Μ,Υ,Χ-Ω,a0 1ν:Φ,W 1ξ:Η,Λ,Χ-Ω 1ο:Θ-Κ,Ψ 1τ:Χ-Ψ 1υ:Χ 1χ:Ι-Κ 1ψ:Ι"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 25",
-          "colonies": [
-            {
-              "name": "Зуб пилы 1846",
-              "coordinates": "x0:r,D-E 1:r-t,E 2:u,E,G,M-N 3:t-u,F-G,M,P 4:R,η,ι 5:R,ε,ι 6:R,ε 7:M,P,δ,τ 8:M-N,ε,σ-τ 9:ε,ι a:P,S,η,ι b:t-u,D-E,P-R c:R d:u,D e:A-C f:A-C g:ε-ζ h:ζ l:u m:t-A n:t-A p:r-s,B-C,γ-δ,ζ,θ-ι r:r,C,γ,ι s:δ,θ t:α,ε-η u:U-α A:U,β B:k C:k-m,P-R D:n,P,S E:b-c,m-n,u,M-N,P,S F:c,u-A,M,O,R G:O,δ H:o-r,O-P,δ I:o-r,O-R,γ,ε J:n,s,O-R,β-γ,ε-ζ K:O-R,α,η L:m-n,s-t,O-P,δ M:O,α-β,ζ-η N:8-9,d-e,M,O,R O:8,a,c,e,M-N,P,S P:9-d,P,S R:a-c,P-R S:b α:N-O,γ,μ β:M,O,γ-δ,κ-μ γ:L-N,ι δ:L-M,ι-κ ε:o,A,O-P ζ:o-p,u-A,N-P θ:r-t ι:r-t,O κ:8-a,s,N-O,η λ:7,b,ζ-θ μ:6,c,H,ε-ι ν:7,b,I,δ-ε,ι-κ ξ:8-a,u-A,I ο:8-a,u,F,I π:A-C,G-I ρ:C,η-θ σ:η τ:9 υ:9-a,ι φ:θ,κ χ:η,λ ψ:θ-κ ω:J,ζ-η,λ-μ w:K Α:K Β:H,K Γ:I-K Λ:μ Μ:λ-ν Ν:λ-ν Ξ:P-R Ο:9-a,P,ι-κ,ξ-ο Π:9,ι,ο Σ:C,O-R Τ:A-C,O-P Υ:u,S-T,Ζ-Η Φ:u-A,R-T,Ζ Χ:P,S Ψ:P-R a1:7-b,o-p,u-A a2:6,8-a,c,o,A a3:7,b,η-θ,μ-ν,Δ-Ε,Η,Ι-Κ a4:8-a,l,p,u,Δ,Κ a5:k-l,r-t,θ,μ,Ε,Ι a6:9,ι-λ,Ζ-Θ a7:ι-λ,ρ a8:ο-ρ a9:ξ 1a:η-θ,ξ-ο b1:θ b2:8-9,b,d-e,p,ε-η,μ b3:8,e,n-o,r-s,ε,λ-ν,Ε b4:9,d,κ,ξ,Δ b5:a-c,m,t,ι,λ-ν,ο,Δ-Ζ b6:κ-ξ b7:m-n,s-t c0:Η-Λ c1:H,Ζ,Θ-Κ,Μ c2:I,Η,Λ c3:c,I,Θ-Κ,Π c4:b-c,F,I,Ι,Ξ-Π c5:G-I,Ν c6:o,Ν-Ξ c7:b-c,o-p c8:c d0:η-θ,μ-ν d1:κ,Κ-Μ d2:η,ν,Ι,Ν d3:J,θ-ι,λ-μ d4:K,ι,λ,Θ,Ξ d5:K,κ,Θ-Ι,Ν-Ξ d6:c,H,K,κ d7:b-d,I-K d8:a-e d9:9-a,e-f,Θ-Κ e0:Θ e1:ι,Ι e2:ι-κ e3:b-c e4:c e6:a e7:9,b,Ζ-Η,Λ-Μ e8:8,c,u-A e9:9-b,A,Ζ,Μ 1α:7-8,c-d,ι-κ,w 1β:θ,κ,w-Β,Η-Θ,Κ-Λ 1γ:u-B,θ,κ,μ-ν,Γ,Ι 1δ:A-B,ι,λ,ν,Β-Γ,Σ-Τ 1ε:s-t,λ,Σ 1ζ:s-u,ι,μ,Λ-Μ 1η:t,A,μ,Λ 1θ:p,u-A,μ,Μ-Ξ 1ι:r,μ,Ξ 1κ:o-r,ι,μ,Β-Γ,Η-Θ 1λ:λ,Ε 1μ:ι,λ,ν,Β,Θ 1ν:7,θ,κ,μ-ν,ρ-σ,Γ-Δ,Ζ-Η 1ξ:6-8,θ,κ,π-σ,Δ,Ζ,Σ-Υ 1ο:6-8,ι-κ,π-ρ,τ,Ε,Ρ,Φ 1π:ρ-τ,Ε,Π,Χ 1ρ:4-5,9-a,σ,Π,Χ 1σ:4,a 1τ:μ 1υ:λ-μ,Τ-Υ 1φ:Σ-Τ 1χ:μ 1ψ:λ,ν 1ω:κ,ν,Β-Δ,Υ-Χ 1w:ι,μ,Α,Ε,Υ-Χ 1Α:w,Ζ,Τ,Ψ 1Β:μ,w-Α,Γ,Ε-Ζ 1Γ:λ-μ,Σ-Τ,Ψ-Ω 1Ζ:6-7,b-c 1Η:H 1Θ:7,b,I,w-Α 1Ι:8-a,I,Α,Η 1Κ:8-a,F,I,ψ-w,Ε-Ζ 1Λ:G-I,ψ,Ζ-Η 1Ν:ζ,Φ 1Ξ:η,Λ-Μ,Υ-Φ 1Ο:a,ε-η,Η-Θ,Κ,Ν,Ο-Π 1Π:9-a,Θ,Λ,Π 1Ρ:Μ 1Σ:Ν 1Τ:J 1Υ:K 1Φ:K 1Χ:H,K 1Ψ:I-K k6:Σ-Τ k7:j,o,Ξ-Ο,Ρ,Υ,Χ-Ψ k8:i-j,o-p,Ξ,Τ,Χ k9:j,o,U,Κ-Λ,Σ 2a:T-α,Α-Γ,Ι-Κ,Ρ,a2-a3 2b:β,Α-Γ,Λ,a3 2c:5-6,U-α,w,Γ 2d:6,Α 2f:U-α,Ι-Κ,a3 2g:β,Α,Ι,a2,a4 2h:T-α,w,Γ,a1,a5 2i:4-6,U,Α-Γ,a2-a4 2j:4-6,Α-Γ,a0-a1,a5-a6 2k:3,7,Ι 2l:Θ,Κ m2:2-3,7-8,o-p,ρ-σ,Η,Λ m3:o,π-σ,Θ-Κ m4:π-ρ,τ,Ζ-Η,Λ-Μ m5:ρ-τ m6:σ m9:o,Μ-Ν n0:o-p,Ν-Ξ n1:τ,Μ n2:σ n3:j-k,σ,a1 n4:f-g,j-k,n-o,σ,φ,a0-a2 n5:0,6,9-a,f,j,m,o,σ-υ,W-a3 n6:0-1,5-6,9,l-n,Ω-W,a3-a4 n7:l-m,ε n8:2-4,ε-η,Λ n9:2-4,θ,Κ-Μ o0:3,η-θ,Ι-Ν,b1-b2 o1:H,Θ-Ι,Ν-Ξ,b1 o2:I o3:I o4:F,I,a0 o5:G-I,a0-a1 o9:Μ,a9-1a,b4-b5 2α:Λ-Μ,a9,b5 2γ:3-4,8-9,1a,b4 2δ:5-7,J,b1-b3 2ε:4,8,K 2ζ:5,7,K 2η:6,H,K 2θ:I-K 2ι:8 2κ:7-8 2λ:Υ,Ψ 2μ:Τ,Ψ-Ω,a2 2ν:Τ,a1-a2 2ξ:5-6,a-b,Υ-Ψ,a7-a8 2ο:6-a,a8,b4 2π:7-9,b3-b5 2ρ:8,b2-b6 2σ:b1-b2,b6-b7 2τ:b2-b6 2υ:b2,b6 2φ:b3,b5 2χ:b4 2ω:Ρ-Σ 2w:8,Ρ 2Α:7-8,b1 2Β:1a-b2 2Γ:Σ,1a-b2 2Δ:Π,Σ-Τ 2Ε:Π,a8-a9,b3-b4 2Ζ:Π,a8,b4 2Η:Π,Τ 2Θ:ρ-σ,Ρ-Σ 2Ι:π-σ 2Κ:ι-κ,π-ρ,τ 2Λ:θ-ι,ρ-τ 2Μ:κ,σ 2Ρ:τ 2Σ:σ 2Τ:σ,a6-a7,b1-b2 2Υ:σ,φ 2Φ:σ-υ,a7,b1 2Χ:d-e,a8-1a 2Ψ:d,a8-1a A1:H A2:I,a9 A3:I,Ρ,a9-1a A4:F,I,Π,a1 A5:G-I,Μ,Ο,Υ,W-a1 A6:c-e,Λ-Μ,Ξ,Ρ,Τ-Υ,Ω A7:b,f,T-α,ω,Ο-Π,Ω-W A8:a,g,α,ω-Α A9:a,g,U,Β 3a:Α-Β 3c:d-e 3d:c-d 3g:a-c,Α-Β,Ζ-Η,Υ-Ω 3h:a-c,s,Α,Η,Τ,Φ-Ψ,W 3i:9,d,n-o,s-t,A-C,Κ,Υ,Ω 3j:n,u-C,Β,Ζ,Κ-Λ,Φ-Ψ 3k:8-9,d-e,s-t,Γ-Ε 3l:Χ 3s:Ζ,Ρ-Σ,Υ,Χ-Ψ 3t:Δ-Ε,Η-Θ,Ρ,Ψ 3u:Σ,Χ 3A:Γ,Ι,Τ-Φ 3C:Γ-Δ,Θ-Ι D3:b-c,g-h D4:c-g D5:d-f D6:e D8:Τ D9:Τ-Υ E1:Ζ E2:Ε-Ζ E5:f-h E7:f,h,ρ,τ-χ E8:e-i,ξ,π,τ,χ,Α-Β,Ε,Ι,Ν,Τ E9:d-e,i-j,ξ-ο,τ,ω-Γ,Η-Θ,Μ,Ο,Ρ,Υ 3α:d-e,i-j,ξ-ο,ρ-σ,χ-ω,Β,Η,Ι-Κ,Ο-Π,Σ-Τ 3β:ρ-σ,ψ-Β,Ε,Λ-Ν,Ο-Π,Σ 3γ:Γ-Δ 3δ:Γ 3ι:h 3κ:g-h 3ξ:E-H,J 3ο:c,i,m,r,u-A,E,H,K,M 3π:b,e,g,j,n-o,t-C,H,L-M 3ρ:c-d,f-g,l-m,o,u,C-E,I-J,L-M 3σ:d,f-g,i-k,r,u-D,I-J 3τ:s-t 3υ:t"
-            }
-          ]
-        },
-        {
-          "name": "ExFactor 47",
-          "colonies": [
-            {
-              "name": "Зуб пилы 201",
-              "coordinates": "x0:L-M 1:L-M 4:θ-ι 5:θ-ι 6:η,κ 7:η,κ,μ-ν 8:E-G,K-M,η 9:E,H,J,M,η,κ,ξ-ο a:D,H,J,N,θ,ξ-ο b:D-G,K-N,θ-μ,ξ c:E,M,ν f:ξ-π g:π h:ρ-σ i:σ,ψ-ω j:σ,χ-ω k:α-γ,φ,Α l:E,N-O,γ,χ,Α m:f,j,F,O-P,β,χ n:3-4,e,k,E,N,χ,ω,Α-Β o:3-4,k,ι-κ,χ,Γ-Δ p:f,j-k,ε-θ,ν-ξ,χ-ψ,Γ-Δ r:g-i,ε-η,ι-κ,ν-ξ,ω-Β s:κ t:g-i u:f,j-k A:3-4,k,A-B B:3-4,e,k,A-B,J-K C:f,j,I,K D:K L:b M:a-b N:9-a,s-u O:a-b,e-f,u,H-I P:t,H,J,S-T R:J,S-T S:H-J T:a-b,e-f U:0-1,9-a α:0-1,a-b β:b,H-J γ:J δ:H,J ε:H-I"
-            }
-          ]
-        },
-        {
-          "name": "Без ExFactor",
-          "colonies": [
-            {
-              "name": "Параболический зуб пилы",
-              "coordinates": "y0:E-F,S-T,Λ-Μ,a5-a6 1:E,S,Λ,a5 7:g-h,E 8:g,D-F 9:D-F,ψ-ω,a3,a9 a:ψ,Κ-Μ,a3-a4,a8-a9 b:B-C,G-H,O-P,U-α,Ι,Ν c:B,H,Θ,Ξ,a5-a7 d:P,U,Θ,Ξ,a5-a7 e:R-T,a6 f:R-T,ω,Κ g:F,χ-ψ,w-Α,Ι-Κ h:E i:E-G,φ,Β j:e-i k:d,f-h,j,φ-χ,Α-Β,Θ-Κ l:e,i,P,β,Θ-Κ m:f-h,D,J,O-R,γ,Η,Λ n:g,D,J,O-R,α-γ o:E,I,Ζ-Η,Λ-Μ,a7-a9,b6-b7 p:F-H,M-N,S-T,a6,1a,b6 r:M,T,a5,b1 s:5-6,e,a5,b1 t:5,e u:d,f A:c-d,f-g,b6-b8 B:b,h,b6-b8 C:e,I-J,S-T,ψ-ω,Γ-Δ,b5,b9 D:b-c,g-h,I,S,ψ,Δ E:5,J-L,T-α,Θ-Ι,a7-a8,b4-b5,b9-c0 F:4-6,E-F,L,α,ζ-η,ω,Γ,Θ,a7 G:4-6,F,ζ,w-Β,Ω-W H:F,H,N,δ,ζ,Ω I:2-3,7-8,G-H,M,O,δ-ε J:2,8,L,N-O K:K-L,N-O L:d-e,L,N-O,ι M:d,n-o,M,O,θ,Ω N:4,k,p-t,N,θ-κ,w-Α,Ζ,Θ,Χ-Ψ,W-a0 O:5,j-k,n-o,r-t,π-ρ,w,Ζ-Η P:3-5,n,μ-ο,υ-φ,Η,Φ,a1 R:μ-ξ,π-ρ,υ,Ξ,Ρ S:ρ,Ι-Κ,Ν-Ξ,Σ,Φ-Χ,a0-a1,b6,c2 T:Ι,Σ,b6-b7,c1-c2 U:0,6,Ξ-Ρ α:0,6,b8-c0 β:1,5,s,N,b8-c0 γ:2-4,s-t,O,b9 δ:r,t,M-O η:E θ:E-G ι:H κ:G-H,Τ-Υ,Ω-W,a2-a3 λ:p-r,Τ,W,a2 μ:r,κ,υ-φ,c2 ν:θ,κ,φ,Υ,Ω,c1-c3 ξ:n,r,ι-κ,φ,ψ,Δ,Φ-Ψ,c0-c4 ο:3-4,8-9,o,s,χ-ψ,Β-Ε,b9-c0,c4-c5 π:3-4,8-9,p,s,G,M,Γ,Ε-Ζ,Π-Ρ ρ:4-8,r,G,M,Α,Γ,Ε-Η,Π σ:5,7,H,L,Γ,Ε-Ζ τ:p-r,I-K,Β-Ε,b2-b3 υ:5-7,p,η,Δ,b2,b4 φ:θ-ι,Χ-Ψ,a9-1a,b2,b4 χ:η-θ,Χ,a9,b1,b3 ψ:b1 ω:b1-b2 w:8,γ-δ,b1-b3 Α:7,9,γ,Β,b1-b3,b7-b8,c2-c3 Β:6,a,w,Β,b1-b3,b7-b8,c2-c3 Γ:7-9,I-J,Α-Β,b1-b2,b8-c2 Δ:5-6,a-b,I,ε-ζ,b1,b9,c1 Ε:ε,Ν-Ξ,a9,b1,b3 Ζ:P-R,γ,ε,Ν,a9-1a,b2,b4,b9-c1 Η:O-R,γ-δ,ω,b2,b4 Θ:C,L,N-O,w,b2-b3 Ι:C,E,L,O,ψ-w Κ:k-l,D,F,L,N-O Λ:k,D,G,O-R Μ:D,F,P-R,1a-b1,b9-c0 Ν:C,E,1a,b9 Ξ:C Ο:8-9,N-O Π:8,N,η-θ,a9-b1 Ρ:ζ,ι,a9-1a Σ:S-T,ζ,b2-b3 Τ:T-U,ζ,b1-b3 Υ:S,ζ,θ-ι,1a,b2 Φ:θ,1a-b1 Ω:η-θ W:η a1:t,A a2:t,C a3:i-j,C,N-O a4:i,D,L,O,ρ-σ,1a-b1 a5:C,K,γ-δ,ρ,1a a6:t,C,K,γ a7:t,A,K a8:L,O,π-σ a9:N-O,π-ρ 1a:τ-υ b1:E,σ-υ b2:E,G,ρ,τ b3:h-i,H-I,N-O,ρ-σ,a9-1a b4:j,H-I,N,a9 b5:k,H-I,T-α,w b6:9-a,k,u,E,G,α,ω-w b7:9,k,A,E,U,θ-ι,ψ-ω,Θ-Ι b8:j,t-A,θ-κ,χ-ω,Θ b9:h-i,κ-λ,ν,ψ-ω c0:κ,ν,ω-w c1:κ-λ,ν,w c2:α-β,θ-κ c3:U,β,θ-ι c4:U,Υ c5:T-U,Π-Ρ,Υ-Φ,Ψ-W c6:Π,Χ-W c7:Μ-Ν,Υ-Φ c8:Λ,Ν,a6-a7 c9:m-n,Κ-Μ,a6 d0:o,Κ-Λ,a7-a9 d1:e-f,p,J,Ν-Ξ,a9 d2:e,p,J,L,Μ-Ξ d3:p,M-N,T-U,ν-ξ d4:o,M-N,T,ν-ο d5:m-n,M-N,δ-ε,ο-π,σ,Ε,Μ-Ν d6:J,L,δ,ο,σ,Δ-Ε,Μ d7:J,ο-π,σ,Γ-Δ d8:ν-ο,Β-Δ d9:ν-ξ,Γ-Δ e0:Δ-Ε,Λ-Μ e1:Ε,Λ,Ν e2:Ν e3:Ν-Ξ"
-            },
-            {
-              "name": "Зуб пилы 1163",
-              "coordinates": "x0:ο-π,b3-b4 1:ο-π,b3 2:a2,b1,b3 3:p,a0,a2,b1-b2 4:o-r,A-C,Ρ,W,a1,c4 5:o,r-s,A,D,I,π,Π-Ρ,Ω,a1,c3,c5 6:p-s,A,H-J,ο,ρ,Ο-Π,W,a1,c3-c4,c6,d4-d5 7:p-s,A,E,H,J-K,ξ,σ,Ε-Ζ,Ξ-Π,Χ,a0,a2,c3-c4,c6-c7,d4,d6 8:p-r,A,I-K,ο-ρ,Ε-Ζ,Ο-Π,Φ-Χ,a2,c3-c4,c6,d7 9:I-K,ν-ξ,σ-τ,Π-Ρ,b3-b4,c3,c5,d0,d4,d7,e6 a:I-K,Ρ,b2,b4,c4,c9-d0,d7,e5-e6 b:B-D,I-J,b2,d4,d6 c:b1-b2,d4-d5 e:σ f:σ g:A,ξ-π,σ h:u-B i:t-u,B,ν j:t-A,ν-ξ,π k:t-A,ο-π,ψ-ω l:u-A,ω m:ω,Α,Η,Ι,a6-a7 n:ο-π,υ-φ,w-Α,Ε,Ι,a6 o:ο-π,υ-φ,Ε,Φ-Χ,a4,a6 p:θ,π-υ,Δ,Ι,Φ,Ω,a4-a5 r:η,ρ,τ,Ε,W s:η-ι,Ε,Ι,W t:ρ-τ,Η,Ι,W u:Φ,Ω A:t,Φ-Χ B:i,s-u C:i-k,r-s,u,η,ι,φ D:l,r-t,ι-κ,υ-χ E:7-8,k-l,s-t,η,ι-λ,τ,ψ F:7-8,ι-λ,φ G:ι,σ,ω H:7,σ,ω I:6,8,τ,ψ J:6,8,δ-ε,υ-χ K:7,M,U-γ,θ-ι L:L,U-β,δ-ε,θ-ι,π-ρ M:L-N,ε,ο-π N:4-5,7,9-a,ρ O:4,a P:5,9 R:6-8,1Π-1Ρ S:Ω,1Μ,1Π-1Ρ T:Χ-Ω,1Ι,1Ν U:τ,Φ,1Θ,1Ξ α:σ-υ,Φ-Χ,1Ι-1Κ,1Μ-1Ν β:σ-υ γ:1Ι δ:9,L-M,π-ρ,φ-χ,1Ι-1Μ ε:a,J,M,π-ρ,φ-χ,Σ-Υ,1Κ,1Μ,1Ω-1W ζ:8-a,C,1Μ,1Ω-1W η:C-D,J,M,ζ-η,Σ,Υ,1Λ-1Ν θ:B,D,K,N,ζ,θ,τ,Ρ-Φ,1Κ-1Λ,1Ν-1Ξ ι:L,N,ζ,σ,υ,Π-Ρ,Φ-Χ,1Λ-1Ν κ:M,υ-φ,Π-Ρ,Φ-Χ,1Μ λ:3-7,t,υ-φ μ:2,4-6,8,h,s-u,L-M,τ-φ ν:3,7,g-h,r-s,u,L-M,σ,υ,Τ-Υ,k6-k7 ξ:4-6,g,j,r-t,σ-τ,Ρ-Σ,Υ-Φ,k6-k7 ο:5,h,k,s-t,R,U-α,Ρ,Υ π:h,l,P,U-α,δ-ε,Υ ρ:k,P,δ-ε,Ρ,k7 σ:k,M,R-U,Ζ-Η,Σ-Τ,1ο,k6,k9 τ:L-M,Ζ-Θ,1ξ,1π,1σ-1τ,k9 υ:L,N,λ-μ,w-Α,Δ,Η,Ι,1π,1τ-1υ,1ψ,1Υ-1Φ,1Ψ-1Ω,k4,2e φ:8,h,λ-μ,w-Α,Δ-Ε,Θ-Ι,Σ-Τ,Ψ-Ω,1τ,1χ-1ω,1Σ-1Τ,1Ω,k3,2f χ:7-9,h-i,Δ-Ε,Ν,Τ-Ψ,1ν,1π,1τ-1χ,1ω-1w,1W-k0,k4,k9,2f ψ:6-a,g,i,I-J,Λ-Μ,Υ-Χ,1ξ,1π,1χ-1ω,1Σ,1Ψ,1W-k0,k5-2a,2e ω:5,7,9,b,I-J,Μ-Ν,Φ,1λ,1ο,1ψ,1Τ-1Υ,1Ψ,1W-k0,k7,k9-2a w:5-6,a-b,λ-ν,1θ,1μ,1Υ,1Ψ Α:λ-ν,1η,1ν Β:κ,ξ,1θ-1ι,1λ-1μ Γ:a-b,β-γ,ι,ο,Ε-Ζ Δ:a-b,β-γ,κ,ξ,Ε,Θ,1θ Ε:c,J,λ-ν,Ε-Θ,1θ-1λ,1Ρ-1Σ Ζ:a-c,I-K,T-U,Ε,1ι,1λ,1Ρ-1Τ Η:8,I-K,U-α,Ζ,1λ,1Π,1Τ Θ:8-c,T,θ,Δ-Ζ,1κ-1μ,1Ρ,1Φ Ι:9-a,G-H,L-M,η-θ,1ι-1κ,1μ-1ν,1Σ,1Υ-1Χ,2c,2e Κ:G-H,L-M,η,ι,Ο-Π,Υ-Φ,1κ-1μ,1Υ-1Φ,k5-k6,2a-2b,2d Λ:Σ,1λ,1Τ-1Φ,k5-k9,2b-2c,2g-2h Μ:7-8,c-d,Λ-Μ,Ο,Φ,1Τ-1Υ,k5,k7-k8,2a,2c,2g-2h Ν:8-c,L-M,Λ,Ν,Π-Ρ,Τ-Υ,1Ε-1Ζ,1Τ,k5-k7,2c,2e-2f,2i Ξ:8-9,b-c,L,N,Λ,Ρ,Τ,1Ε,1Η,1Υ-1Φ,k4,k6,2d,2f,2h Ο:8-9,b-c,N-O,Σ,1Ε,k3,k5-k6,2f,2h Π:9-b,t,M-N,Σ Ρ:h,s-u,M-N,κ Σ:f-h,r-s,u,I-K,ι-λ,1γ-1δ,k1-k3 Τ:e,r-t,θ-μ,1γ-1δ,1Σ,k1-k2,k4 Υ:7-8,e-f,s-t,η,ι,λ,ν,Π,1Σ-1Τ,k2-k4 Φ:8,η-θ,μ-ν,Ο-Ρ,1Σ,1Φ,k2-k3 Χ:5-7,j-k,Ξ,Σ,k2 Ψ:5,i,k,I-J,N-O,Ν,Ο-Ρ,Τ,1Τ,1Φ,k1,k3 Ω:i,k,m-n,κ,Ξ-Σ,1Υ,k1-k2 W:j,l,n,J,N,ι,λ,k0,k2-k4 a0:l,K-M,ι,λ,1λ-1μ,k1,k5 a1:j,m,K-M,κ,1λ-1μ,k0,k4 a2:9-a,e-f,m,ι-κ,k4-k6 a3:i,m,ι-κ,k2-k3 a4:a,e,m,ι-κ,k2-k3,k5-k6 a5:b-d,j,m,t,k4 a6:b-d,l,s-u,L-M a7:j,l,n,s,u-A,L-M a8:i,k,m-n,t-A,1τ-1υ a9:i,k,t-u,Ο-Π,1τ-1υ,1Μ,1Ξ 1a:j-k,Ο-Π,1Ε-1Ζ,1Κ-1Λ,1Ν b1:1Ε-1Ι,1Λ-1Μ,1Π-1Ρ b2:a,g,1Ε,1Η-1Θ,1Κ,1Μ,1Π-1Ρ b3:9-b,h,1Ε-1Η,1Μ,1Ξ-1Ο,1Σ b4:9-b,f-h,M-N,1Ε,1Ν,1Ο,1Ρ b5:M,P,1Ο,1Ρ b6:7-8,c-d b7:7-8,c-d,R b8:u-A b9:t-u,O-P c0:a,o,A,N c1:9,b,m,o c2:b-c,n-o,s-t c3:b-c,r,t,K-L,P-R c4:a-c,t,K-L,P-R c5:9,b,H,L-P c6:9-a,G-H,M,O c7:G,I c8:M-O c9:8-9 d0:6,a,j-l d1:0-1,5,b,l,p d2:0-1,4-5,7,b,k,p,s d3:5,b,t-u,E-F,L d4:6,a,t-u,E-F,K,M d5:8-9,t-u,J,N d6:p,s,K-M d7:p,I-J,N-O e8:K-L e9:K-L"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Разное",
-      "subgroups": [
-        {
-          "name": "Искры",
-          "colonies": [
-            {
-              "name": "Призрак гершеля",
-              "coordinates": "x0:0-2 1:2 2:2-3"
+              "name": "Зуб пилы 1163 (Без ExFactor)",
+              "pattern": "x = 150, y = 219, rule = b3/s23\n131b2o$131b2o$61bo$60bobo$43b2o15b2obo68bo$43bobo14b2ob2o8b2o21b2o33b3o$38b2o6bo13b2obo8bobo21bo33bo3bo$34b2obo2bo2bo2bo13bobo8b3o12bo7bobo19b2o14bo$34b2o2b2o6bo8bo5bo8b3o8b2o3b4o4b2o20b2o11bo5bo$43bobo7bobo15b3o8b2o3b4o11bo10b2o6bo3b2o2bo5bo$43b2o9b2o16bobo2b2obob2o3bo2bo11bobo7b3o5bo3bobo3bo3bo$73b2o2b2obobo4b4o14b2o6b2o6b5o5b3o$79b2obo3b4o15b2o9b2o4b3o$86bo18b2o9b2o$93b2o7bobo$92bobo7bo11bo$62b2o8bo19bo19bobo$61b2ob2o4b2o19b2o20b2o$31b2o38b2o24b2o4bo4b2o$32bo30bo32bo2bobo3bobo2bo19bo$32bobo29bob2o28b3o9b3o19bobo$33b2o30bo33b2o5b2o22b2o$98bo2b5o2bo12bo$98b2o7b2o13bo$4b2o114b3o$3b2ob3o122b2o3b2o$4b5o23b2o28b2o28b2o29bo$5b3o23b4o26b4o26b4o11b2o14bo9bo3bo$18b3o9b2ob2o25b2ob2o25b2ob2o10b2ob2o9bo2b3o8b3o$17b5o9b2o28b2o28b2o13b4o8b2o13b3o$4b5o7b2ob3o85b2o9bobo$4bo6bo5b2o38bo$4bo6bo43b2o$5bo5bo44b2o$7bo125b2o$133b2o$83b2o41b2o$6b2o75b2o40b2o$5b2ob4o60b2o6b2o10bo4bo29bo9bo$6b6o42bobo15b2o5b3o10bo4bobo35bobo$7b4o46bo22b2o10bo7b2o21b2o9bobo11b2o$41b2o10bo4bo2b2o5b2o13b2o2b2o11b2o4b2o15b3o7bo2bo11b2o$40bobo10b2obo2bob2o4b2o14b2o2bo2b2o8b2o4b2o6b2o9b2obo5bobo$42bo14b2o10bo18b4o5bobo14bo5bo4bo2bo6bobo$89bo7bo21bo5b2obo8bo$65b2o48bo3bo3b3o$64bo2bo49bo5b2o$67bo$67bo12bobo$40b2o22b2obo12b2o$40b2o22b2o15bo$40b2o35b2o$40bo36b2o$39bobo23b2o$39bob2o22b2o$56b3o$26b2o4bobo21bo26b2o9b2o$25bobo12b2o15bo24b2o9bobo$27bo4b5o3b2o35bo6bo7b3o4b2ob3o$33b3o40bobo12b3o4bo2b4o$34b2o33b2o3b2o3bo12b3o4b2o$69b2o3b2o3bo13bobo$9bo8b2o54b2o3bo14b2o$7bobo6bo2bo56bobo$2o4bobo7bo3bo2b2o17bo34bo$2o3bo2bo7bo2b2o2b3o15b2o10b2o$6bobo16b2obo12bobo9b2o$7bobo4b3o8bo2bo7b2o12b2o6bo3b2o$9bo15b2obo5bo3bo10b3o5bo3bobo$23b3o7bo5bo10b2o6b5o$23b2o7b2obo3bo13b2o4b3o$33bo5bo13b2o$20bo13bo3bo$20b3o13b2o$23bo45b2o$22b2o45b2o3$25bo43b3o10bo$7b2o14b2ob2o42b2o5b4obo$7b2o58b2o8bobob2o$22bo5bo38b3o9bo$68bobo7b2o$22b2obob2o40b2o2$72bo13b3o$72b2o12bo$71bobo13bo9bo$7bo88bobo$6b3o75bobo8bob2o10b2o$5b5o48b2o24bo2bo6b2ob2o10b2o$4b2o3b2o46b3o3b2obo20b2o6bob2o$54bob2o5bo3bo2bo14bo3b2o5bobo$54bo2bo4bo4bo2b2o15b2o8bo$54bob2o4b4o5b2o11bo2bo$8bo15b2o3b2o18b2o6b3o3bo7b3o10bobo$7b2o15bo5bo17bobo7b2o11b2o$48bo21b2o$5bo19bo3bo17b2o21bo$4bobo19b3o$3bo3bo$4b3o$2b2o3b2o2$24b2o$25bo$22b3o$22bo4$2b2o8bo$3bo6b3o$3o6bo$o8b2o9$5b5o$4bob3obo$5bo3bo$6b3o$7bo2$10bo$9b2o4$6b2obob2o$6bo5bo$7bo3bo$8b3o8$10bo$9b2o6$92b2o$92b2o3$75bo$74bobob2o$76bo2b2o2bo$79bo2b3o$73bo2bo2b4ob2o14b2o$74bobo5b3o15b2o$71bo3bo7bo$68bo3bo$67bo5bo$68b2ob2o2$68bo$68b4o36b2o$69bobo36b2o$71bo$70b3o$69b2ob2o$70b3o$71bo5$87b3o20b5o$87bo22b2obo$88bo22b3o$49bo61b2o$48bobob2o57bo$50bo2b2o2bo52bobo$53bo2b3o51b2o$47bo2bo2b4ob2o49bob3o$48bobo5b3o51bo3bo$49bo7bo51bo3bo$113b3o$46b2o33bo29b2o$46b2o31b2obo28b2ob2o$70bobo6b2o2bo9b3o17bo$70bo2bo6b2o3b3o6bo2bo$69bo3b2o8b4obo9bo$69bo12b4o2bo6bobo$83bo$69bo2b3o$54b2o13b2o$54b2o15b3o$71b3o25bobo$92b2o3b2obo$92b5ob2o3b2o$70bo18bo2bob2obobo3b2o$69bobo16bo4b2o4bob2o2bo$72bo11b4obo10bobobo$62b2o3bo4bo11b2ob3o12bobo$62b2o2bo5b2o11b3o$72bo12b2o$67b2o2b3o11bo$72b2o10bobo$84b2o$83bob3o$84bo3bo$69bo2bo10bo3bo$70b2o15b3o$85b2o$85b2ob2o$87bo!"
             }
           ]
         },
         {
           "name": "Разное",
+          "groups": [
+            {
+              "name": "Искры",
+              "colonies": [
+                {
+                  "name": "Призрак гершеля",
+                  "pattern": "x = 3, y = 4, rule = b3/s23\no$o$3o$2bo!"
+                }
+              ]
+            },
+            {
+              "name": "Разное",
+              "colonies": [
+                {
+                  "name": "Ускоряющее поле Форварда",
+                  "pattern": "x = 17, y = 7, rule = b3/s23\n7bo6bo$8bo6b2o$2b2o2b3o5b2o$2ob2o$4o9bo$b2o9b2o$12bobo!"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "«HighLife» B36/S23",
+      "groups": [
+        {
+          "name": "Репликаторы",
           "colonies": [
             {
-              "name": "Ускоряющее поле Форварда",
-              "coordinates": "y0:7,e 1:8,f-g 2:2-3,6-8,e-f 3:0-1,3-4 4:0-3,d 5:1-2,c-d 6:c,e"
+              "name": "Репликатор HighLife",
+              "pattern": "#N Replicator\n#O Nathan Thompson\n#C www.conwaylife.com/wiki/index.php?title=HighLife\nx = 5, y = 5, rule = B36/S23\n2b3o$bo2bo$o3bo$o2bob$3o!"
+            }
+          ]
+        },
+        {
+          "name": "Космические корабли",
+          "colonies": [
+            {
+              "name": "Бомбардировщик",
+              "pattern": "#N Bomber\n#O Nathan Thompson\nx = 9, y = 14, rule = B36/S23\nbo$bo$bo3$3bo$2b2o$bobo$3o2$6b3o$5bobo$5b2o$5bo!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "«АнтиЖизнь» B0123478/S01234678",
+      "colonies": [
+        {
+          "name": "Старт AнтиЖизни",
+          "pattern": "x = 1, y = 1, rule = b0123478/s01234678\no!"
+        }
+      ]
+    },
+    {
+      "name": "«Лабиринт» B36/S23",
+      "colonies": [
+        {
+          "name": "Старт Лабиринта",
+          "pattern": "x = 1, y = 1, rule = B3/S12345\no!"
+        }
+      ]
+    },
+    {
+      "name": "B3/S35",
+      "groups": [
+        {
+          "name": "Космические корабли",
+          "groups": [
+            {
+              "name": "Ортогональные",
+              "groups": [
+                {
+                  "name": "Скорость с/2",
+                  "colonies": [
+                    {
+                      "name": "Лягушка",
+                      "pattern": "x = 4, y = 3, rule = b3/s35\n3o$2b2o$3o!"
+                    },
+                    {
+                      "name": "Одноногая лягушка",
+                      "pattern": "x = 4, y = 3, rule = b3/s35\n3o$2b2o$b2o!"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }

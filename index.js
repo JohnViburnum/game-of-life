@@ -1,1701 +1,2111 @@
-//****************************************************************************************************************************************
-//БЛОК НАЧАЛЬНЫХ ЗНАЧЕНИЙ И ФУНКЦИЙ
+'use strict';
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК НАЧАЛЬНЫХ ЗНАЧЕНИЙ И ФУНКЦИЙ.
 
-//Генерация 2-мерного массива для координат клеток
-let cells1 = []; //- массив для координат предыдущего поколения клеток
-let cells2 = []; //- массив для координат последующего поколения клеток
+// 2-МЕРНЫЙ МАССИВ ДЛЯ ЯЧЕЕК.
+let cells1 = []; // Массив для ячеек текущего поколения клеток.
+let cells2 = []; // Массив для ячеек следующего поколения клеток.
 
-function genCoordinates() { //----------- функция генерации координат и присвоение им 0
-  for (let i = -1; i <= 500; i++) { //--- цикл генерации координат от -1 (для реализации ограниченного мира) до 500
-    cells1[i] = []; //------------------- генерация массива X-координат предыдущего поколения
-    cells2[i] = []; //------------------- генерация массива X-координат последующего поколения
-    for (let j = -1; j <= 500; j++) { //- цикл генерации массивов для Y-координат в X-координате
-      cells1[i][j] = 0; //--------------- генерация массивов в массиве и присвоение 0
-      cells2[i][j] = 0; //--------------- генерация массивов в массиве и присвоение 0
-    }
+for (let i = 0; i < 2000; i++) {
+  cells1[i] = [];
+  cells2[i] = [];
+  for (let j = 0; j < 2000; j++) {
+    cells1[i][j] = 0;
+    cells2[i][j] = 0;
   }
 }
 
-genCoordinates(); //- запуск функции генерации координат и присвоения им 0
+// ОСНОВНОЙ КАНВАС.
+const canvas = document.querySelector('#canvas'); // Канвас.
+const context = canvas.getContext('2d'); // 2D контекст канвас.
+const inptNumberOfCellsWidthWorld = document.querySelector('#inptNumberOfCellsWidthWorld'); // Поле ввода количества ячеек ширины.
+const inptNumberOfCellsHeightWorld = document.querySelector('#inptNumberOfCellsHeightWorld'); // Поле ввода количества ячеек высоты.
+const wrapperCanvas = document.querySelector('#wrapperCanvas'); // Обертка канвас.
 
-//Основной канвас
-const canvas = document.querySelector('#canvas'); //--- канвас
-const ctx = canvas.getContext('2d'); //---------------- 2D контекст канвас
-const inptCnW = document.querySelector('#inptCnW'); //- селект количества ячеек ширины
-const inptCnH = document.querySelector('#inptCnH'); //- селект количества ячеек высоты
+let cellSize = 10; // Размер ячейки (начальное значение).
+let isCurrentGeneration = true; // Переменная смены поколений: (true - текущее поколение, false - следующее).
+let isTrackMode = false; // Переменная режима следов (true - активирован, false - деактивирован).
 
-let cW = inptCnW.value; //- переменная количества ячеек ширины
-let cH = inptCnH.value; //- переменная количества ячеек высоты
-let cellSize = 10; //------ размер клетки (начальное значение)
-let step = true; //-------- переменная смены поколений: (true - предыдущее поколение, false - последующее)
-let trackMode = false; //-- переменная режима следов (true - активирован, false - деактивирован)
-let worldEnd = false; //--- переменная режима границ мира (false - мир замкнут на себя, true - мир ограничен)
+const maxNumberOfCellsWidthCanvas = // Максимальное количество ячеек ширины окна канвас при различных размерах клеток.
+  { 0.5: 0, 1: 0, 2: 0, 5: 0, 10: 0, 20: 0 };
 
-let width = canvas.width = cW * cellSize; //--- ширина канвас количество ячеек ширины * размер клетки
-let height = canvas.height = cH * cellSize; //- высота канвас количество ячеек высоты * размер клетки
+const maxNumberOfCellsHeightCanvas = // Максимальное колчичество ячеек высоты окна канвас при различных размерах клеток.
+  { 0.5: 0, 1: 0, 2: 0, 5: 0, 10: 0, 20: 0 };
 
-//Функции отрисовки основного канвас
-const colonyColor = document.querySelector('#colonyColor'); //- поле ввода цвета колонии
-const emptyColor = document.querySelector('#emptyColor'); //--- поле ввода цвета фона
-const trackColor = document.querySelector('#trackColor'); //--- поле ввода цвета фона в режиме следов
-
-function drawBackground() { //---------- функция стартовой отрисовки канвас
-  ctx.fillStyle = 'lightgray'; //------- цвет отрисовки светлосерый, для отображения сетки
-  ctx.fillRect(0, 0, width, height); //- отрисовка всего поля
-}
-function life(x, y) { //--------------------------------------------------- функция отрисовки живых клеток
-  ctx.fillStyle = colonyColor.value; //------------------------------------ цвет отрисовки присваивает значение поля выбора цвета
-  ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1); //- координаты отрисовки, ширина и высота клетки
-}
-function empty(x, y) { //-------------------------------------------------- функция отрисовки пустых клеток
-  ctx.fillStyle = emptyColor.value; //------------------------------------- цвет отрисовки присваивает значение поля выбора цвета
-  ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1); //- координаты отрисовки, ширина и высота клетки
-}
-function shadow(x, y) { //------------------------------------------------- функция отрисовки тени пользовательской колонии
-  ctx.fillStyle = 'lightgray'; //------------------------------------------ цвет отрисовки светлосерый
-  ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1); //- координаты отрисовки, ширина и высота клетки
-}
-function track(x, y) { //-------------------------------------------------- функция отрисовки полотна для отслеживания следа
-  ctx.fillStyle = trackColor.value; //------------------------------------- цвет отрисовки присваивает значение поля выбора цвета
-  ctx.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1); //- координаты отрисовки, ширина и высота клетки
+for (let key in maxNumberOfCellsWidthCanvas) {
+  maxNumberOfCellsWidthCanvas[key] = Math.floor((wrapperCanvas.clientWidth - 35) / key); // Расчет количества ячеек в окне канвас.
+  if (maxNumberOfCellsWidthCanvas[key] > 2000) maxNumberOfCellsWidthCanvas[key] = 2000; // Ограничение количества ячеек.
 }
 
-function drawCells() { //------------ функция отрисовки клеток
-  for (let i = 0; i < cW; i++) { //-- цикл перебора всех координат
-    for (let j = 0; j < cH; j++) {
-      if (step) { //----------------- если предыдущее поколение
-        if (cells1[i][j] === 1) { //- если координаты клетки предыдущего поколения === 1, то
-          life(i, j); //------------- запуск функции отрисовки живых клеток
-        } else { //------------------ иначе (если координаты === 0)
-          if (trackMode) { //-------- если режим следов активирован, то
-            track(i, j); //---------- запуск отрисовки темного фона
-          } else { //---------------- иначе (если режим следов деактивирован), то
-            empty(i, j); //---------- запуск отрисовки пустых клеток
-          }
-        }
-      } else { //-------------------- иначе (если последующее поколение), то (аналогично для последующего поколения)
-        if (cells2[i][j] === 1) {
-          life(i, j);
-        } else {
-          if (trackMode) {
-            track(i, j);
-          } else {
-            empty(i, j);
-          }
-        }
+for (let key in maxNumberOfCellsHeightCanvas) {
+  maxNumberOfCellsHeightCanvas[key] = Math.floor((wrapperCanvas.clientHeight - 35) / key);
+  if (maxNumberOfCellsHeightCanvas[key] > 2000) maxNumberOfCellsHeightCanvas[key] = 2000;
+}
+
+let numberOfCellsWidthWorld = 0; // Количество ячеек ширины мира.
+let numberOfCellsHeightWorld = 0; // Количество ячеек высоты мира.
+let worldWidth = 0; // Ширина мира (px).
+let worldHeight = 0; // Высота мира (px).
+
+// ФУНКЦИИ ОТРИСОВКИ ОСНОВНОГО КАНВАС.
+const inptLivingСellСolor = document.querySelector('#inptLivingСellСolor'); // Поле ввода цвета живой клетки.
+const inptEmptyCellColor = document.querySelector('#inptEmptyCellColor'); // Поле ввода цвета пустой клетки.
+const inptTraceCellColor = document.querySelector('#inptTraceCellColor'); // Поле ввода цвета клетки в режиме следов.
+
+function drawBackground() { // Отрисовать фон.
+  context.fillStyle = inptEmptyCellColor.value;
+  context.fillRect(0, 0, worldWidth, worldHeight); // Отрисовка всего поля.
+}
+
+function drawGrid() { // Отрисовать сетку.
+  if (cellSize <= 2 || isGridMode) return;
+  context.fillStyle = 'lightgray';
+  for (let i = 1; i <= numberOfCellsWidthWorld; i++) {
+    context.fillRect(cellSize * i - 1, 0, 1, worldHeight); // Вертикальные линии.
+  }
+  for (let i = 1; i <= numberOfCellsHeightWorld; i++) {
+    context.fillRect(0, cellSize * i - 1, worldWidth, 1); // Горизонтальные линии.
+  }
+}
+
+function drawLivingCell(x, y) { // Отрисовать живую клетку.
+  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
+  context.fillStyle = inptLivingСellСolor.value;
+  context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1); // Координаты отрисовки, размер клетки.
+  if (cellSize <= 2 || isGridMode) {
+    context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  }
+}
+
+function drawEmptyCell(x, y) { // Отрисовать пустую клетку.
+  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
+  context.fillStyle = inptEmptyCellColor.value;
+  context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
+  if (cellSize <= 2 || isGridMode) {
+    context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  }
+}
+
+function drawShadowCell(x, y) { // Отрисовать клетку тени.
+  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
+  context.fillStyle = 'lightgray';
+  context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
+  if (cellSize <= 2 || isGridMode) {
+    context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  }
+}
+
+function drawTraceCell(x, y) { // Отрисовать клетку для отслеживания следа.
+  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
+  context.fillStyle = inptTraceCellColor.value;
+  context.fillRect((x - horizontalShift) * cellSize, (y - verticalShift) * cellSize, cellSize - 1, cellSize - 1);
+  if (cellSize <= 2 || isGridMode) {
+    context.fillRect((x - horizontalShift) * cellSize, (y - verticalShift) * cellSize, cellSize, cellSize);
+  }
+}
+
+function drawInitialCells() { // Отрисовать стартовые клетки.
+  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  for (let x = 0; x < numberOfCellsWidthWorld; x++) {
+    for (let y = 0; y < numberOfCellsHeightWorld; y++) {
+      if (cells[x][y] === 1) {
+        drawLivingCell(x - horizontalShift, y - verticalShift);
       }
     }
   }
 }
 
-//Отображение поколений клеток
-const textCount = document.querySelector('#textCount'); //------- текст счета поколений
-const lifeRule = document.querySelector('#lifeRule'); //--------- поле ввода константы зарождения клетки
-const deathRuleMin = document.querySelector('#deathRuleMin'); //- поле ввода минимальной константы сохранения жизни клетки
-const deathRuleMax = document.querySelector('#deathRuleMax'); //- поле ввода максимальной константы сохранения жизни клетки
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК НАСТРОЕК.
 
-let count = 0; //- переменная счетчика поколений
+// СТАРТ ИГРЫ.
+const btnStartStop = document.querySelector('#btnStartStop'); // Кнопка старт/стоп.
+const slctGenSpeed = document.querySelector('#slctGenSpeed'); // Селект скорости смены колоний.
 
-function generation(a, b) { //------ функция для отображения поколения (a - клетки предыдущего поколения, b - клетки последующего поколения)
-  for (let i = 0; i < cW; i++) { //- цикл перебора массива массивов
-    for (let j = 0; j < cH; j++) {
-      let nbrs = 0; //------------------------------------ переменная клеток-соседей
-      if (a[xsw(i) - 1][xsh(j) - 1] === 1) { nbrs++ }; //- если у клетки в положении -1 по X -1 по Y есть клетка, то nbrs + 1
-      if (a[xsw(i) - 1][j] === 1) { nbrs++ }; //---------- аналогично, но с изменением положения клетки-соседки
-      if (a[xsw(i) - 1][xlh(j) + 1] === 1) { nbrs++ };
-      if (a[i][xsh(j) - 1] === 1) { nbrs++ };
-      if (a[i][xlh(j) + 1] === 1) { nbrs++ };
-      if (a[xlw(i) + 1][xsh(j) - 1] === 1) { nbrs++ };
-      if (a[xlw(i) + 1][j] === 1) { nbrs++ };
-      if (a[xlw(i) + 1][xlh(j) + 1] === 1) { nbrs++ };
+let isStart = false; // Переменная старта автоматической смены колоний.
+let interval; // Переменная интервала для скорости смены колоний.
 
-      //блок правил для жизни клеток
-      if (a[i][j] === 0) { //--------------------- если клетка пуста в предыдущем поколении, то
-        if (nbrs === Number(lifeRule.value)) { //- если количество соседей равно значению поля ввода константы зарождения жизни клетки , то
-          b[i][j] = 1; //------------------------- клетка появляется в последующем поколении
-          life(i, j); //-------------------------- запуск отрисовки живых клеток
-        }
-      } else { //----------------------------------- иначе (если клетка жива)
-        if (nbrs < Number(deathRuleMin.value) || //- если количестов соседей меньше значения поля ввода минимальной константы сохранения жизни клетки ИЛИ
-          nbrs > Number(deathRuleMax.value)) { //--- больше значения поля ввода максимальной константы сохранения жизни клетки
-          b[i][j] = 0; //--------------------------- клетка исчезает в последующем поколении
-          empty(i, j); //--------------------------- запуск отрисовки пустых клеток
-        } else { //--------------------------------- иначе (если количество соседей равно 2 или 3), то
-          b[i][j] = 1; //--------------------------- клетка сохраняется в последующем поколении
-          life(i, j); //---------------------------- запуск отрисовки живых клеток
-        }
-      }
-    }
-  }
-  for (let i = 0; i < cW; i++) { //- цикл очистки предыдущего поколения
-    for (let j = 0; j < cH; j++) {
-      a[i][j] = 0;
-    }
-  }
-  count++; //--------------------------------------- счет +1
-  textCount.textContent = `Поколение: ${count}`; //- текст подписи счетчика поколений
-}
+btnStartStop.addEventListener('click', startOrStopGame);
 
-//блок функций границ мира
-function xlh(c) { //------- функция для ограничения мира снизу
-  if (!worldEnd) { //------ если мир замкнут на себя, то
-    if (c === cH - 1) { //- если координата равна количеству ячеек высоты - 1, то
-      c = -1; //----------- координате присваиваится -1
-    }
-    return c; //------- возврат координаты
-  } else { //---------- иначе (если мир ограничен)
-    if (c === cH) { //- если координата равна количеству ячеек высоты, то
-      c = cH - 2; //--- координате присваиватся количество ячеек высоты - 2
-    }
-    return c; //- возврат координаты
-  }
-}
-function xlw(c) { //- функция для ограничения мира справа (аналогично, но с ячейками ширины)
-  if (!worldEnd) {
-    if (c === cW - 1) {
-      c = -1;
-    }
-    return c;
+function startOrStopGame() { // Начать или остановить игру.
+  if (isStart) {
+    isStart = false;
+    btnStartStop.classList.remove('start');
+    btnStartStop.classList.add('stop');
+    clearInterval(interval);
   } else {
-    if (c === cW) {
-      c = cW - 2;
-    }
-    return c;
-  }
-}
-function xsh(c) { //-- функция для ограничения мира сверху
-  if (!worldEnd) { //- если мир замкнут на себя, то
-    if (c === 0) { //- если координата равна 0, то
-      c = cH; //------ координате присваивается количество ячеек высоты
-    }
-    return c; //------- возврат координаты
-  } else { //---------- иначе (если мир ограничен)
-    if (c === -1) { //- если координата равна -1, то
-      c = 1; //-------- координате присваивается 1
-    }
-    return c; //- возврат координаты
-  }
-}
-function xsw(c) { //- функция для ограничения мира слева (аналогично, но с ячейками ширины)
-  if (!worldEnd) {
-    if (c === 0) {
-      c = cW;
-    }
-    return c;
-  } else {
-    if (c === -1) {
-      c = 1;
-    }
-    return c;
-  }
-}
-
-//****************************************************************************************************************************************
-//БЛОК НАСТРОЕК
-
-//Старт
-const btnStartStop = document.querySelector('#btnStartStop'); //- кнопка старт/стоп
-const slctGenSpeed = document.querySelector('#slctGenSpeed'); //- селект скорости смены колоний
-
-let start = false; //- переменная старта автоматической смены колоний
-let interval; //------ переменная интервала для скорости смены колоний
-
-btnStartStop.addEventListener('click', startStopGame);  //- при нажатии на кнопку: старт/стоп
-
-function startStopGame() { //------------------ функция старт/стоп
-  if (start) { //------------------------------ если старт активирован, то
-    start = false; //-------------------------- старт деактивирован
-    btnStartStop.classList.remove('start'); //- удаление класса start для кнопки старта/паузы
-    btnStartStop.classList.add('stop'); //----- добавление класса stop для кнопки старта/паузы
-    clearInterval(interval); //---------------- очиста интервала запуска фунции смены поколений
-  } else { //---------------------------------- иначе (если старт деактивирован, то) (аналогично)
-    start = true;
+    isStart = true;
     btnStartStop.classList.add('start');
     btnStartStop.classList.remove('stop');
-    interval = setInterval(genСhange, slctGenSpeed.value); //- назначение временного интервала запуска функции смены поколений
+    interval = setInterval(changeGeneration, slctGenSpeed.value);
   }
 }
 
-//Скорость смены поколений 
-slctGenSpeed.addEventListener('change', speedGenСhange); //- при изменнении значения селектора: изменение скорости смены поколений
+// СКОРОСТЬ СМЕНЫ ПОКОЛЕНИЙ.
+slctGenSpeed.addEventListener('change', changeRateOfGenerationalChange);
 
-function speedGenСhange() { //-------------------------------- функция изменения скорости смены поколений
-  if (start) { //--------------------------------------------- если старт активирован, то
-    clearInterval(interval); //------------------------------- очистка интервала
-    interval = setInterval(genСhange, slctGenSpeed.value); //- назначение интервала для функции смены поколений
+function changeRateOfGenerationalChange() { // Изменить скорость смены поколений.
+  if (isStart) {
+    clearInterval(interval);
+    interval = setInterval(changeGeneration, slctGenSpeed.value);
   }
 }
 
-//Один шаг
-const btnOneStep = document.querySelector('#btnOneStep'); //- кнопка одного шага игры
+// ОДИН ШАГ ИГРЫ.
+const btnOneStep = document.querySelector('#btnOneStep'); // Кнопка одного шага игры.
 
-btnOneStep.addEventListener('click', oneStepGame); //- при нажатии: один шаг игры
+btnOneStep.addEventListener('click', makeOneStepOfGame);
 
-function oneStepGame() { //-------------------- функция одного шага игры
-  if (start) { //------------------------------ если старт активирован, то
-    start = false; //-------------------------- старт деактивирован
-    btnStartStop.classList.remove('start'); //- удаление класса start для кнопки старта/паузы
-    btnStartStop.classList.add('stop'); //----- добавление класса stop для кнопки старта/паузы
-    clearInterval(interval); //---------------- очиста интервала запуска фунции смены поколений
+function makeOneStepOfGame() { // Сделать один шаг игры.
+  if (isStart) {
+    isStart = false;
+    btnStartStop.classList.remove('start');
+    btnStartStop.classList.add('stop');
+    clearInterval(interval);
   }
-  genСhange(); //- запуск функции смены поколений
+  changeGeneration();
 }
 
-function genСhange() { //---------- функция смены поколений
-  if (step) { //------------------- если предыдущее поколение, то
-    generation(cells1, cells2); //- запуск функции для отображения поколений (предыдущее поколение - cells1, последующее - cells2)
-    step = false; //--------------- последующее поколение
-  } else { //---------------------- иначе, (если последующее поколение)
-    generation(cells2, cells1); //- запуск функции для отображения поколений (предыдущее поколение - cells2, последующее - cells1)
-    step = true; //---------------- предыдущее поколение
+function changeGeneration() { // Cменить поколение.
+  if (isCurrentGeneration) {
+    drawGeneration(cells1, cells2);
+    isCurrentGeneration = false;
+  } else {
+    drawGeneration(cells2, cells1);
+    isCurrentGeneration = true;
   }
 }
 
-//Очистка мира
-const btnClear = document.querySelector('#btnClear') //- кнопка очистки мира
+// ОТОБРАЖЕНИЕ ПОКОЛЕНИЙ КЛЕТОК.
+const spanGenerationCount = document.querySelector('#spanGenerationCount'); // Текст счета поколений.
 
-btnClear.addEventListener('click', clearGame); //- при нажатии кнопки: очистка мира
+let generationCount = 0; // Переменная счета поколений.
+let cellsForViewing = []; // Массив клеток для просмотра.
+let arrCellBirthRule = []; // Массив констант эволюции для зарождения клеток.
+let arrCellSurvivalRule = []; // Массив констант эволюции для сохранения клеток.
 
-function clearGame() { //---------------------------- функция очистки мира
-  genCoordinates(); //------------------------------- запуск функции генерации координат и присвоение им 0
-  drawBackground(); //------------------------------- запуск функции стартовой отрисовки канвас
-  drawCells(); //------------------------------------ запуск функции отрисовки клеток
-  step = true; //------------------------------------ присваивание предыдущего поколения для переменной шага
-  start = false; //---------------------------------- деактивировация режима старта
-  btnStartStop.classList.remove('start'); //--------- удаление класса start для кнопки старта/паузы
-  btnStartStop.classList.add('stop'); //------------- добавление класса stop для кнопки старта/паузы
-  count = 0; //-------------------------------------- сброс счетчика поколений
-  textCount.textContent = `Поколение: ${count}`; //-- текст подписи счетчика поколений
-  clearInterval(interval); //------------------------ очиста интервал запуска фунции смены поколений
-  btnSaveClipboard.disabled = true; //--------------- отключение кнопки копирования строки координат в буфер обмена
-  textStr.textContent = ''; //----------------------- обновление текста строки координат
-  lengthArr.textContent = `Количество клеток: 0`; //- обновление текст количества координат
-  lengthStr.textContent = `Длина строки: 0`; //------ обновление текста длины строки координат
+function drawGeneration(cellsA, cellsB) { // Отобразить поколение.
+  // Для очистки фонового загрязнения в маштабе 0.5 пикселя, в случае режима следов, фоновое загрязнение остается.
+  if (cellSize === 0.5 && !isTrackMode) drawBackground();
+  let nextCluster = []; // Переменная координат для прогона в следующем поколении.
+  for (let [x, y] of cellsForViewing) {
+    let nbrs = 0; // Переменная клеток-соседей.
+    // Проверка каждой клетки-соседки.
+    if (cellsA[xsw(x) - 1][xsh(y) - 1] === 1) nbrs++; // Если клетка в положении X-1  и Y-1 существует, то nbrs + 1, и т.д.
+    if (cellsA[xsw(x) - 1][y] === 1) nbrs++;
+    if (cellsA[xsw(x) - 1][xlh(y) + 1] === 1) nbrs++;
+    if (cellsA[x][xsh(y) - 1] === 1) nbrs++;
+    if (cellsA[x][xlh(y) + 1] === 1) nbrs++;
+    if (cellsA[xlw(x) + 1][xsh(y) - 1] === 1) nbrs++;
+    if (cellsA[xlw(x) + 1][y] === 1) nbrs++;
+    if (cellsA[xlw(x) + 1][xlh(y) + 1] === 1) nbrs++;
+    // Применение правила игры.
+    if (cellsA[x][y] === 0) {
+      if (arrCellBirthRule.some(item => item === nbrs)) {
+        cellsB[x][y] = 1;
+        nextCluster.push([x, y]);
+        drawLivingCell(x - horizontalShift, y - verticalShift);
+      }
+    } else {
+      if (arrCellSurvivalRule.some(item => item === nbrs)) {
+        cellsB[x][y] = 1;
+        drawLivingCell(x - horizontalShift, y - verticalShift);
+      } else {
+        cellsB[x][y] = 0;
+        drawEmptyCell(x - horizontalShift, y - verticalShift);
+        nextCluster.push([x, y]);
+        if (isTrackMode) drawTraceCell(x, y);
+      }
+    }
+  }
+  for (let [x, y] of nextCluster) {
+    cellsA[x][y] = 0; // Очистка ячеек текущего поколения которые вошли в перечень для прогона.
+  }
+  cellsForViewing = [];
+  cellsForViewing = getCellsToView(nextCluster);
+  generationCount++;
+  spanGenerationCount.textContent = generationCount;
 }
 
-//Масштаб
-const btnScaleLarger = document.querySelector('#btnScaleLarger'); //--- кнопка увеличения масштаба
-const btnScaleSmaller = document.querySelector('#btnScaleSmaller'); //- кнопка уменьшения масштаба
-
-btnScaleLarger.addEventListener('click', scaleLarger); //--- при нажатии: увеличение масштаба
-btnScaleSmaller.addEventListener('click', scaleSmaller); //- при нажатии: уменьшение масштаба
-
-function scaleLarger() { //-------------- функция увеличения масштаба
-  if (cellSize === 2) { //--------------- если размер клеток равен 2, то
-    width = canvas.width *= 2.5; //------ ширина присваивает ширину умноженную на 2,5
-    height = canvas.height *= 2.5; //---- высота присваивает ширину умноженную на 2,5
-    cellSize = 5; //--------------------- размер клеток присваивает 5
-    btnScaleSmaller.disabled = false; //- кнопка уменьшения масштаба выключена
-  } else if (cellSize === 5) { //-------- иначе если размер клеток равен 5, то
-    width = canvas.width *= 2; //-------- ширина присваивает ширину умноженную на 2
-    height = canvas.height *= 2; //------ высота присваивает ширину умноженную на 2
-    cellSize = 10; //-------------------- размер клеток присваивает 10
-  } else if (cellSize === 10) { //------- иначе если  размер клеток равен 10, то
-    width = canvas.width *= 2; //-------- ширина присваивает ширину умноженную на 2
-    height = canvas.height *= 2; //------ высота присваивает ширину умноженную на 2
-    cellSize = 20; //-------------------- размер клеток присваивает 20
-    btnScaleLarger.disabled = true; //--- кнопка увеличения масштаба выключена
+function getCellsToView(cluster) { // Получить ячейки для просмотра.
+  let arr = []; // Массив для координат клетки и её клеток-соседок.
+  for (let [x, y] of cluster) {
+    let a = `${xsw(x) - 1} ${xsh(y) - 1}`;
+    let b = `${xsw(x) - 1} ${y}`;
+    let c = `${xsw(x) - 1} ${xlh(y) + 1}`;
+    let d = `${x} ${xsh(y) - 1}`;
+    let e = `${x} ${y}`;
+    let f = `${x} ${xlh(y) + 1}`;
+    let g = `${xlw(x) + 1} ${xsh(y) - 1}`;
+    let h = `${xlw(x) + 1} ${y}`;
+    let k = `${xlw(x) + 1} ${xlh(y) + 1}`;
+    arr.push(a, b, c, d, e, f, g, h, k);
   }
-  drawBackground(); //--- запуск функции стартовой отрисовки канвас
-  drawCells(); //-------- запуск функции отрисовки клеток
-  cW = inptCnW.value; //- обновление переменной количества ячеек ширины
-  cH = inptCnH.value; //- обновление переменной количества ячеек высоты
+  let set = new Set(arr); // Множество строк неповторяющихся координат.
+  let result = []; // Массив результата для координат клетки и её клеток-соседок.
+  for (let item of set) {
+    item = item.split(' ');
+    result.push([Number(item[0]), Number(item[1])]);
+  }
+  return result;
 }
 
-function scaleSmaller() { //- функция уменьшения масштаба (аналогично)
-  if (cellSize === 20) {
-    width = canvas.width /= 2;
-    height = canvas.height /= 2;
-    cellSize = 10;
-    btnScaleLarger.disabled = false;
-  } else if (cellSize === 10) {
-    width = canvas.width /= 2;
-    height = canvas.height /= 2;
-    cellSize = 5;
-  } else if (cellSize === 5) {
-    width = canvas.width /= 2.5;
-    height = canvas.height /= 2.5;
-    cellSize = 2;
-    btnScaleSmaller.disabled = true;
-  }
+function xlh(c) { // Функция для телепортирования клетки с низа в верх.
+  if (c === numberOfCellsHeightWorld - 1) c = -1;
+  return c;
+}
+
+function xlw(c) { // Функция для телепортирования клетки с права в лево.
+  if (c === numberOfCellsWidthWorld - 1) c = -1;
+  return c;
+}
+
+function xsh(c) { // Функция для телепортирования клетки с верха в низ.
+  if (c === 0) c = numberOfCellsHeightWorld;
+  return c;
+}
+
+function xsw(c) { // Функция для телепортирования клетки с лева в право.
+  if (c === 0) c = numberOfCellsWidthWorld;
+  return c;
+}
+
+// ОЧИСТКА МИРА.
+const btnClear = document.querySelector('#btnClear') // Кнопка очистки мира.
+
+btnClear.addEventListener('click', clearGame);
+
+function clearGame() { // Очистить игру.
+  clearCells();
   drawBackground();
-  drawCells();
-  cW = inptCnW.value;
-  cH = inptCnH.value;
+  drawGrid();
+  clearInterval(interval);
+  cellsForViewing = [];
+  isCurrentGeneration = true;
+  isStart = false;
+  generationCount = 0;
+  spanGenerationCount.textContent = '0';
+  colonyPattern.textContent = '';
+  numberOfColonyCells.textContent = `Количество клеток: 0`;
+  btnStartStop.classList.remove('start');
+  btnStartStop.classList.add('stop');
+  btnSaveClipboard.disabled = true;
 }
 
-//Режим границ мира
-const btnLimitedWorld = document.querySelector('#btnLimitedWorld'); //- кнопка смены режима границ мира
-
-btnLimitedWorld.addEventListener('click', limitedWorld); //- при нажатии: смена режима границ мира
-
-function limitedWorld() { //--------------------------------- функция смены режима границ мира
-  if (!worldEnd) { //---------------------------------------- если мир замкнут на себя, то
-    worldEnd = true; //-------------------------------------- мир ограничен
-    btnLimitedWorld.textContent = 'Замкнуть мир на себя'; //- обновление текста кнопки
-    canvas.classList.add('border'); //----------------------- добавление класса 'border' для канвас
-  } else { //------------------------------------------------ иначе (если мир ограничен), то (аналогично)
-    worldEnd = false;
-    btnLimitedWorld.textContent = 'Ограничить мир';
-    canvas.classList.remove('border');
+function clearCells() { // Очистить клетки мира.
+  for (let i = 0; i < numberOfCellsWidthWorld; i++) {
+    for (let j = 0; j < numberOfCellsHeightWorld; j++) {
+      cells1[i][j] = 0;
+      cells2[i][j] = 0;
+    }
   }
-  drawBackground(); //- запуск функции стартовой отрисовки канвас
-  drawCells(); //------ запуск функции отрисовки клеток
 }
 
-//Режим следов
-const btnTrackMode = document.querySelector('#btnTrackMode'); //- кнопка смены режима следов
+// МАСШТАБ.
+const btnZoomInOfWorld = document.querySelector('#btnZoomInOfWorld'); // Кнопка увеличения масштаба мира.
+const btnZoomOutOfWorld = document.querySelector('#btnZoomOutOfWorld'); // Кнопка уменьшения масштаба мира.
 
-btnTrackMode.addEventListener('click', trackModeFunc); //- при нажатии на кнопку: смена режима следов
+btnZoomInOfWorld.addEventListener('click', zoomInOfWorld);
+btnZoomOutOfWorld.addEventListener('click', zoomOutOfWorld);
 
-function trackModeFunc() { //------------------------------ функция смены режима следов
-  if (trackMode) { //-------------------------------------- если режим следов активирован, то
-    trackMode = false; //---------------------------------- режим следов деактивирован
-    drawCells(); //---------------------------------------- запуск функции отрисовки клеток
-    btnTrackMode.textContent = 'Включить режим следов'; //- текст кнопки
-  } else { //---------------------------------------------- иначе (если режим следов деактивирован), то (аналогично)
-    trackMode = true;
-    drawCells();
+function zoomInOfWorld() { // Увеличить масштаб мира.
+  switch (cellSize) {
+    case 0.5: cellSize = 1; btnZoomOutOfWorld.disabled = false;
+      break;
+    case 1: cellSize = 2;
+      break;
+    case 2: cellSize = 5;
+      break;
+    case 5: cellSize = 10;
+      break;
+    case 10: cellSize = 20; btnZoomInOfWorld.disabled = true;
+      break;
+    case 20: return;
+  }
+  btnRemoveOrDrawGrid.disabled = (cellSize <= 2) ? true : false;
+  setScrolling();
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+}
+
+function zoomOutOfWorld() { // Уменьшить масштаб мира.
+  switch (cellSize) {
+    case 20: cellSize = 10; btnZoomInOfWorld.disabled = false;
+      break;
+    case 10: cellSize = 5;
+      break;
+    case 5: cellSize = 2;
+      break;
+    case 2: cellSize = 1;
+      break;
+    case 1: cellSize = 0.5; btnZoomOutOfWorld.disabled = true;
+      break;
+    case 0.5: return;
+  }
+  btnRemoveOrDrawGrid.disabled = (cellSize <= 2) ? true : false;
+  setScrolling();
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+}
+
+// РЕЖИМ СЛЕДОВ.
+const btnTrackMode = document.querySelector('#btnTrackMode'); // Кнопка включения/выключения режима следов.
+
+btnTrackMode.addEventListener('click', turnTrackModeOnOrOff);
+
+function turnTrackModeOnOrOff() { // Включить или выключить режим следа.
+  if (isTrackMode) {
+    isTrackMode = false;
+    drawBackground();
+    drawGrid();
+    drawInitialCells();
+    btnTrackMode.textContent = 'Включить режим следов';
+  } else {
+    isTrackMode = true;
     btnTrackMode.textContent = 'Выключить режим следов';
   }
 }
 
-//Константы эволюции
-const inptsLifeConstants = document.querySelectorAll('.inpt_life-constants'); //- поля ввода констант правил жизни
+// УБРАТЬ СЕТКУ.
+const btnRemoveOrDrawGrid = document.querySelector('#btnRemoveOrDrawGrid'); // Кнопка для режима с сеткой или без.
+let isGridMode = false; // Режим сетки.
 
-inptsLifeConstants.forEach(e => { //----------- для каждого поля ввода констант правил жизни
-  e.addEventListener('input', () => { //------- при вводе
-    if (e.validity.rangeOverflow) { //--------- если введено больше заданного правила (8), то
-      e.value = 8; //-------------------------- значение поля ввода принимает 8
-    } else if (e.validity.rangeUnderflow) { //- если введено меньше заданного правила (1), то
-      e.value = 1; //-------------------------- значение поля ввода принимает 1
-    }
-  });
+btnRemoveOrDrawGrid.addEventListener('click', removeOrDrawGrid);
+
+function removeOrDrawGrid() { // Удалить или нарисовать сетку.
+  if (cellSize <= 2) return;
+  if (isGridMode) {
+    isGridMode = false;
+    btnRemoveOrDrawGrid.textContent = 'Удалить сетку';
+  } else {
+    isGridMode = true;
+    btnRemoveOrDrawGrid.textContent = 'Поставить сетку';
+  }
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+}
+
+// КОНСТАНТЫ ЭВОЛЮЦИИ.
+const inptBirthRule = document.querySelector('#inptBirthRule'); // Поле ввода количества соседей для зарождения клетки (правило зарождения).
+const inptSurvivalRule = document.querySelector('#inptSurvivalRule'); // Поле ввода количества соседей для выживания клетки (правило выживания).
+const inptNumberOfRule = document.querySelector('#inptNumberOfRule'); // Поле ввода порядкового номера правила.
+const spanRuleText = document.querySelector('#spanRuleText'); // Текст правила.
+
+inptBirthRule.addEventListener('input', () => {
+  if (/^[0-9]+$/.test(inptBirthRule.value)) {
+    inptBirthRule.value = sortAndRemoveDuplicates(inptBirthRule.value);
+    if (!inptBirthRule.value || !inptSurvivalRule.value) return;
+    arrCellBirthRule = inptBirthRule.value.split('').map(Number);
+    inptNumberOfRule.value = getNumberOfRulesArray(inptBirthRule.value, inptSurvivalRule.value);
+  } else {
+    arrCellBirthRule = [];
+    inptBirthRule.value = '';
+  }
+  spanRuleText.textContent = `B${inptBirthRule.value}\/S${inptSurvivalRule.value}`;
 });
 
-//Изменение размера мира
-inptCnW.addEventListener('input', newWorld); //- при вводе: изменение размеров мира по ширине
-inptCnH.addEventListener('input', newWorld); //- при вводе: изменение размеров мира по высоте
-
-function newWorld() { //------------------------------ функция изменения размеров мира
-  if (inptCnW.validity.rangeOverflow || //------------ если в поле ввода ширины введено более 500 ИЛИ
-    inptCnH.validity.rangeOverflow) { //-------------- в поле ввода высоты введено более 500, то
-    if (dataWarning.inputSizeMore500 === 'noOk') { //- если ввод размера мира более 500 клеток содержит noOk, то
-      dWkey = 'inputSizeMore500';  //----------------- обновление ключа для объекта информационного окна
-      let code =
-        `<p>Ширина или высота мира не может быть более 500 клеток!<br />
-        Введите меньшее число</p>`; //- текст информационного окна
-      showWarning(code); //------------ запуск функции показа информационного окна
-    }
+inptSurvivalRule.addEventListener('input', () => {
+  if (/^[0-9]+$/.test(inptSurvivalRule.value)) {
+    inptSurvivalRule.value = sortAndRemoveDuplicates(inptSurvivalRule.value);
+    if (!inptBirthRule.value || !inptSurvivalRule.value) return;
+    arrCellSurvivalRule = inptSurvivalRule.value.split('').map(Number);
+    inptNumberOfRule.value = getNumberOfRulesArray(inptBirthRule.value, inptSurvivalRule.value);
+  } else {
+    arrCellSurvivalRule = [];
+    inptSurvivalRule.value = '';
   }
-  if (inptCnW.validity.rangeOverflow) { //- если в поле ввода ширины введено более 500, то
-    inptCnW.value = 500; //---------------- значение поля ввода ширины принимает 500 
-  }
-  if (inptCnH.validity.rangeOverflow) { //- если в поле ввода высоты введено более 500, то
-    inptCnH.value = 500; //---------------- значение поля ввода высоты принимает 500 
-  }
-  if (inptCnW.validity.rangeUnderflow || //--------- если в поле ввода ширины введено менее 1 ИЛИ
-    inptCnH.validity.rangeUnderflow) { //----------- в поле ввода высоты введено менее 1, то
-    if (dataWarning.inputSizeLess1 === 'noOk') { //- если ввод размера мира менее 1 клетки содержит noOk, то
-      dWkey = 'inputSizeLess1'  //------------------ обновление ключа для объекта типов информационного окна
-      let code =
-        `<p>Количество клеток не может быть нулевым или отрицательным</p>` //- текст информационного окна
-      showWarning(code); //--------------------------------------------------- запуск функции показа информационного окна
-    }
-  }
-  if (inptCnW.validity.rangeUnderflow) { //- если в поле ввода ширины введено менее 1, то
-    inptCnW.value = 1; //------------------- значение поля ввода ширины принимает 1
-  }
-  if (inptCnH.validity.rangeUnderflow) { //- если в поле ввода высоты введено менее 1, то
-    inptCnH.value = 1; //------------------- значение поля ввода высоты принимает 1
-  }
-  if (inptCnW.value % 1 !== 0 || //---------------- если в поле ввода ширины введено число не делящееся на 1 без остатка (дробь), ИЛИ
-    inptCnH.value % 1 !== 0) { //------------------ в поле ввода высоты введено число не делящееся на 1 без остатка, то
-    if (dataWarning.inputSizeFrac === 'noOk') { //- если ввод размера мира дробным числом содержит noOk, то
-      dWkey = 'inputSizeFrac'  //------------------ обновление ключа для объекта типов информационного окна
-      let code =
-        `<p>Пожалуйста, вводите целые числа</p>` //- текст информационного окна
-      showWarning(code); //------------------------- запуск функции показа информационного окна
-    }
-  }
-  if (inptCnW.value % 1 !== 0) { //-------------- если в поле ввода ширины введено число не делящееся на 1 без остатка, то
-    inptCnW.value = Math.floor(inptCnW.value) //- значение поля ввода ширины принимает число округленное назад
-  }
-  if (inptCnH.value % 1 !== 0) { //-------------- если в поле ввода высоты введено число не делящееся на 1 без остатка, то
-    inptCnH.value = Math.floor(inptCnH.value) //- значение поля ввода высоты принимает число округленное назад
-  }
-  if (inptCnW.value * inptCnH.value > 100000) { //- если произведение чисел введенных в поля ввода ширины и высоты более 100 000, то
-    bigWorldShowWarning(); //---------------------- запуск функции показа предупреждения о большом мире
-  }
-  width = canvas.width = inptCnW.value * cellSize; //--- ширина равна значению введенному в поле ввода
-  height = canvas.height = inptCnH.value * cellSize; //- высота равна значению введенному в поле ввода
-  cW = inptCnW.value; //-------------------------------- обновление вспомогательной переменной количества ячеек ширины
-  cH = inptCnH.value; //-------------------------------- обновление вспомогательной переменной количества ячеек высоты
-  drawBackground(); //---------------------------------- запуск функции стартовой отрисовки канвас
-  drawCells(); //--------------------------------------- запуск функции отрисовки клеток
-}
-
-function bigWorldShowWarning() { //--------- функция показа предупреждения о большом мире
-  if (dataWarning.bigWorld === 'noOk') { //- если генерация большого мира содержит 'noOk', то
-    dWkey = 'bigWorld'  //------------------ обновление ключа для объекта типов информационного окна
-    let code =
-      `<p>Внимание, большие карты могут замедлить работу браузера!</p>` //- текст информационного окна
-    showWarning(code); //-------------------------------------------------- запуск функции показа информационного окна
-  }
-}
-
-//Вписать мир в окно
-const wrapperCanvas = document.querySelector('#wrapperCanvas'); //- обертка основного канвас
-const btnInWindow = document.querySelector('#btnInWindow'); //----- кнопка для вписывания мира в окно просмотра
-
-btnInWindow.addEventListener('click', inWindow); //- при нажатии: вписывание мира в окно просмотра
-
-function inWindow() { //- функция вписывания мира в окно просмотра
-  //первичные назначения в 1px для того чтобы убрать из вычисления размеров возможные полосы прокрутки обертки основного канвас
-  canvas.width = 1; //-- первичное назначение ширины канвас
-  canvas.height = 1; //- первичное назначение высоты канвас
-  //размер обертки канвас умноженный на 0.99 и деленный на размер клетки округлен назад
-  inptCnW.value = Math.floor(wrapperCanvas.clientWidth * 0.99 / cellSize); //-- значение поля ввода ширины поля
-  inptCnH.value = Math.floor(wrapperCanvas.clientHeight * 0.99 / cellSize); //- значение поля ввода высоты поля
-  width = canvas.width = inptCnW.value * cellSize; //-------------------------- значение поля ввода ширины поля умноженное на размер клетки
-  height = canvas.height = inptCnH.value * cellSize; //------------------------ значение поля ввода высоты поля умноженное на размер клетки
-  cW = inptCnW.value; //------------------------------------------------------- обновление переменной количества ячеек ширины
-  cH = inptCnH.value; //------------------------------------------------------- обновление переменной количества ячеек высоты
-  if (cW > 500) { //----------------------------------------------------------- если количество ячеек ширины больше 500, то
-    cW = 500; //--------------------------------------------------------------- количество ячеек ширины присваивает 500
-    inptCnW.value = 500; //---------------------------------------------------- обновление поля ввода ширины
-    width = canvas.width = 500 * cellSize; //---------------------------------- обновление ширины
-  }
-  if (cH > 500) { //- если количество ячеек высоты больше 500, то (аналогично для высоты)
-    cH = 500;
-    inptCnH.value = 500;
-    height = canvas.height = 500 * cellSize;
-  }
-  if (cW * cH > 100000) { //-- если произведение количества ячеек шириы и высоты более 100 000, то
-    bigWorldShowWarning(); //- запуск функции показа предупреждения о большом мире
-  }
-  drawBackground(); //- запуск функции стартовой отрисовки канвас
-  drawCells(); //------ запуск функции отрисовки клеток
-}
-
-//Цветовое оформление
-const inptsColor = document.querySelectorAll('.inpt_color'); //- поля ввода цвета цветового оформления
-
-inptsColor.forEach(e => { //------------- для каждого поля ввода цветового оформления
-  e.addEventListener('change', drawCells); //- при изменении: отрисовка клеток
+  spanRuleText.textContent = `B${inptBirthRule.value}\/S${inptSurvivalRule.value}`;
 });
 
-//Начальные настройки /сброс настроек
-const btnResetSet = document.querySelector('#btnResetSet') //- кнопка сброса настроек
-
-window.addEventListener('load', startSetting); //------- при загрузке окна: запуск функции для начальной отрисовки поля и настроек
-btnResetSet.addEventListener('click', startSetting); //- при нажатии кнопки: запуск функции для начальной отрисовки поля и настроек 
-
-function startSetting() { //---------------------------- функция для начальной отрисовки поля и настроек
-  cellSize = 10; //------------------------------------- размер клеток
-  lifeRule.value = 3; //-------------------------------- значение поля ввода константы зарождения клетки
-  deathRuleMin.value = 2; //---------------------------- значение поля ввода минимальной константы сохранения жизни клетки
-  deathRuleMax.value = 3; //---------------------------- значение поля ввода максимальной константы сохранения жизни клетки
-  colonyColor.value = '#800080'; //--------------------- цвет живых клеток фиолетовый
-  emptyColor.value = '#FFFFFF'; //---------------------- цвет пустых клеток белый
-  trackColor.value = '#61D6A0'; //---------------------- цвет фона для следа голубой
-  btnScaleLarger.disabled = false; //------------------- включение кнопки увеличения масштаба
-  btnScaleSmaller.disabled = false; //------------------ включение кнопки уменьшения масштаба
-  slctGenSpeed.value = 100; //-------------------------- значение селектора смены поколений
-  worldEnd = false; //---------------------------------- мир замкнут на себя
-  btnLimitedWorld.textContent = 'Ограничить мир'; //---- текст кнопки режима безграничного мира
-  trackMode = false; //--------------------------------- режим следов деактивирован
-  canvas.classList.remove('border'); //----------------- удаление класса 'border' для канвас
-  btnTrackMode.textContent = 'Включить режим следов' //- текст кнопки режима следов
-  inWindow(); //---------------------------------------- запуск функции вписывания мира в окно просмотра
-  speedGenСhange(); //---------------------------------- запуск функции изменения скорости смены поколений
-  drawBackground();  //--------------------------------- запуск функции стартовой отрисовки канвас
-  drawCells(); //--------------------------------------- запуск функции отрисовки клеток
+function sortAndRemoveDuplicates(str) { // Сортировать и удалить повторения из строки правила.
+  let set = new Set(); // Набор чисел правила без повторений.
+  let arr = str.split('').sort() // Массив расщепленной строки правила сортированный.
+  for (let item of arr) {
+    if (item === '9') continue;
+    set.add(item);
+  }
+  return Array.from(set).join('');
 }
 
-//Об управлении с клавиатуры
-const btnInformKeys = document.querySelector('#btnInformKeys'); //- кнопка показа информации об управлении с клавиатуры
+let arrRules1 = ['0', '1', '2', '3', '4', '5', '6', '7', '8']; // Массив правил одной клетки.
+let arrRules2 = getArrofRules(arrRules1); // Массив правил двух клеток.
+let arrRules3 = getArrofRules(arrRules2); // Массив правил трех клеток.
+let arrRules4 = getArrofRules(arrRules3); // Массив правил четырех клеток.
+let arrRules5 = getArrofRules(arrRules4); // Массив правил пяти клеток.
+let arrRules6 = getArrofRules(arrRules5); // Массив правил шести клеток.
+let arrRules7 = getArrofRules(arrRules6); // Массив правил семи клеток.
+let arrRules8 = getArrofRules(arrRules7); // Массив правил восьми клеток.
+let arrRules9 = '012345678'; // Правило для девяти клеток.
 
-btnInformKeys.addEventListener('click', () => { //- при нажатии: запуск функции показа информационного окна
-  let code = //------------------------------------ код информационного окна
+function getArrofRules(rulesNums) { // Получить массив правил n-клеток с помощью предыдущего массива.
+  let rulesNumsTemp = []; // Временный массив правил для n-клеток.
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < rulesNums.length; j++) {
+      rulesNumsTemp.push(i + rulesNums[j]);
+    }
+  }
+  let rulesNumsSet = new Set(); // Набор правил для n-клеток без повторений.
+  for (let item of rulesNumsTemp) {
+    let arr = item.split(''); // Массив расщепленной строки правила.
+    const duplicates = arr.filter((number, index, numbers) => { // Получить дублирующие цифры.
+      return numbers.indexOf(number) !== index;
+    });
+    if (duplicates.length) continue;
+    arr.sort();
+    let joinItem = arr.join(''); // Склеенная строка правила.
+    rulesNumsSet.add(joinItem);
+  }
+  return Array.from(rulesNumsSet);
+}
+
+let arrAllRules = []; // Массив со всеми правилами (511 правил).
+arrAllRules.push(...arrRules1, ...arrRules2, ...arrRules3, ...arrRules4, ...arrRules5, ...arrRules6, ...arrRules7, ...arrRules8, arrRules9);
+let arrRulesBirthSurv = []; // Массив с подмассивами правил для зарождения и выживания клетки. (261_121 правило)
+for (let a of arrAllRules) {
+  for (let b of arrAllRules) {
+    arrRulesBirthSurv.push([a, b]);
+  }
+}
+
+function getNumberOfRulesArray(birthRule, survivalRule) { // Получить порядковый номер правила.
+  for (let i = 0; i < arrRulesBirthSurv.length; i++) {
+    if (birthRule === arrRulesBirthSurv[i][0] && survivalRule === arrRulesBirthSurv[i][1]) return i + 1;
+  }
+}
+
+inptNumberOfRule.addEventListener('input', () => { // При вводе: изменение правила в мире.
+  let inptNumberOfRuleValue = Number(inptNumberOfRule.value); // Значение поля ввода порядкового номера правила.
+  inptNumberOfRule.value = (inptNumberOfRuleValue < 1) ? 1 :
+    (inptNumberOfRuleValue > arrRulesBirthSurv.length) ? arrRulesBirthSurv.length :
+      (inptNumberOfRuleValue % 1 !== 0) ? Math.floor(inptNumberOfRuleValue) : inptNumberOfRuleValue;
+  inptBirthRule.value = arrRulesBirthSurv[inptNumberOfRule.value - 1][0];
+  inptSurvivalRule.value = arrRulesBirthSurv[inptNumberOfRule.value - 1][1];
+  arrCellBirthRule = inptBirthRule.value.split('').map(Number);
+  arrCellSurvivalRule = inptSurvivalRule.value.split('').map(Number);
+  spanRuleText.textContent = `B${inptBirthRule.value}\/S${inptSurvivalRule.value}`;
+});
+
+// ПОКАЗ ИНФОРМАЦИОННОГО ОКНА ПРИ НАВЕДЕНИИ НА ИКОНКУ ВОПРОСА ВВОДА КОНСТАНТ ЭВОЛЮЦИИ.
+const btnInfoRule = document.querySelector('#btnInfoRule'); // Иконка вопроса о правиле.
+
+btnInfoRule.addEventListener('click', () => {
+  infoWindowType.key = 'information';
+  let code = `<b>B</b> – количество клеток-соседей способных зародить новую клетку,<br>
+<b>S</b> – количество клеток-соседей способных сохранить жизнь клетки.<br>
+<b>B3/S23</b> – правило для классической игры «Жизнь», которая наиболее разнообразна и изучена.<br>
+Можете попробовать другие правила, например <b>B3/S35</b>, «HighLife» <b>B36/S23</b>, «LowDeath» <b>B368/S238</b>`;
+  showInfoWindow(code);
+});
+
+// ИЗМЕНЕНИЕ РАЗМЕРА МИРА.
+inptNumberOfCellsWidthWorld.addEventListener('input', changeSizeOfWorld);
+inptNumberOfCellsHeightWorld.addEventListener('input', changeSizeOfWorld);
+
+function changeSizeOfWorld() { // Измененить размер мира.
+  let numOfWidth = Number(inptNumberOfCellsWidthWorld.value);
+  let numOfHeight = Number(inptNumberOfCellsHeightWorld.value);
+  // Введенное в поле ввода должно быть: целое число от 0 до 2000.
+  inptNumberOfCellsWidthWorld.value = numberOfCellsWidthWorld = (numOfWidth > 2000) ? 2000 :
+    (numOfWidth < 0) ? 1 :
+      (numOfWidth % 1 !== 0) ? Math.floor(numOfWidth) :
+        numOfWidth;
+  inptNumberOfCellsHeightWorld.value = numberOfCellsHeightWorld = (numOfHeight > 2000) ? 2000 :
+    (numOfHeight < 0) ? 1 :
+      (numOfHeight % 1 !== 0) ? Math.floor(numOfHeight) :
+        numOfHeight;
+  if (numOfWidth * numOfHeight > 1_000_000) {
+    showBigWorldWarning();
+  }
+  clearCellsOutsideWorld();
+  setScrolling();
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+}
+
+function showBigWorldWarning() { // Показать предупреждение о большом мире.
+  if (infoWindowType.bigWorld === 'Ok') return;
+  infoWindowType.key = 'bigWorld';
+  let code = `Внимание, большие карты могут замедлить работу браузера!`;
+  showInfoWindow(code);
+}
+
+function clearCellsOutsideWorld() { // Очистить клетки вне мира.
+  for (let x = 0; x < 2000; x++) {
+    for (let y = 0; y < 2000; y++) {
+      if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) {
+        cells1[x][y] = 0;
+        cells2[x][y] = 0;
+      }
+    }
+  }
+}
+
+// ВПИСЫВАНИЕ МИРА В ОКНО.
+const btnInWindow = document.querySelector('#btnInWindow'); // Кнопка для вписывания мира в окно просмотра.
+
+let canvasWidth = 0; // Ширина окна канвас (px).
+let canvasHeight = 0; // Высота окна канвас (px).
+
+btnInWindow.addEventListener('click', fitWorldIntoWindow); // При нажатии: вписывание мира в окно просмотра.
+
+function fitWorldIntoWindow() { // Вписать мир в окно просмотра.
+  let nativeCrdntsFromCanvas = getNativeCrdntsFromCanvas(); // Переменная нативных координат находящихся в окне канвас.
+  clearCells();
+  let leftShift = (numberOfCellsWidthWorld < maxNumberOfCellsWidthCanvas[cellSize]) ?
+    Math.floor((maxNumberOfCellsWidthCanvas[cellSize] - numberOfCellsWidthWorld) / 2) : 0; // Переменная смещения колонии слева. 
+  let topShift = (numberOfCellsHeightWorld < maxNumberOfCellsHeightCanvas[cellSize]) ?
+    Math.floor((maxNumberOfCellsHeightCanvas[cellSize] - numberOfCellsHeightWorld) / 2) : 0; // Переменная смещения колонии сверху.
+  main.style.gridTemplateColumns = '1fr 0px';
+  main.style.gridTemplateRows = '1fr 0px';
+  inptNumberOfCellsHeightWorld.value = numberOfCellsHeightWorld = maxNumberOfCellsHeightCanvas[cellSize];
+  inptNumberOfCellsWidthWorld.value = numberOfCellsWidthWorld = maxNumberOfCellsWidthCanvas[cellSize];
+  worldWidth = canvasWidth = canvas.width = maxNumberOfCellsWidthCanvas[cellSize] * cellSize;
+  worldHeight = canvasHeight = canvas.height = maxNumberOfCellsHeightCanvas[cellSize] * cellSize;
+  if (numberOfCellsWidthWorld * numberOfCellsHeightWorld > 1_000_000) {
+    showBigWorldWarning();
+  }
+  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  for (const [x, y] of nativeCrdntsFromCanvas) { // Внесение клеток в текущее окно.
+    cells[x + leftShift][y + topShift] = 1;
+  }
+  cellsForViewing = [];
+  cellsForViewing = getCellsToView(getNativeCrdnts());
+  setScrolling();
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+}
+
+function getNativeCrdntsFromCanvas() { // Получить нативные координаты находящиеся в окне канвас.
+  const nativeCrdntsFromCanvas = []; // Массив для нативных клеток колонии окна канвас.
+  let numberOfCellsWidthCanvasWindow = (numberOfCellsWidthWorld > maxNumberOfCellsWidthCanvas[cellSize]) ?
+    maxNumberOfCellsWidthCanvas[cellSize] : numberOfCellsWidthWorld; // Количество ячеек ширины окна канвас.
+  let numberOfCellsHeightCanvasWindow = (numberOfCellsHeightWorld > maxNumberOfCellsHeightCanvas[cellSize]) ?
+    maxNumberOfCellsHeightCanvas[cellSize] : numberOfCellsHeightWorld; // Количество ячеек ширины окна канвас.
+  let cells = (isCurrentGeneration) ? cells1 : cells2;
+  for (let i = horizontalShift; i < horizontalShift + numberOfCellsWidthCanvasWindow; i++) {
+    for (let j = verticalShift; j < verticalShift + numberOfCellsHeightCanvasWindow; j++) {
+      if (cells[i][j]) {
+        nativeCrdntsFromCanvas.push([i - horizontalShift, j - verticalShift]);
+      }
+    }
+  }
+  return nativeCrdntsFromCanvas;
+}
+
+function getNativeCrdnts() { // Получить нативные координаты мира.
+  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  const nativeCrdnts = [];
+  for (let i = 0; i < numberOfCellsWidthWorld; i++) {
+    for (let j = 0; j < numberOfCellsHeightWorld; j++) {
+      if (cells[i][j] === 1) {
+        nativeCrdnts.push([i, j]);
+      }
+    }
+  }
+  return nativeCrdnts;
+}
+
+// ПРОКРУТКА БОЛЬШОГО МИРА.
+const btnScrollRight = document.querySelector('#btnScrollRight'); // Кнопка прокрутки вправо.
+const btnScrollLeft = document.querySelector('#btnScrollLeft'); // Кнопка прокрутки влево.
+const btnScrollDown = document.querySelector('#btnScrollDown'); // Кнопка прокрутки вниз.
+const btnScrollUp = document.querySelector('#btnScrollUp'); // Кнопка прокрутки вверх.
+const scrollBarVertical = document.querySelector('#scrollBarVertical'); // Полоса прокрутки вертикальная.
+const scrollBarHorizontal = document.querySelector('#scrollBarHorizontal'); // Полоса прокрутки горизонтальная.
+const main = document.querySelector('#main'); // Основное поле.
+
+let horizontalShift = 0; // Переменная сдвига по горизонтали.
+let verticalShift = 0; // Переменная сдвига по вертикали.
+
+btnScrollRight.addEventListener('click', scrollRight);
+btnScrollLeft.addEventListener('click', scrollLeft);
+btnScrollDown.addEventListener('click', scrollDown);
+btnScrollUp.addEventListener('click', scrollUp);
+
+function scrollRight() { // Прокрутить мир вправо.
+  let remainingWidthCells = numberOfCellsWidthWorld - maxNumberOfCellsWidthCanvas[cellSize]; // Остаток клеток ширины.
+  if (horizontalShift === remainingWidthCells) return;
+  if (horizontalShift + 1 === remainingWidthCells) btnScrollRight.disabled = true;
+  btnScrollLeft.disabled = false;
+  horizontalShift++;
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+  changeSliderHorizontalPosition()
+}
+
+function scrollLeft() { // Прокрутить мир влево.
+  if (horizontalShift === 0) return;
+  if (horizontalShift === 1) btnScrollLeft.disabled = true;
+  btnScrollRight.disabled = false;
+  horizontalShift--;
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+  changeSliderHorizontalPosition();
+}
+
+function scrollDown() { // Прокрутить мир вниз.
+  let remainingHeightCells = numberOfCellsHeightWorld - maxNumberOfCellsHeightCanvas[cellSize]; // Остаток клеток высоты.
+  if (verticalShift === remainingHeightCells) return;
+  if (verticalShift + 1 === remainingHeightCells) btnScrollDown.disabled = true;
+  btnScrollUp.disabled = false;
+  verticalShift++;
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+  changeSliderVerticalPosition();
+}
+
+function scrollUp() { // Прокрутить мир вверх.
+  if (verticalShift === 0) return;
+  if (verticalShift === 1) btnScrollUp.disabled = true;
+  btnScrollDown.disabled = false;
+  verticalShift--;
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+  changeSliderVerticalPosition();
+}
+
+function setScrolling() { // Установить прокрутку.
+  if (numberOfCellsWidthWorld <= maxNumberOfCellsWidthCanvas[cellSize]) {
+    btnScrollRight.disabled = true;
+    btnScrollLeft.disabled = true;
+    btnScrollRight.classList.add('none');
+    btnScrollLeft.classList.add('none');
+    scrollBarHorizontal.classList.add('none');
+    main.style.gridTemplateRows = '1fr 0px';
+    horizontalShift = 0;
+  } else {
+    btnScrollRight.disabled = false;
+    btnScrollLeft.disabled = false;
+    btnScrollRight.classList.remove('none');
+    btnScrollLeft.classList.remove('none');
+    scrollBarHorizontal.classList.remove('none');
+    main.style.gridTemplateRows = '1fr 25px';
+    horizontalShift = Math.floor((numberOfCellsWidthWorld - maxNumberOfCellsWidthCanvas[cellSize]) / 2); // Перемещение к центру.
+    if (horizontalShift === 0) btnScrollLeft.disabled = true;
+    changeSliderHorizontalPosition();
+  }
+  if (numberOfCellsHeightWorld <= maxNumberOfCellsHeightCanvas[cellSize]) {
+    btnScrollDown.disabled = true;
+    btnScrollUp.disabled = true;
+    btnScrollDown.classList.add('none');
+    btnScrollUp.classList.add('none');
+    scrollBarVertical.classList.add('none');
+    main.style.gridTemplateColumns = '1fr 0px';
+    verticalShift = 0;
+  } else {
+    btnScrollDown.disabled = false;
+    btnScrollUp.disabled = false;
+    btnScrollDown.classList.remove('none');
+    btnScrollUp.classList.remove('none');
+    scrollBarVertical.classList.remove('none');
+    main.style.gridTemplateColumns = '1fr 25px';
+    verticalShift = Math.floor((numberOfCellsHeightWorld - maxNumberOfCellsHeightCanvas[cellSize]) / 2); // Перемещение к центру.
+    if (verticalShift === 0) btnScrollUp.disabled = true;
+    changeSliderVerticalPosition();
+  }
+  worldWidth = numberOfCellsWidthWorld * cellSize;
+  worldHeight = numberOfCellsHeightWorld * cellSize;
+  let canvasWidthMax = maxNumberOfCellsWidthCanvas[cellSize] * cellSize; // Максимальная ширина окна канвас.
+  let canvasHeightMax = maxNumberOfCellsHeightCanvas[cellSize] * cellSize;  // Максимальная высота окна канвас.
+  canvasWidth = canvas.width = (worldWidth > canvasWidthMax) ? canvasWidthMax : worldWidth;
+  canvasHeight = canvas.height = (worldHeight > canvasHeightMax) ? canvasHeightMax : worldHeight;
+  let horizontalPadding = (wrapperCanvas.clientWidth - canvasWidth) / 2; // Горизонтальный отступ.
+  let verticalPadding = (wrapperCanvas.clientHeight - canvasHeight) / 2; // Вертикальный отступ.
+  scrollBarVertical.style.top = `${verticalPadding}px`;
+  scrollBarVertical.style.height = `${canvasHeight}px`;
+  scrollBarVertical.style.right = `${-(25 - horizontalPadding)}px`;
+  scrollBarHorizontal.style.left = `${horizontalPadding}px`;
+  scrollBarHorizontal.style.width = `${canvasWidth}px`;
+  scrollBarHorizontal.style.bottom = `${-(25 - verticalPadding)}px`;
+}
+
+// ПРОКРУТКА ПОЛЗУНКОВ.
+const sliderWrapperVertical = document.querySelector('#sliderWrapperVertical'); // Вертикальная обёртка ползунка (вертикальный желоб).
+const sliderVertical = document.querySelector('#sliderVertical'); // Вертикальный ползунок.
+const sliderWrapperHorizontal = document.querySelector('#sliderWrapperHorizontal'); // Горизонтальная обёртка ползунка (горизонтальный желоб).
+const sliderHorizontal = document.querySelector('#sliderHorizontal'); // Горизонтальный ползунок.
+
+function changeSliderVerticalPosition() { // Сменить позицию вертикального ползунка.
+  sliderWrapperVertical.style.gridTemplateRows = `repeat(${numberOfCellsHeightWorld}, 1fr)`;
+  sliderVertical.style.gridRow = `${verticalShift + 1}/${verticalShift + 1 + maxNumberOfCellsHeightCanvas[cellSize]}`;
+}
+
+function changeSliderHorizontalPosition() { // Сменить позицию горизонтального ползунка.
+  sliderWrapperHorizontal.style.gridTemplateColumns = `repeat(${numberOfCellsWidthWorld}, 1fr)`;
+  sliderHorizontal.style.gridColumn = `${horizontalShift + 1}/${horizontalShift + 1 + maxNumberOfCellsWidthCanvas[cellSize]}`;
+}
+
+let isSliderHorizontalMode = false; // Режим горизонтального сдвига ползунка.
+let isSliderVerticalMode = false; // Режим вертикального сдвига ползунка.
+
+sliderWrapperHorizontal.addEventListener('mousedown', e => {
+  isSliderHorizontalMode = true;
+  sliderHorizontal.classList.add('focus');
+  changeSliderHorizontalPositionManually(e.x);
+});
+sliderWrapperHorizontal.addEventListener('touchstart', e => {
+  isSliderHorizontalMode = true;
+  sliderHorizontal.classList.add('focus');
+  changeSliderHorizontalPositionManually(e.touches[0].clientX);
+});
+
+sliderWrapperVertical.addEventListener('mousedown', e => {
+  isSliderVerticalMode = true;
+  sliderVertical.classList.add('focus');
+  changeSliderVerticalPositionManually(e.y);
+});
+sliderWrapperVertical.addEventListener('touchstart', e => {
+  isSliderVerticalMode = true;
+  sliderVertical.classList.add('focus');
+  changeSliderVerticalPositionManually(e.touches[0].clientY);
+});
+
+window.addEventListener('mousemove', e => {
+  changeSliderHorizontalPositionManually(e.x);
+  changeSliderVerticalPositionManually(e.y);
+});
+window.addEventListener('touchmove', e => {
+  changeSliderHorizontalPositionManually(e.touches[0].clientX);
+  changeSliderVerticalPositionManually(e.touches[0].clientY);
+});
+window.addEventListener('mouseup', () => {
+  isSliderHorizontalMode = false;
+  isSliderVerticalMode = false;
+  sliderVertical.classList.remove('focus');
+  sliderHorizontal.classList.remove('focus');
+});
+window.addEventListener('touchend', () => {
+  isSliderHorizontalMode = false;
+  isSliderVerticalMode = false;
+  sliderVertical.classList.remove('focus');
+  sliderHorizontal.classList.remove('focus');
+});
+
+function changeSliderVerticalPositionManually(coursorYpos) { // Изменить позицию вертикального ползунка вручную.
+  if (!isSliderVerticalMode) return;
+  let topIndent = sliderWrapperVertical.getBoundingClientRect().top; // Отступ вертикального желоба от левого края окна (px).
+  let yCoordinateOfPressing = coursorYpos - topIndent; // Y-координата нажатия на горизонтальный желоб.
+  let sliderWrapperHeight = sliderWrapperVertical.offsetHeight; // Высота вертикального желоба включая границы.
+  let sliderWrapperHeightToOneCell = // Высота вертикального желоба соответствующая одной ячейке.
+    sliderWrapperHeight / numberOfCellsHeightWorld;
+  let halfNumberOfCellsCanvas = // Половина от количества ячеек высоты канвас (неактивная высота горизонтального желоба).
+    Math.floor(maxNumberOfCellsHeightCanvas[cellSize] / 2);
+  let countCell = // Счет ячейки с учетом вычета неактивной высоты горизонтального желоба.
+    Math.floor(yCoordinateOfPressing / sliderWrapperHeightToOneCell) - halfNumberOfCellsCanvas;
+  let remainingHeightCells = numberOfCellsHeightWorld - maxNumberOfCellsHeightCanvas[cellSize]; // Остаток клеток высоты.
+  verticalShift = (countCell < 0) ? 0 : (countCell > remainingHeightCells) ? remainingHeightCells : countCell;
+  btnScrollUp.disabled = (verticalShift === 0) ? true : false;
+  btnScrollDown.disabled = (verticalShift === remainingHeightCells) ? true : false;
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+  changeSliderVerticalPosition();
+}
+
+function changeSliderHorizontalPositionManually(coursorXpos) { // Изменить позицию горизонтального ползунка вручную.
+  if (!isSliderHorizontalMode) return;
+  let leftIndent = sliderWrapperHorizontal.getBoundingClientRect().left; // Отступ горизонтального желоба от левого края окна (px).
+  let xCoordinateOfPressing = coursorXpos - leftIndent; // X-координата нажатия на горизонтальный желоб.
+  let sliderWrapperWidth = sliderWrapperHorizontal.offsetWidth; // Ширина горизонтального желоба включая границы.
+  let sliderWrapperWidthToOneCell = // Ширина горизонтального желоба соответствующая одной ячейке.
+    sliderWrapperWidth / numberOfCellsWidthWorld;
+  let halfNumberOfCellsCanvas = // Половина от количества ячеек ширины канвас (неактивная ширина горизонтального желоба).
+    Math.floor(maxNumberOfCellsWidthCanvas[cellSize] / 2);
+  let countCell = // Счет ячейки с учетом вычета неактивной ширины горизонтального желоба.
+    Math.floor(xCoordinateOfPressing / sliderWrapperWidthToOneCell) - halfNumberOfCellsCanvas;
+  let remainingWidthCells = numberOfCellsWidthWorld - maxNumberOfCellsWidthCanvas[cellSize]; // Остаток клеток ширины.
+  horizontalShift = (countCell < 0) ? 0 : (countCell > remainingWidthCells) ? remainingWidthCells : countCell;
+  btnScrollLeft.disabled = (horizontalShift === 0) ? true : false;
+  btnScrollRight.disabled = (horizontalShift === remainingWidthCells) ? true : false;
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+  changeSliderHorizontalPosition();
+}
+
+// ЦВЕТОВОЕ ОФОРМЛЕНИЕ.
+const inptsColor = document.querySelectorAll('.inpt_color'); // Поля ввода цвета цветового оформления.
+
+inptsColor.forEach(e => e.addEventListener('change', () => { drawBackground(); drawGrid(); drawInitialCells(); }));
+
+// НАЧАЛЬНЫЕ НАСТРОЙКИ / СБРОС НАСТРОЕК.
+const btnResetSet = document.querySelector('#btnResetSet'); // Кнопка сброса настроек.
+
+window.addEventListener('load', setInitialSettings);
+btnResetSet.addEventListener('click', setInitialSettings);
+
+function setInitialSettings() { // Установить стартовые настройки.
+  cellSize = 10;
+  inptBirthRule.value = '3';
+  arrCellBirthRule = [3];
+  inptSurvivalRule.value = '23';
+  arrCellSurvivalRule = [2, 3];
+  spanRuleText.textContent = 'B3/S23';
+  inptNumberOfRule.value = '1558';
+  inptLivingСellСolor.value = '#800080';
+  inptEmptyCellColor.value = '#FFFFFF';
+  inptTraceCellColor.value = '#61D6A0';
+  btnZoomInOfWorld.disabled = false;
+  btnZoomOutOfWorld.disabled = false;
+  slctGenSpeed.value = 100;
+  isTrackMode = false;
+  canvas.classList.remove('border');
+  btnTrackMode.textContent = 'Включить режим следов';
+  fitWorldIntoWindow();
+  changeRateOfGenerationalChange();
+}
+
+// ИНФОРМАЦИОННОЕ ОКНО ОБ УПРАВЛЕНИИ С КЛАВИАТУРЫ.
+const btnInformKeys = document.querySelector('#btnInformKeys'); // Кнопка показа информации об управлении с клавиатуры.
+
+btnInformKeys.addEventListener('click', () => {
+  infoWindowType.key = 'information';
+  let code =
     `<ul class="inform-keys">
-        <h2 class="sub-title">Управление:</h2>
-        <li><span class="key">A</span> - старт / стоп</li>
-        <li><span class="key">S</span> - 1 шаг (при зажатии клавиши функция повторяется)</li>
-        <li><span class="key">Del</span> - очистить мир</li>
-        <h2 class="sub-title">В режиме отрисовки колонии на карту:</h2>
-        <li><span class="key">Q</span> - отразить по горизонтали</li>
-        <li><span class="key">W</span> - отразить по вертикали</li>
-        <li><span class="key">E</span> - повернуть на 90° влево</li>
-        <li><span class="key">R</span> - повернуть на 90° вправо</li>
-        <li><span class="key">T</span> - повернуть на 180°</li>
-        <h2 class="sub-title">Настройки мира:</h2>
-        <li><span class="key">D</span> - вкл/вкл режим границ мира</li>
-        <li><span class="key">F</span> - вкл/вкл режим следов</li>
-        <li><span class="key">G</span> - вписать размер мира в окно просмотра</li>
-        <li><span class="key">+</span> - увеличить масштаб</li>
-        <li><span class="key">-</span> - уменьшить масштаб</li>
-      </ul>`
-  dWkey = 'information'; //- обновление ключа для объекта типов информационного окна
-  showWarning(code); //----- запуск функции показа информационного окна
+      <h2 class="sub-title">Управление:</h2>
+      <li><span class="key">A</span> - старт / стоп</li>
+      <li><span class="key">S</span> - 1 шаг Игры</li>
+      <li><span class="key">Del</span> - очистить мир</li>
+      <h2 class="sub-title">В режиме отрисовки колонии на карту:</h2>
+      <li><span class="key">Q</span> - отразить по горизонтали</li>
+      <li><span class="key">W</span> - отразить по вертикали</li>
+      <li><span class="key">E</span> - повернуть на 90° влево</li>
+      <li><span class="key">R</span> - повернуть на 90° вправо</li>
+      <li><span class="key">T</span> - повернуть на 180°</li>
+      <h2 class="sub-title">Настройки мира:</h2>
+      <li><span class="key">D</span> - вкл/вкл режим следов</li>
+      <li><span class="key">F</span> - вкл/вкл сетку</li>
+      <li><span class="key">G</span> - вписать мир в окно просмотра</li>
+      <li><span class="key">+</span> - увеличить масштаб</li>
+      <li><span class="key">-</span> - уменьшить масштаб</li>
+      <li>
+        <div style="display: flex;">
+          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_up" src="icons/ico-arrow.svg" alt=""></span>
+          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_down" src="icons/ico-arrow.svg" alt=""></span>
+          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_left" src="icons/ico-arrow.svg" alt=""></span>
+          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_right" src="icons/ico-arrow.svg" alt=""></span>
+          &nbsp;- прокрутить карту
+        </div>
+      </li>  
+    </ul>`
+  showInfoWindow(code);
 });
 
-//****************************************************************************************************************************************
-//КАНВАС ПРЕДПРОСМОТРА
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК ВЫВОДА КОЛОНИЙ НА КАНВАС.
 
-const canvasPreview = document.querySelector('#canvasPreview'); //- канвас предпросмотра колонии
-const ctxPC = canvasPreview.getContext('2d'); //------------------- 2D контекст канвас предпросмотра
-
-let widthPC = canvasPreview.width = 100; //---- ширина канвас предпросмотра
-let heighthPC = canvasPreview.height = 100; //- высота канвас предпросмотра
-
-let cellsPC = []; //------- массив координат канвас предпросмотра
-let cWPC; //--------------- переменная количества координат ширины колонии
-let cHPC; //--------------- переменная количества координат высоты колонии
-let maxC; //--------------- переменная максимальной координаты колонии
-let cellSizePC; //--------- размер ячеек канвас предпросмотра
-let strCrdnts = ''; //----- переменная для строки координат готовых колоний
-let arrCrdnts = []; //----- переменная для массива координат готовых колоний
-let shadowMode = false; //- переменная режима тени (true - активирован, false - деактивирован)
-
-function strToArr() { //------------------------------- функция преобразования строки координат в массив координат
-  arrCrdnts = []; //----------------------------------- очистка массива координат
-  const xOrY = strCrdnts.slice(0, 1); //--------------- константа первого символа строки (x или y)
-  strCrdnts = strCrdnts.slice(1, strCrdnts.length); //- строка координат присваивает строку координат без 1го символа
-  strCrdnts = strCrdnts //----------------------------- декодинг символов на числа
-    .replaceAll('α', '50').replaceAll('β', '51').replaceAll('γ', '52').replaceAll('δ', '53').replaceAll('ε', '54').replaceAll('ζ', '55')
-    .replaceAll('η', '56').replaceAll('θ', '57').replaceAll('ι', '58').replaceAll('κ', '59').replaceAll('λ', '60').replaceAll('μ', '61')
-    .replaceAll('ν', '62').replaceAll('ξ', '63').replaceAll('ο', '64').replaceAll('π', '65').replaceAll('ρ', '66').replaceAll('σ', '67')
-    .replaceAll('τ', '68').replaceAll('υ', '69').replaceAll('φ', '70').replaceAll('χ', '71').replaceAll('ψ', '72').replaceAll('ω', '73')
-    .replaceAll('w', '74').replaceAll('Α', '75').replaceAll('Β', '76').replaceAll('Γ', '77').replaceAll('Δ', '78').replaceAll('Ε', '79')
-    .replaceAll('Ζ', '80').replaceAll('Η', '81').replaceAll('Θ', '82').replaceAll('Ι', '83').replaceAll('Κ', '84').replaceAll('Λ', '85')
-    .replaceAll('Μ', '86').replaceAll('Ν', '87').replaceAll('Ξ', '88').replaceAll('Ο', '89').replaceAll('Π', '90').replaceAll('Ρ', '91')
-    .replaceAll('Σ', '92').replaceAll('Τ', '93').replaceAll('Υ', '94').replaceAll('Φ', '95').replaceAll('Χ', '96').replaceAll('Ψ', '97')
-    .replaceAll('Ω', '98').replaceAll('W', '99').replaceAll('a', '10').replaceAll('b', '11').replaceAll('c', '12').replaceAll('d', '13')
-    .replaceAll('e', '14').replaceAll('f', '15').replaceAll('g', '16').replaceAll('h', '17').replaceAll('i', '18').replaceAll('j', '19')
-    .replaceAll('k', '20').replaceAll('l', '21').replaceAll('m', '22').replaceAll('n', '23').replaceAll('o', '24').replaceAll('p', '25')
-    .replaceAll('r', '26').replaceAll('s', '27').replaceAll('t', '28').replaceAll('u', '29').replaceAll('A', '30').replaceAll('B', '31')
-    .replaceAll('C', '32').replaceAll('D', '33').replaceAll('E', '34').replaceAll('F', '35').replaceAll('G', '36').replaceAll('H', '37')
-    .replaceAll('I', '38').replaceAll('J', '39').replaceAll('K', '40').replaceAll('L', '41').replaceAll('M', '42').replaceAll('N', '43')
-    .replaceAll('O', '44').replaceAll('P', '45').replaceAll('R', '46').replaceAll('S', '47').replaceAll('T', '48').replaceAll('U', '49');
-  if (xOrY === 'x') { //------------------------------- если 1й символ === x, то
-    arrCrdnts = transformCrdnts(); //------------------ массив координат присваивает трансформированную в массив строку координат
-  } else { //------------------------------------------ иначе (если 1й символ === y, то)
-    const arr = transformCrdnts(); //------------------ массив-посредник присваивает трансформированную в массив строку координат
-    for (const item of arr) { //----------------------- цикл перебора координат массива-посредника
-      //координаты меняются местами
-      arrCrdnts.push([item[1], item[0]]); //- внесение координат в массив координат
-    }
-  }
-  shadowMode = true; //--------------- активация режима тени
-  btnResetColony.disabled = false; //- включение кнопки сброса отрисовки колонии на канвас
+let colony = { // Объект колонии.
+  name: '', // Имя колонии.
+  author: '', // Автор колонии.
+  comments: '', // Комментарии для колонии.
+  crdnts: [], // Массив координат колонии.
+  rule: [[3], [2, 3]], // Правила зарождения и сохранения клеток.
+  width: 0, // Количество клеток ширины колонии.
+  height: 0, // Количество клеток высоты колонии.
+  rle: '', // RLE-формат паттерна.
+  fullRle: '', // Полный RLE-формат паттерна.
+  plaintext: '', // Plaintext-формат паттерна.
+  fullPlaintext: '' // Полный Plaintext-формат паттерна.
 }
 
-function transformCrdnts() { //------ функция собственно трансформации коротких координат в массив координат
-  let str = strCrdnts.split(' '); //- расщепление строки координат по ' ' (пробелам)
-  let aArr = []; //------------------ массив для первых координат
-  let bArr = []; //------------------ массив для вторых координат
+// ОТРИСОВКА ТЕНИ КОЛОНИИ.
+let coursorX = 0; // Переменная положения курсора мыши по X-координате.
+let coursorY = 0; // Переменная положения курсора мыши по Y-координате.
 
-  for (let item of str) { //---------- цикл перебора координат
-    item = item.split(':'); //-------- расщепление координат по ':' (двоеточиям)
-    aArr.push(Number(item[0])); //---- внесение первых координат в массив с превращением в числа
-    bArr.push(item[1].split(',')); //- расщепление вторых координат по ',' (запятым) и внесение в массив
+let coursorXList = null; // Переменная списка для X-координат.
+let coursorYList = null; // Переменная списка для Y-координат.
+
+canvas.addEventListener('mousemove', e => { // При движении курсора мыши: вычисление координат.
+  coursorX = Math.floor(e.offsetX / cellSize);
+  coursorY = Math.floor(e.offsetY / cellSize);
+  if (coursorX < 0) coursorX = 0;
+  if (coursorY < 0) coursorY = 0;
+  changeCrdnts();
+});
+
+canvas.addEventListener('touchmove', e => { // При движении касания сенсорного экрана: вычисление координат.
+  let rect = canvas.getBoundingClientRect(); // Перменная положения канвас относительно окна просмотра.
+  coursorX = Math.floor((e.touches[0].clientX - rect.x) / cellSize);
+  coursorY = Math.floor((e.touches[0].clientY - rect.y) / cellSize);
+  changeCrdnts();
+});
+
+const spanMouseXcoordinate = document.querySelector('#spanMouseXcoordinate'); // Текст для X-координаты.
+const spanMouseYcoordinate = document.querySelector('#spanMouseYcoordinate'); // Текст для Y-координаты.
+
+let isShadowMode = false; // Переменная режима тени (true - активирован, false - деактивирован);
+
+function changeCrdnts() { // Изменить координаты.
+  coursorXList = { value: coursorX, next: coursorXList };
+  coursorYList = { value: coursorY, next: coursorYList };
+  if (coursorXList.next?.next) coursorXList.next.next = null;
+  if (coursorYList.next?.next) coursorYList.next.next = null;
+  if (coursorXList.value !== coursorXList.next?.value || coursorYList.value !== coursorYList.next?.value) {
+    if (isShadowMode) drawShadow();
+    spanMouseXcoordinate.textContent = coursorX + horizontalShift + 1;
+    spanMouseYcoordinate.textContent = coursorY + verticalShift + 1;
   }
-  for (let bC of bArr) { //--------------------------------------------- цикл перебора вторых координат
-    for (let j = 0; j < bC.length; j++) //------------------------------ цикл перебора подмассивов вторых координат
-      if (bC[j].includes('-')) { //------------------------------------- если подмассив содержит '-' (тире), то
-        bC[j] = bC[j].split('-'); //------------------------------------ расщепление подмассива на подподмассив
-        for (let k = Number(bC[j][0]); k <= Number(bC[j][1]); k++) { //- цикл перебора числовых значений подподмасиива
-          bC[j].push(k); //--------------------------------------------- внесение диапазона в подподмассив
+}
+
+function drawShadow() { // Отрисовать тень колонии.
+  if (colony.width <= numberOfCellsWidthWorld && colony.height <= numberOfCellsHeightWorld) {
+    drawBackground();
+    drawGrid();
+    drawInitialCells();
+    let stopDrawingWidth = // Переменная количества ячеек которые позволят не отрисовывать тень за границей по ширине.
+      (coursorX > numberOfCellsWidthWorld - colony.width - horizontalShift) ?
+        colony.width - (numberOfCellsWidthWorld - coursorX - horizontalShift) : 0;
+    let stopDrawingHeight = // Переменная количества ячеек которые позволят не отрисовывать тень за границей по высоте.
+      (coursorY > numberOfCellsHeightWorld - colony.height - verticalShift) ?
+        colony.height - (numberOfCellsHeightWorld - coursorY - verticalShift) : 0;
+    let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+    for (const [x, y] of colony.crdnts) {
+      if (cells[x + horizontalShift + coursorX - stopDrawingWidth][y + verticalShift + coursorY - stopDrawingHeight] === 0) {
+        drawShadowCell(x + coursorX - stopDrawingWidth, y + coursorY - stopDrawingHeight);
+      }
+    }
+  } else {
+    infoWindowType.key = 'bigColony';
+    let code = `Карта меньше выбранной вами колонии.<br>Увеличить карту под подходящий размер для колонии?`;
+    showInfoWindow(code);
+  }
+}
+
+// ОТРИСОВКА КОЛОНИИ И РУЧНОГО РИСУНКА.
+const nameColony = document.querySelector('#nameColony') // Название выбранной колонии
+const canvasPreview = document.querySelector('#canvasPreview'); // Канвас предпросмотра колонии.
+const ctxPC = canvasPreview.getContext('2d'); // 2D контекст канвас предпросмотра.
+
+canvas.addEventListener('touchend', () => { if (isShadowMode) drawColony() });
+
+canvas.addEventListener('click', () => {
+  if (isShadowMode) {
+    drawColony();
+  } else {
+    drawHand();
+  }
+  colony = {};
+});
+
+function drawColony() { // Отрисовать колонию.
+  let stopDrawingWidth = // Переменная количества ячеек которые позволят не отрисовывать тень за границей по ширине.
+    (coursorX > numberOfCellsWidthWorld - colony.width - horizontalShift) ?
+      colony.width - (numberOfCellsWidthWorld - coursorX - horizontalShift) : 0;
+  let stopDrawingHeight = // Переменная количества ячеек которые позволят не отрисовывать тень за границей по высоте.
+    (coursorY > numberOfCellsHeightWorld - colony.height - verticalShift) ?
+      colony.height - (numberOfCellsHeightWorld - coursorY - verticalShift) : 0;
+  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  for (const [x, y] of colony.crdnts) {
+    cells[x + horizontalShift + coursorX - stopDrawingWidth][y + verticalShift + coursorY - stopDrawingHeight] = 1;
+    drawLivingCell(x + coursorX - stopDrawingWidth, y + coursorY - stopDrawingHeight);
+  }
+  arrCellBirthRule = colony.rule[0];
+  arrCellSurvivalRule = colony.rule[1];
+  inptBirthRule.value = arrCellBirthRule.join('');
+  inptSurvivalRule.value = arrCellSurvivalRule.join('');
+  inptNumberOfRule.value = getNumberOfRulesArray(inptBirthRule.value, inptSurvivalRule.value);
+  spanRuleText.textContent = `B${arrCellBirthRule.join('')}\/S${arrCellSurvivalRule.join('')}`;
+  cellsForViewing = getCellsToView(getNativeCrdnts());
+  clearPreviewCanvas();
+}
+
+function clearPreviewCanvas() { // Очистить канвас предпросмотра.
+  ctxPC.fillStyle = 'white';
+  ctxPC.fillRect(0, 0, 100, 100);
+  isShadowMode = false;
+  colony = {};
+  nameColony.textContent = 'Название колонии';
+  otherData.textContent = 'Прочие данные';
+  if (localStorage.length) {
+    optFirstSlctCustomColony.textContent = 'Выбрать'
+    wrapperSlctCustomColony.classList.remove('disabled');
+  } else {
+    optFirstSlctCustomColony.textContent = 'Здесь будут ваши колонии';
+    slctCustomColony.disabled = true;
+    wrapperSlctCustomColony.classList.add('disabled');
+  }
+  btnDelColony.disabled = true;
+  btnResetColony.disabled = true;
+}
+
+function drawHand() { // Отрисовать вручную.
+  if (coursorX >= numberOfCellsWidthWorld || coursorY >= numberOfCellsHeightWorld) return; // Запрет отрисовки за границами мира.
+  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  if (cells[coursorX + horizontalShift][coursorY + verticalShift] === 0) {
+    cells[coursorX + horizontalShift][coursorY + verticalShift] = 1;
+    drawLivingCell(coursorX, coursorY);
+  } else {
+    cells1[coursorX + horizontalShift][coursorY + verticalShift] = 0;
+    cells2[coursorX + horizontalShift][coursorY + verticalShift] = 0;
+    drawEmptyCell(coursorX, coursorY);
+  }
+  cellsForViewing = getCellsToView(getNativeCrdnts());
+}
+
+// СБРОС КОЛОНИИ.
+const btnResetColony = document.querySelector('#btnResetColony'); // Кнопка сброса отрисовки колонии на предпросмотре и тени на карте.
+
+btnResetColony.addEventListener('click', resetColony);
+
+function resetColony() { // Сбросить отрисовку колонии на предпросмотре и тени на карте.
+  clearPreviewCanvas();
+  drawBackground();
+  drawGrid();
+  drawInitialCells();
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК ТРАНСФОРМАЦИИ КОЛОНИИ.
+
+const btnHorizReflection = document.querySelector('#btnHorizReflection'); // Кнопка отражения колонии по горизонтали.
+const btnVertReflection = document.querySelector('#btnVertReflection'); // Кнопка отражения колонии по вертикали.
+const btnRightTurn = document.querySelector('#btnRightTurn'); // Кнопка поворота колонии вправо на 90 градусов.
+const btnLeftTurn = document.querySelector('#btnLeftTurn'); // Кнопка поворота колонии влево на 90 градусов.
+const btnRotate180deg = document.querySelector('#btnRotate180deg'); // Кнопка поворота колонии на 180 градусов.
+
+btnHorizReflection.addEventListener('click', () => { flipHorizontally(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas(); });
+btnVertReflection.addEventListener('click', () => { flipVertically(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas(); });
+btnRightTurn.addEventListener('click', () => { turnRight(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas() });
+btnLeftTurn.addEventListener('click', () => { turnLeft(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas(); });
+btnRotate180deg.addEventListener('click', () => { rotate180deg(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas(); });
+
+function flipHorizontally() { // Отразить колонию по горизонтали (слева направо).
+  if (!isShadowMode) return;
+  const result = []; // Массив для измененных координат колонии.
+  for (const [x, y] of colony.crdnts) {
+    result.push([0 - x + colony.width - 1, y]);
+  }
+  colony.crdnts = result;
+}
+
+function flipVertically() { // Отразить колонию по вертикали (сверху вниз).
+  if (!isShadowMode) return;
+  const result = []; // Массив для измененных координат колонии.
+  for (const [x, y] of colony.crdnts) {
+    result.push([x, 0 - y + colony.height - 1]);
+  }
+  colony.crdnts = result;
+}
+
+function turnRight() { // Повернуть колонию на 90 градусов по часовой (поворот вправо).
+  if (!isShadowMode) return;
+  const result = []; // Массив для измененных координат колонии.
+  for (const [x, y] of colony.crdnts) {
+    result.push([y, x]); // Координаты меняются местами.
+  }
+  let width = colony.height;
+  let height = colony.width;
+  colony.width = width;
+  colony.height = height;
+  colony.crdnts = result;
+  flipHorizontally();
+}
+
+function turnLeft() { // Повернуть колонию на 90 градусов против часовой (поворот влево).
+  if (!isShadowMode) return;
+  const result = []; // Массив для измененных координат колонии.
+  for (const [x, y] of colony.crdnts) {
+    result.push([y, x]); // Координаты меняются местами.
+  }
+  let width = colony.height;
+  let height = colony.width;
+  colony.width = width;
+  colony.height = height;
+  colony.crdnts = result;
+  flipVertically();
+}
+
+function rotate180deg() { // Повернуть колонию на 180 градусов.
+  if (!isShadowMode) return;
+  flipHorizontally();
+  flipVertically();
+}
+
+function drawPreviewCanvas() { // Отрисовать канвас предпросмотра.
+  if (!isShadowMode) return;
+  let maxNumberOfCellsColony = Math.max(colony.width, colony.height); // Максимальное количество ячеек в ширине или в высоте колонии.
+  let cellSizePreviewCanvas = 100 / maxNumberOfCellsColony; // Размер ячейки канвас предпросмотра.
+  canvasPreview.width = cellSizePreviewCanvas * colony.width;
+  canvasPreview.height = cellSizePreviewCanvas * colony.height;
+  let cellsPreviewCanvas = []; // Массив координат канвас предпросмотра.
+  for (let i = 0; i < maxNumberOfCellsColony; i++) { // Цикл генерации координат канвас предпросмотра.
+    cellsPreviewCanvas[i] = [];
+    for (let j = 0; j < maxNumberOfCellsColony; j++) {
+      cellsPreviewCanvas[i][j] = 0;
+    }
+  }
+  for (const [x, y] of colony.crdnts) {
+    cellsPreviewCanvas[x][y] = 1;
+  }
+  for (let i = 0; i < maxNumberOfCellsColony; i++) {
+    for (let j = 0; j < maxNumberOfCellsColony; j++) {
+      if (cellsPreviewCanvas[i][j] === 1) {
+        ctxPC.fillStyle = 'black';
+        if (maxNumberOfCellsColony > 50) {
+          ctxPC.fillRect(i * cellSizePreviewCanvas, j * cellSizePreviewCanvas, cellSizePreviewCanvas, cellSizePreviewCanvas);
+        } else {
+          ctxPC.fillRect(i * cellSizePreviewCanvas, j * cellSizePreviewCanvas, cellSizePreviewCanvas - 1, cellSizePreviewCanvas - 1);
         }
-        bC[j].splice(0, 2); //--- удаление первых 2х значений (которые являлись рамками диапазона)
-      } else { //---------------- иначе (если подмассив не содержит '-' (тире),то)
-        bC[j] = Number(bC[j]) //- превращение подмассива в число
-      }
-  }
-  let newBArr = []; //------------------------------------- массив для измененных координат
-  for (let i = 0; i < aArr.length; i++) { //--------------- цикл перебора первых координат
-    for (let j = 0; j < bArr[i].length; j++) { //---------- цикл перебора подмассивоа вторых координат
-      newBArr.push([aArr[i], bArr[i][j]]); //-------------- внесение первых и вторых координат в массив
-      for (let k = 0; k < bArr[i][j].length; k++) { //----- цикл перебора подподмассивов
-        newBArr.push([aArr[i], bArr[i][j][k]]); //--------- внесение первых и вторых координат в массив
-      }
-    }
-  }
-  let arr = []; //- массив-посредник для чистых координат
-  //очистка массива от координат с подмассивами
-  for (const item of newBArr) { //- цикл перебора массива для измененных координат
-    if (!isNaN(item[1])) { //------ если вторая координата число, то
-      arr.push(item); //----------- внесение координат в массив-посредник
-    }
-  }
-  return arr; //- возврат массива-посредника
-}
-
-function drawPC() { //----------------- функция отрисовки канвас предпросмотра
-  if (shadowMode) { //----------------- если режим тени активирован
-    let сrdnsX = []; //---------------- массив X-координат 
-    let сrdnsY = []; //---------------- массив Y-координат
-    for (const item of arrCrdnts) { //- цикл перебора массива координат колонии
-      сrdnsX.push(item[0]); //--------- внесение X-координат в массив
-      сrdnsY.push(item[1]); //--------- внесение Y-координат в массив
-    }
-    cWPC = Math.max(...сrdnsX) + 1; //- присваивание маскимальной координаты из X-координат + 1 (так как координаты начинаются с 0)
-    cHPC = Math.max(...сrdnsY) + 1; //- присваивание маскимальной координаты из Y-координат + 1 (так как координаты начинаются с 0)
-
-    if (cWPC > cHPC) { //- если максимальная X-координата больше максимальной Y-координаты, то
-      maxC = cWPC //------ количеству координат присваевается максимальная X-координата
-    } else { //----------- иначе (если максимальная Y-координата больше максимальной X-координаты, то)
-      maxC = cHPC //------ количеству координат присваевается максимальная Y-координата
-    }
-    cellSizePC = 100 / maxC; //------------------ размер ячейки канвас предпросмотра присваивает 100 / максимальную координату
-    canvasPreview.width = cellSizePC * cWPC; //-- ширина канвас предпросмотра присваивает размер ячейки * максимальную X-координтау
-    canvasPreview.height = cellSizePC * cHPC; //- высота канвас предпросмотра присваивает размер ячейки * максимальную Y-координтау
-    for (let i = 0; i < maxC; i++) { //---------- цикл генерации координат канвас предпросмотра
-      cellsPC[i] = [];
-      for (let j = 0; j < maxC; j++) {
-        cellsPC[i][j] = 0;
-      }
-    }
-    for (const item of arrCrdnts) { //- цикл внесения координат из массива координат колонии
-      cellsPC[item[0]][item[1]] = 1;
-    }
-    for (let i = 0; i < maxC; i++) { //- цикл перебора координат колонии
-      for (let j = 0; j < maxC; j++) {
-        if (cellsPC[i][j] === 1) { //-------------------------------------------------------------------- если координата содержит 1, то
-          ctxPC.fillStyle = 'black'; //------------------------------------------------------------------ отрисовка черной ячейки
-          ctxPC.fillRect(i * widthPC / maxC, j * heighthPC / maxC, widthPC / maxC, heighthPC / maxC); //- положение ячейки
-        } else { //-------------------------------------------------------------------------------------- иначе (если координата содержит 0, то)
-          ctxPC.fillStyle = 'white'; //------------------------------------------------------------------ отрисовка белой ячейки
-          ctxPC.fillRect(i * widthPC / maxC, j * heighthPC / maxC, widthPC / maxC, heighthPC / maxC); //- положение ячейки
-        }
       }
     }
   }
 }
 
-function clearPC() { //--------------------------------------------------- функция очистки канвас предпросмотра
-  ctxPC.fillStyle = 'white'; //------------------------------------------- отрисовка канвас предпросмотра белым
-  ctxPC.fillRect(0, 0, widthPC, heighthPC); //---------------------------- весь канвас предпросмотра
-  shadowMode = false; //-------------------------------------------------- деактивация режима тени
-  strCrdnts = ''; //------------------------------------------------------ очистка переменной строки координат колонии
-  arrCrdnts = []; //------------------------------------------------------ очистка массива координат колонии
-  nameColony.textContent = 'Название колонии'; //------------------------- обновление текста названия выбранной колонии
-  if (localStorage.length !== 0) { //------------------------------------- если локальное хранилище не пусто (длина не равна 0), то
-    optFirstSlctCustomColony.textContent = 'Выбрать' //------------------- обновление текста первого option селекта пользовательских колоний
-  } else { //------------------------------------------------------------- иначе (если локальное хранилище пусто (длина равна 0), то)
-    optFirstSlctCustomColony.textContent = 'Здесь будут ваши колонии'; //- обновление текста первого option селекта пользовательских колоний
-    slctCustomColony.disabled = true; //---------------------------------- выключение селекта пользовательских колоний
-  }
-  btnDelColony.disabled = true; //--- выключение кнопки удаления пользовательской колонии
-  btnResetColony.disabled = true; //- выключение кнопки сброса отрисовки колонии на канвас
-}
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК ВЫБОРА ГОТОВЫХ КОЛОНИЙ ПРИ ИЗМЕНЕНИИ СООТВЕТСТВУЮЩИХ СЕЛЕКТОРОВ.
 
-//****************************************************************************************************************************************
-//БЛОК ВЫВОДА КОЛОНИЙ НА КАНВАС 
+const defaultColony = document.querySelector('#defaultColony'); // Секция паттернов готовых колоний.
 
-//Отрисовка тени колонии
-//блок для уменьшения нагрузки на браузер (перерисовка канвас будет происходить при изменении координат курсора мыши)
+window.addEventListener('load', populate());
 
-let x = 0; //- переменная положения курсора мыши по X-координате
-let y = 0; //- переменная положения курсора мыши по Y-координате
-
-let coursorXList = null; //- переменная списка для X-координат
-let coursorYList = null; //- переменная списка для Y-координат
-
-canvas.addEventListener('mousemove', e => { //- при движении курсора мыши: вычисление координат
-  //взят модуль настоящей координаты курсора мыши, поделен на размер клетки и округлен в меньшую сторону
-  x = Math.floor(Math.abs(e.offsetX) / cellSize); //- переменная с X-координатой курсора мыши
-  y = Math.floor(Math.abs(e.offsetY) / cellSize); //- переменная с Y-координатой курсора мыши
-  changeCrdnts(); //--------------------------------- запуск функции выявления изменения координат
-});
-
-canvas.addEventListener('touchmove', e => { //-- при движении касания сенсорного экрана: вычисление координат
-  let rect = canvas.getBoundingClientRect(); //- перменная положения канвас относительно окна просмотра
-  //из положения касания вычтено положение канвас относительно окна просмотра, поделено на размер клетки и округлено назад
-  x = Math.floor((e.touches[0].clientX - rect.x) / cellSize); //- переменная с X-координатой касания сенсорного экрана
-  y = Math.floor((e.touches[0].clientY - rect.y) / cellSize); //- переменная с Y-координатой касания сенсорного экрана
-  changeCrdnts(); //--------------------------------------------- запуск функции выявления изменения координат
-});
-
-const mouseXcoordinate = document.querySelector('#mouseXcoordinate'); //- текст для X-координаты
-const mouseYcoordinate = document.querySelector('#mouseYcoordinate'); //- текст для Y-координаты
-
-function changeCrdnts() { //------------------------- функция выявления изменения координат
-  coursorXList = { value: x, next: coursorXList }; //- добавление значения в начало списка для X-координат
-  coursorYList = { value: y, next: coursorYList }; //- добавление значения в начало списка для Y-координат
-  if (coursorXList.next?.next) { //------------------- если существует 3й "элемент" списка для X-координат
-    coursorXList.next.next = null; //----------------- удаление 3го элемента
-  }
-  if (coursorYList.next?.next) { //--- если существует 3й "элемент" списка для Y-координат
-    coursorYList.next.next = null; //- удаление 3го элемента
-  }
-
-  if (coursorXList.value !== coursorXList.next?.value || //- если 1й элемент не равен 2му элементу списка для X-координат, ИЛИ
-    coursorYList.value !== coursorYList.next?.value) { //--- если 1й элемент не равен 2му элементу списка для Y-координат
-    if (shadowMode) drawShadow(); // ----------------------- если режим тени активирован, то запуск функции отрисовки тени колонии
-    mouseXcoordinate.textContent = `X: ${x + 1}`; //-------- текст для X-координаты
-    mouseYcoordinate.textContent = `Y: ${y + 1}`; //-------- текст для Y-координаты
+async function populate() { // Внести данные колоний из JSON.
+  try {
+    const request = new Request('coloniesDB.json');
+    const response = await fetch(request);
+    const data = await response.json();
+    addDefaultColonyToSelect(data, defaultColony);
+    addEventListenersForDropDownSubpanels();
+    addEventListenersForSlctsDefaultColonies();
+    selectDefaultColony(data);
+  } catch {
+    defaultColony.textContent = 'К сожалению данные колоний не загрузились.';
   }
 }
 
-let worldNewSize; //- переменная нового размера мира
-
-function drawShadow() { //----------- функция отрисовки тени колонии
-  if (cWPC <= cW && cHPC <= cH) { //- если ширина и высота колонии меньше или равна ширине и высоте карты, то
-    drawCells(); //------------------ запуск функции отрисовки клеток (для очистки пройденного указателем мыши пути)
-    //блок запрета отрисовки тени за границами мира
-    let a = 0; //------------- переменная блока границы по ширине
-    let b = 0; //------------- переменная блока границы по высоте
-    if (x > cW - cWPC) { //--- если X-координата больше чем ширина - ширина колонии, то
-      a = cWPC - (cW - x); //- пременная присваивает ширину колонии за вычетом разницы ширины мира и X-координаты
-    }
-    if (y > cH - cHPC) { //- аналогично для Y-координаты
-      b = cHPC - (cH - y);
-    }
-    for (const item of arrCrdnts) { //- цикл перебора координат колонии
-      if (step) { //------------------- если предыдущее поколение, то
-        //координата в положении колонии + координата мыши - переменная блока границы
-        if (cells1[item[0] + x - a][item[1] + y - b] === 0) { //- если координаты предыдущего поколения содержат 0, то
-          shadow(item[0] + x - a, item[1] + y - b); //----------- отрисовка тени
-        }
-      } else { //------------------------------------------------ иначе (если последующее поколение, то) (аналогично для последующего поколения)
-        if (cells2[item[0] + x - a][item[1] + y - b] === 0) {
-          shadow(item[0] + x - a, item[1] + y - b);
-        }
+function addDefaultColonyToSelect(data, currentPanel) { // Добавить готовые колонии в селект.
+  for (const group of data.groups) {
+    if (group.colonies) {
+      let wrapperSelect = document.createElement('div'); // Обёртка селекта.
+      wrapperSelect.setAttribute('class', 'wrapper-slct wrapper-slct_default-colony close');
+      currentPanel.appendChild(wrapperSelect);
+      let select = document.createElement('select'); // Селект готовых колоний.
+      select.setAttribute('class', 'slct slct_default-colony');
+      select.innerHTML = `<option value="0" selected disabled>${group.name}</option>`;
+      wrapperSelect.appendChild(select);
+      for (let colony of group.colonies) {
+        select.insertAdjacentHTML('beforeend', `<option>${colony.name}</option>`);
       }
-    }
-  } else { //--------------------- иначе (если ширина или высота колонии больше ширины или высоты карты)
-    if (maxC > 498) { //---------- если максимальная координата колонии больше 498, то 
-      worldNewSize = 500; //------ новый размер мира присваивает 500
-    } else { //------------------- иначе (если максимальная координата колонии меньше или равна 498, то)
-      worldNewSize = maxC + 2; //- новый размер мира присваивает максимальное координату колонии + 2
-    }
-    dWkey = 'bigColony'; //- обновление ключа для объекта типов информационного окна
-    let code = //----------- текст информационного окна
-      `<p>Карта меньше выбранной вами колонии.<br />
-      Увеличить карту под подходящий размер для колонии?</p>`
-    showWarning(code); //- запуск функции показа информационного окна
-  }
-}
-
-//Отрисовка колонии и ручного рисунка
-const nameColony = document.querySelector('#nameColony') //- название выбранной колонии
-
-canvas.addEventListener('touchend', () => { //- при окончании касания сенсорного экрана
-  if (shadowMode) { //------------------------- если режим тени активирован, то
-    drawColony(); //--------------------------- запуск функции отрисовки колонии
-  }
-});
-
-canvas.addEventListener('click', e => { //- при нажатии на канвас
-  if (shadowMode) { //--------------------- если режим тени активирован, то
-    drawColony(); //----------------------- запуск функции отрисовки колонии
-  } else { //------------------------------ иначе (если режим тени деактивирован, то)
-    handDraw(e); //------------------------ запуск функции ручной отрисовки
-  }
-});
-
-function drawColony() { //- функция отрисовки колонии
-  //блок запрета отрисовки колонии за границами мира
-  let a = 0; //------------- переменная блока границы по ширине
-  let b = 0; //------------- переменная блока границы по высоте
-  if (x > cW - cWPC) { //--- если X-координата больше чем ширина - ширина колонии, то
-    a = cWPC - (cW - x); //- пременная присваивает ширину колонии за вычетом разницы ширины мира и X-координаты
-  }
-  if (y > cH - cHPC) { //- аналогично для Y-координаты
-    b = cHPC - (cH - y);
-  }
-  //отрисовка колонии
-  for (const item of arrCrdnts) { //------------------- цикл генерации координат готовых колоний
-    if (step) { //------------------------------------- если предыдущее поколение
-      cells1[item[0] + x - a][item[1] + y - b] = 1; //- присвоение координатам предыдущего поколения 1(оживление) в положении тени
-      life(item[0] + x - a, item[1] + y - b); //------- запуск отрисовки живых клеток
-    } else { //---------------------------------------- иначе (если последующее поколение, то) (аналогично для последующего поколения)
-      cells2[item[0] + x - a][item[1] + y - b] = 1;
-      life(item[0] + x - a, item[1] + y - b);
-    }
-  }
-  clearPC(); //- запуск функции очистки канвас предпросмотра
-}
-
-function handDraw(e) { //---------- функция ручной отрисовки
-  x = e.offsetX; //---------------- переменная с координатой нажатия по X
-  y = e.offsetY; //---------------- переменная с координатой нажатия по Y
-  x = Math.floor(x / cellSize); //- деление координаты на cellSize и округление в меньшую сторону
-  y = Math.floor(y / cellSize); //- деление координаты на cellSize и округление в меньшую сторону
-  if (step) { //------------------- предыдущее поколение, то
-    if (cells1[x][y] === 0) { //--- если координаты предыдущего поколения содержат 0, то
-      cells1[x][y] = 1; //--------- присваиваится координатам 1
-      life(x, y); //--------------- запуск отрисовки живых клеток
-    } else { //-------------------- иначе (если координаты содержат 1, то)
-      cells1[x][y] = 0; //--------- присваиваится координатам 0
-      if (trackMode) { //-------- если режим следов активирован, то
-        track(x, y); //---------- запуск отрисовки темного фона
-      } else { //---------------- иначе (если режим следов деактивирован), то
-        empty(x, y); //---------- запуск отрисовки пустых клеток
-      }
-    }
-  } else { //---------------------- иначе (если последующее поколение, то) (аналогично для последующего поколения)
-    if (cells2[x][y] === 0) {
-      cells2[x][y] = 1;
-      life(x, y);
     } else {
-      cells2[x][y] = 0;
-      if (trackMode) {
-        track(x, y);
+      currentPanel.innerHTML += `<button class="btn btn_tab btn_tab_drop-down btn_tab_drop-down_default-colony close">${group.name}</button>`;
+      let nextPanel = document.createElement('div'); // Выпадающая панель внутренняя.
+      nextPanel.setAttribute('class', 'panel panel_drop-down panel_drop-down_default-colony none');
+      currentPanel.appendChild(nextPanel);
+      addDefaultColonyToSelect(group, nextPanel);
+    }
+  }
+}
+
+function addEventListenersForDropDownSubpanels() { // Добавление прослушивателей события для выпадающих субпанелей.
+  const btnsTabDropDC = document.querySelectorAll('.btn_tab_drop-down_default-colony'); // Кнопки открытия/скрытия панелей.
+  const panelDropDownDC = document.querySelectorAll('.panel_drop-down_default-colony'); // Выпадающие субпанели вкладки готовых колоний.
+  for (let i = 0; i < btnsTabDropDC.length; i++) {
+    btnsTabDropDC[i].addEventListener('click', () => {
+      if (btnsTabDropDC[i].classList.contains('open')) {
+        btnsTabDropDC[i].classList.remove('open');
+        btnsTabDropDC[i].classList.add('close');
+        panelDropDownDC[i].classList.add('none');
       } else {
-        empty(x, y);
+        btnsTabDropDC[i].classList.remove('close');
+        btnsTabDropDC[i].classList.add('open');
+        panelDropDownDC[i].classList.remove('none');
       }
-    }
+    });
   }
 }
 
-//Сброс колонии
-const btnResetColony = document.querySelector('#btnResetColony'); //- кнопка сброса отрисовки колонии на канвас
-btnResetColony.disabled = true; //- выключение кнопки сброса отрисовки колонии на канвас
-
-btnResetColony.addEventListener('click', resetColony); //- при нажатии: запуск функции сброса отрисовки колонии на канвас
-
-function resetColony() { //- функция сброса отрисовки колонии на канвас
-  clearPC(); //------------- запуск функции очистки канвас предпросмотра
-  drawCells(); //----------- запуск функции отрисовки клеток
+function addEventListenersForSlctsDefaultColonies() { // Добавить прослушиватели события для селектов готовых колоний.
+  openOrCloseSelectsDefaultColonies('click');
+  openOrCloseSelectsDefaultColonies('change');
+  openOrCloseSelectsDefaultColonies('blur');
 }
 
-//****************************************************************************************************************************************
-//БЛОК ТРАНСФОРМАЦИИ КОЛОНИЙ
-
-const btnHorizReflection = document.querySelector('#btnHorizReflection'); //- кнопка отражения колонии по горизонтали
-const btnVertReflection = document.querySelector('#btnVertReflection'); //--- кнопка отражения колонии по вертикали
-const btnRightTurn = document.querySelector('#btnRightTurn'); //------------- кнопкаа поворота колонии вправо на 90 градусов
-const btnLeftTurn = document.querySelector('#btnLeftTurn'); //--------------- кнопка поворота колонии влево на 90 градусов
-const btnRotate180deg = document.querySelector('#btnRotate180deg'); //------ кнопка поворота колонии на 180 градусов
-
-btnHorizReflection.addEventListener('click', horizReflection); //- при нажатии на кнопку запуск функции отражения колонии по горизонтали
-btnHorizReflection.addEventListener('click', drawPC); //---------- при нажатии на кнопку запуск функции отрисовки канвас предпросмотра
-btnVertReflection.addEventListener('click', vertReflection); //--- при нажатии на кнопку запуск функции отражения колонии по вертикали
-btnVertReflection.addEventListener('click', drawPC); //----------- при нажатии на кнопку запуск функции отрисовки канвас предпросмотра
-btnRightTurn.addEventListener('click', rightTurn); //------------- при нажатии на кнопку запуск функции поворота колонии вправо на 90 градусов
-btnRightTurn.addEventListener('click', drawPC); //---------------- при нажатии на кнопку запуск функции отрисовки канвас предпросмотра
-btnLeftTurn.addEventListener('click', leftTurn); //--------------- при нажатии на кнопку запуск функции поворота колонии влево на 90 градусов
-btnLeftTurn.addEventListener('click', drawPC); //----------------- при нажатии на кнопку запуск функции отрисовки канвас предпросмотра
-btnRotate180deg.addEventListener('click', rotate180deg); //------- при нажатии на кнопку запуск функции поворота колонии на 180 градусов
-btnRotate180deg.addEventListener('click', drawPC); //------------- при нажатии на кнопку запуск функции отрисовки канвас предпросмотра
-
-function horizReflection() { //-------- функция отражения координат колонии по горизонтали (слева направо)
-  if (shadowMode) { //----------------- если режим тени активирован, то
-    const crdntX = []; //-------------- массив для X-координат
-    const newArr = []; //-------------- массив новых координат колонии
-    for (const item of arrCrdnts) { //- цикл перебора массива координат колонии
-      crdntX.push(item[0]); //--------- внесение в массив X-координат
-    }
-    for (const item of arrCrdnts) { //- цикл изменения координат
-      //0 - X-координата + максимальная X-координата, Y-координата неизменна
-      newArr.push([0 - item[0] + Math.max(...сrdnsX), item[1]]); //- изменение координат и внесение в новый массив
-    }
-    strCrdnts = newArr.join(' '); //- склеивание массива в строку и обновление строки координат
-    arrCrdnts = newArr; //----------- обновление массива координат
-    drawShadow(); //----------------- запуск функции отрисовки тени колонии
-  }
-}
-function vertReflection() { //--------- функция отражения координат колонии по вертикали (сверху вниз)
-  if (shadowMode) { //----------------- если режим тени активирован, то
-    const crdntY = []; //-------------- массив для Y-координат
-    const newArr = []; //-------------- массив новых координат колонии
-    for (const item of arrCrdnts) { //- цикл перебора массива координат колонии
-      crdntY.push(item[1]); //--------- внесение в массив Y-координат
-    }
-    for (const item of arrCrdnts) { //- цикл изменения координат
-      // X-координата неизменна, 0 - Y-координата + максимальная Y-координата
-      newArr.push([item[0], 0 - item[1] + Math.max(...сrdnsY)]); //- изменение координат и внесение в новый массив
-    }
-    strCrdnts = newArr.join(' '); //- склеивание массива в строку
-    arrCrdnts = newArr; //----------- обновление массива координат
-    drawShadow(); //----------------- запуск функции отрисовки тени колонии
-  }
-}
-function rightTurn() { //-------------- функция поворота на 90 градусов по часовой (поворот вправо)
-  if (shadowMode) { //----------------- если режим тени активирован, то
-    const newArr = []; //-------------- массив новых координат колонии
-    for (const item of arrCrdnts) { //- цикл изменения координат
-      // координаты меняются местами
-      newArr.push([item[1], item[0]]); //- изменение координат и внесение в новый массив
-    }
-    arrCrdnts = newArr; //- обновление массива координат колонии
-    horizReflection(); //-- запуск функции отражения координат колонии по горизонтали (слева направо)
-    drawShadow(); //------- запуск функции отрисовки тени колонии
-  }
-}
-function leftTurn() { //--------------- функция поворота на 90 градусов против часовой (поворот влево)
-  if (shadowMode) { //----------------- если режим тени активирован, то
-    const newArr = []; //-------------- массив новых координат колонии
-    for (const item of arrCrdnts) { //- цикл изменения координат
-      // координаты меняются местами
-      newArr.push([item[1], item[0]]); //- изменение координат и внесение в новый массив
-    }
-    arrCrdnts = newArr; //- обновление массива координат колонии
-    vertReflection(); //--- запуск функции отражения координат колонии по вертикали (сверху вниз)
-    drawShadow(); //------- запуск функции отрисовки тени колонии
-  }
-}
-function rotate180deg() { //- функция поворота на 180 градусов
-  if (shadowMode) { //------- если режим тени активирован, то
-    horizReflection(); //---- запуск функции отражения координат колонии по горизонтали (слева направо)
-    vertReflection(); //----- запуск функции отражения координат колонии по вертикали (сверху вниз)
-    drawShadow(); //--------- запуск функции отрисовки тени колонии
-  }
-}
-
-//****************************************************************************************************************************************
-// БЛОК ВЫБОРА ГОТОВЫХ КОЛОНИЙ ПРИ ИЗМЕНЕНИИ СООТВЕТСТВУЮЩИХ СЕЛЕКТОРОВ
-
-const defaultColony = document.querySelector('#defaultColony'); //- секция координат готовых колоний
-
-window.addEventListener('load', populate()); //- при загрузке окна: запуск функции загрузки данных готовых колоний
-
-async function populate() { //------------------------- асинхронная функция загрузки данных готовых колоний
-  try { //--------------------------------------------- попытка:
-    const request = new Request('coloniesDB.json'); //- объявление объекта запроса
-    const response = await fetch(request); //---------- запрос и ответ от адреса
-    const colonies = await response.json(); //--------- запрос и ответ от json
-    addDefaultColonyToSelect(colonies); //------------- запуск функции построения панелей с селектами колоний
-    dropDownFunc(); //--------------------------------- запуск функции функционирования открытия закрытия выпадающих панаелей
-    colonySelection(colonies); //---------------------- запуск функции выбора готовых колоний
-  } catch { //----------------------------------------- при ошибке:
-    defaultColony.textContent = //--------------------- текст секции координат готовых колоний
-      `К сожалению данные колоний не загрузились.`
-  }
-}
-
-function addDefaultColonyToSelect(obj) { //- функция построения панелей с селектами колоний
-  for (const group of obj.groups) { //------ цикл перебора групп колоний
-    defaultColony.innerHTML += //----------- html-код секции координат готовых колоний
-      `<button class="btn btn_tab btn_tab_drop-down btn_tab_drop-down_default-colony close">
-        ${group.name}
-      </button>`
-    let panel = document.createElement('div'); //------------------------------------------------ генерация элемента div
-    panel.setAttribute('class', 'panel panel_drop-down panel_drop-down_default-colony none'); //- добавление атрибута class для элемента div
-    defaultColony.appendChild(panel); //--------------------------------------------------------- добавление панели в секцию координат готовых колоний
-    for (const subgroup of group.subgroups) { //------------------------------------------------- цикл перебора подгрупп колоний
-      let select = document.createElement('select'); //------------------------------------------ генерация элемента select
-      select.setAttribute('class', 'slct'); //--------------------------------------------------- добавление атрибута class со значением 'slct'
-      select.innerHTML = `<option value="0" selected disabled>${subgroup.name}</option>`; //----- html-код элемента select
-      panel.appendChild(select); //-------------------------------------------------------------- добавление эдемента select в панель
-      for (const colony of subgroup.colonies) { //----------------------------------------------- цикл перебора колоний
-        select.insertAdjacentHTML('beforeend', `<option>${colony.name}</option>`); //------------ добавление html-кода перед закрывающим тегом элемента select
+function openOrCloseSelectsDefaultColonies(eventListener) { // Открыть или закрыть селекты готовых колоний.
+  const wrappersSlctsDefaultColonies = document.querySelectorAll('.wrapper-slct_default-colony'); // Обёртки селектов готовых колоний.
+  const slctsDefaultColonies = document.querySelectorAll('.slct_default-colony'); // Селекты готовых колоний.
+  for (let i = 0; i < slctsDefaultColonies.length; i++) {
+    slctsDefaultColonies[i].addEventListener(eventListener, () => {
+      if (wrappersSlctsDefaultColonies[i].classList.contains('open')) {
+        wrappersSlctsDefaultColonies[i].classList.remove('open');
+        wrappersSlctsDefaultColonies[i].classList.add('close');
+      } else {
+        wrappersSlctsDefaultColonies[i].classList.remove('close');
+        wrappersSlctsDefaultColonies[i].classList.add('open');
       }
-    }
+    });
   }
 }
 
-function colonySelection(obj) { //------------------- функция выбора готовых колоний
-  defaultColony.addEventListener('change', e => { //- при изменении значения селектора
-    for (const group of obj.groups) { //------------- цикл перебора групп колоний
-      for (const subgroup of group.subgroups) { //--- цикл перебора подгрупп колоний
-        for (const colony of subgroup.colonies) { //- цикл перебора колоний
-          switch (e.target.value) { //--------------- переключатель - значение селектора
-            //данные из JSON готовых колоний
-            case colony.name: strCrdnts = colony.coordinates; //- случай - название колонии: строка координат примимает координаты колонии
-              break;
-          }
-        }
-      }
-    }
-    strToArr(); //---------------------------------------------------------- запуск функции преобразования строки координат в массив координат
-    drawPC(); //------------------------------------------------------------ запуск функции отрисовки канвас предпросмотра
-    drawShadow(); //-------------------------------------------------------- запуск функции отрисовки тени колонии
-    e.target.blur(); //----------------------------------------------------- добавление нефокусировки к селекту (разрешение проблемы смены колоний из-за нажатия клавиш)
-    nameColony.textContent = e.target.value; //----------------------------- обновление текста названия выбранной колонии
-    if (localStorage.length !== 0) { //------------------------------------- если локальное хранилище не пусто (длина не равна 0), то
-      optFirstSlctCustomColony.textContent = 'Выбрать' //------------------- обновление текста первого option селекта пользовательских колоний
-    } else { //------------------------------------------------------------- иначе (если локальное хранилище пусто (длина равна 0), то)
-      optFirstSlctCustomColony.textContent = 'Здесь будут ваши колонии'; //- обновление текста первого option селекта пользовательских колоний
-    }
-    btnDelColony.disabled = true; //- выключение кнопки удаления пользовательской колонии
+function selectDefaultColony(data) { // Выбрать готовую колонию (паттерн).
+  defaultColony.addEventListener('change', e => {
+    if (!mapDefaultColonies.has(e.target.value)) addDefaultColonyToMap(data, e);
+    let fullRle = mapDefaultColonies.get(e.target.value);
+    enterDataIntoColonyFromFullRle(fullRle);
+    displayOtherColonyData();
+    isShadowMode = true;
+    drawPreviewCanvas();
+    e.target.blur();
+    nameColony.textContent = e.target.value;
+    optFirstSlctCustomColony.textContent = (localStorage.length) ? 'Выбрать' : 'Здесь будут ваши колонии';
+    btnDelColony.disabled = true;
+    btnResetColony.disabled = false;
   });
 }
 
-//****************************************************************************************************************************************
-//БЛОК ВЫБОРА, СОХРАНЕНИЯ И УДАЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКИХ КОЛОНИЙ
+let mapDefaultColonies = new Map(); // Map-объект для готовых колоний (паттернов).
 
-//Сохранение колонии
-const btnSaveStr = document.querySelector('#btnSaveStr'); //------------- кнопка сохранения строки координат
-const inptCustomName = document.querySelector('#inptCustomName'); //----- поле ввода имени пользовательской колонии
-const slctCustomColony = document.querySelector('#slctCustomColony'); //- селект имён пользовательских колоний
-const inpCustomCrdnts = document.querySelector('#inpCustomCrdnts'); //--- поле ввода пользовательских координат
-
-btnSaveStr.addEventListener('click', () => { //- при нажатии на кнопку: сохранение пользовательской колонии
-  if (inpCustomCrdnts.value === '') { //-------- если поле ввода пользовательских координат пусто, то
-    arrToStr(); //------------------------------ запуск функции преобразования массива координат в строку координат
-    if (strCrdnts !== '') { //------------------ если строка координат не пустая, то
-      saveStr(); //----------------------------- запуск функции сохранения координат пользовательских колоний
-    } else { //--------------------------------- иначе (если строка координат пустая), то
-      dWkey = 'information'; //----------------- обновление ключа для объекта типов информационного окна
-      let code = //----------------------------- текст информационного окна
-        `<p>Создайте свою колонию на карте
-        или введите свои координаты в поле ввода координат!</p>`
-      showWarning(code); //- запуск функции показа информационного окна
+function addDefaultColonyToMap(data, e) { // Добавить готовую колонию (паттерн) в Map-объект.
+  for (const group of data.groups) {
+    if (group.colonies) {
+      for (const colony of group.colonies) {
+        if (e.target.value === colony.name) {
+          mapDefaultColonies.set(colony.name, colony.pattern);
+        }
+      }
+    } else {
+      addDefaultColonyToMap(group, e);
     }
-  } else { //------------------------------- иначе (если поле ввода пользовательских координат содержит строку, то)
-    if (checkCustomCrdnts()) { //----------- если функция проверки введенного текста в поле ввода возвращает true, то
-      strCrdnts = inpCustomCrdnts.value; //- строка координат присваивает значение поля ввода для пользовательских координат
-      saveStr(); //------------------------- запуск функции сохранения координат пользовательских колоний
-    } else { //----------------------------- иначе (если функция проверки правильности введенных координат вернула false, то)
-      let code = //------------------------- текст информационного окна
-        `<p><strong>Введенные координаты некорректны!</strong><br />
-        Вводите координаты сгенерированные в данном приложении.<br />
-        Они должы иметь примерный вид: <span class="code">"y0:1,6,b 1:2,7,c 2:0-2,5-7,a-c"</span>,
-        где первый символ обозначает первую координату в парах координат, пары координат разделены пробелами,
-        первая от второй координаты разделены двоеточием, вторые координаты записаны через запятую для одиночных координат
-        или через тире для диапазонов координат, координаты не могут быть меньше 0 и больше 499,
-        двузначные числа могут быть заменены буквенными символами</p>`
-      dWkey = 'information'; //- обновление ключа для объекта типов информационного окна
-      showWarning(code); //----- запуск функции показа информационного окна
+  }
+}
+
+function enterDataIntoColonyFromFullRle(fullRle) { // Внести данные в объект "colony" из полного RLE-паттерна.
+  let data = splitFullRle(fullRle);
+  colony.name = data.name;
+  colony.author = data.author;
+  colony.comments = data.comments;
+  colony.rule = data.rule;
+  colony.rle = data.rle;
+  colony.plaintext = convertRleToPlaintext(colony.rle);
+  let crdnts = convertPlaintextToCrdnts(colony.plaintext);
+  colony.crdnts = crdnts.crdnts;
+  colony.width = crdnts.width;
+  colony.height = crdnts.height;
+}
+
+function splitFullRle(fullRle) { // Выделить из полного RLE-формата RLE-паттерн и прочие данные.
+  let birth = (/rule\s=\sb\d{1,8}\/s\d{1,8}/i.test(fullRle)) ? // Массив констант эволюции для зарождения клеток.
+    fullRle.match(/rule\s=\sb?(\d{1,8})\/s?\d{1,8}/i)[1].split('').map(Number) : false;
+  let survival = (/rule\s=\sb\d{1,8}\/s\d{1,8}/i.test(fullRle)) ? // Массив констант эволюции для сохранения клеток.
+    fullRle.match(/rule\s=\sb?\d{1,8}\/s?(\d{1,8})/i)[1].split('').map(Number) : false;
+  let newFullRle = // Новая строка полного RLE-паттерна с заменой правил на "#".
+    fullRle.replace(/x\s=\s\d+,\sy\s=\s\d+,\srule\s=\sb\d{1,8}\/s\d{1,8}/gi, '#');
+  let altBirth = (/#r\s\d{1,8}\/\d{1,8}/.test(newFullRle)) ? // Альтернативный массив констант эволюции для зарождения клеток.
+    newFullRle.match(/#r\s\d{1,8}\/(\d{1,8})/)[1].split('').map(Number) : [3];
+  let altSurvival = (/#r\s\d{1,8}\/\d{1,8}/.test(newFullRle)) ? // Альтернативный массив констант эволюции для сохранения клеток.
+    newFullRle.match(/#r\s(\d{1,8})\/\d{1,8}/)[1].split('').map(Number) : [2, 3];
+  let name = (/#N\s/.test(newFullRle)) ? newFullRle.match(/#N\s([^\n]+)/)[1] : ''; // Название колонии.
+  let author = (/#O\s+/.test(newFullRle)) ? newFullRle.match(/#O\s([^\n]+)/)[1] : ''; // Автор колонии.
+  let comments = (/#C\s+/.test(newFullRle)) ? // Массив комментариев для колонии.
+    Array.from(newFullRle.matchAll(/#C\s?([^\n]+)/g)).map(item => item[1]) : [];
+  newFullRle = newFullRle.replace(/#[^\n]+/g, ''); // Новая строка полного RLE-паттерна без прочих данных.
+  let rle = (/[\dbo$\s\n]+!/.test(newFullRle)) ? newFullRle.match(/\n*([\dbo$\s\n]+!)/)[1] : ''; // RLE-паттерн.
+  if (!birth) birth = altBirth;
+  if (!survival) survival = altSurvival;
+  return { name, author, comments, rule: [birth, survival], rle }
+}
+
+function convertRleToPlaintext(rle) { // Преобразовать RLE-паттерн в Plaintext-паттерн.
+  return rle.replace('!', '').replace(/\s/g, '').replace(/\n/g, '').replace(/(\d+)([bo$])/g, (match, count, tag) => tag.repeat(count))
+    .replace(/b/g, '.').replace(/o/g, 'O').replace(/\$/g, '\n');
+}
+
+function convertPlaintextToCrdnts(plaintext) { // Функция преобразования Plaintext-паттерна в массив координат
+  let array = plaintext.split('\n'); // Массив строк Plaintext-паттерна.
+  let height = array.length; // Высота колонии.
+  let xCrdnts = []; // Массив для X-координат колонии.
+  for (let i = 0; i < height; i++) {
+    xCrdnts.push(array[i].length)
+  }
+  let width = xCrdnts.reduce((a, b) => a > b ? a : b); // Ширина колонии (максимальная X-координата).
+  let cells = []; // Массив для клеток колонии.
+  for (let x = 0; x < width; x++) {
+    cells[x] = [];
+    for (let y = 0; y < height; y++) {
+      if (array[y][x] === 'O') {
+        cells[x][y] = 1;
+      } else {
+        cells[x][y] = 0;
+      }
+    }
+  }
+  let crdnts = []; // Массив для координат колонии.
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      if (cells[x][y] === 1) {
+        crdnts.push([x, y]);
+      }
+    }
+  }
+  return { crdnts, width, height };
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК ВЫБОРА, СОХРАНЕНИЯ И УДАЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКИХ КОЛОНИЙ.
+
+// СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛОНИИ.
+const slctCustomColony = document.querySelector('#slctCustomColony'); // Селект имён пользовательских колоний.
+const inptCustomName = document.querySelector('#inptCustomName'); // Поле ввода имени пользовательской колонии.
+const inptCustomAuthor = document.querySelector('#inptCustomAuthor'); // Поле ввода автора колонии.
+const inptCustomComments = document.querySelector('#inptCustomComments'); // Поле ввода комментариев.
+const inptCustomPattern = document.querySelector('#inptCustomPattern'); // Поле ввода паттерна колонии.
+const btnSavePattern = document.querySelector('#btnSavePattern'); // Кнопка сохранения шаблона колонии.
+
+inptCustomPattern.addEventListener('input', () => { // При введении данных: автоматическое заполнение полей ввода.
+  let pattern = // Строка паттерна без сопровождающих данных.
+    inptCustomPattern.value.replace(/x\s=\s\d+,\sy\s=\s\d+,\srule\s=\sb\d{1,8}\/s\d{1,8}/gi, '')
+      .replace(/#[^\n]+/g, '').replace(/![^\n]+/g, '');
+  if (/[\dbo$]+/.test(pattern)) { // RLE.
+    let fullRle = splitFullRle(inptCustomPattern.value); // Полный RLE-паттерн.
+    inptCustomName.value = fullRle.name;
+    inptCustomAuthor.value = fullRle.author;
+    inptCustomComments.value = fullRle.comments.join('\n');
+  } else if (/[.O]+/.test(pattern)) { // Plaintext.
+    let fullPlaintext = splitFullPlaintext(inptCustomPattern.value); // Полный plaintext-паттерн.
+    inptCustomName.value = fullPlaintext.name;
+    inptCustomAuthor.value = fullPlaintext.author;
+    inptCustomComments.value = fullPlaintext.comments.join('\n');
+  }
+});
+
+function splitFullPlaintext(fullPlaintext) {  // Выделить из полного Plaintext-формата Plaintext-паттерн и прочие данные.
+  let name = (/!Name:/.test(fullPlaintext)) ? fullPlaintext.match(/!Name:\s?([^\n]+)/)[1] : ''; // Имя колонии.
+  let author = (/!Author:/.test(fullPlaintext)) ? fullPlaintext.match(/!Author:\s?([^\n]+)/)[1] : ''; // Автор колонии.
+  let birth = (/!Rule:\s?b\d{1,8}\/s\d{1,8}/i.test(fullPlaintext)) ? // Массив констант эволюции для зарождения клеток.
+    fullPlaintext.match(/!Rule:\s?b(\d{1,8})\/s\d{1,8}/i)[1].split('').map(Number) : [3];
+  let survival = (/!Rule:\s?b\d{1,8}\/s\d{1,8}/i.test(fullPlaintext)) ? // Массив констант эволюции для сохранения клеток.
+    fullPlaintext.match(/!Rule:\s?b\d{1,8}\/s(\d{1,8})/i)[1].split('').map(Number) : [2, 3];
+  let newFullPlaintext =  // Новая строка полного plaintext-паттерна без имени, автора и правила.
+    fullPlaintext.replace(/(!Name:|!Author:|!Rule:)[^\n]+/g, '');
+  let comments = // Массив комментариев для колонии.
+    (/![^\n]+/.test(fullPlaintext)) ? Array.from(newFullPlaintext.matchAll(/!\s?([^\n]+)/g)).map(item => item[1]) : [];
+  newFullPlaintext = fullPlaintext.replace(/![^\n]+/g, ''); // Новая строка полного plaintext-паттерна без прочих данных.
+  let plaintext = // Plaintext-паттерн.
+    (/[.O]+/.test(newFullPlaintext)) ? newFullPlaintext.match(/\n*([.O\s\n]+)/)[1] : '';
+  return { name, author, rule: [birth, survival], comments, plaintext }
+}
+
+btnSavePattern.addEventListener('click', () => { // При нажатии: сохранение пользовательской колонии.
+  if (isShadowMode) resetColony();
+  let inptCustomPatternValue = inptCustomPattern.value;
+  if (inptCustomPatternValue) { // Сохранение колонии из поля ввода паттерна.
+    let pattern = // Строка паттерна без сопровождающих данных.
+      inptCustomPattern.value.replace(/x\s=\s\d+,\sy\s=\s\d+,\srule\s=\sb\d{1,8}\/s\d{1,8}/gi, '')
+        .replace(/#[^\n]+/g, '').replace(/![^\n]+/g, '');
+    if (/[\dbo$]+/.test(pattern)) { // RLE.
+      if (checkValidityOfRle(inptCustomPatternValue)) {
+        enterDataIntoColonyFromFullRle(inptCustomPatternValue);
+        colony.fullRle = getFullRleWithDataFromInpts();
+        saveFullRle(colony.fullRle);
+      } else {
+        infoWindowType.key = 'information';
+        let code = `<strong>Введенный RLE-паттерн некорректен!</strong><br>
+Он должен иметь примерный вид: «<span class="code">bo$2bo$3o!</span>»,
+где: символ «<span class="code">b</span>» - пустая клетка, символ «<span class="code">o</span>» - живая клетка,
+символ «<span class="code">$</span>» - перенос строки, числа перед символами означают количество символов.
+Размер колонии не должен превышать 2000x2000 клеток`;
+        showInfoWindow(code);
+      }
+    } else if (/[.O]+/.test(pattern)) { // Plaintext.
+      if (checkValidityOfPlaintext(inptCustomPatternValue)) {
+        enterDataIntoColonyFromFullPlaintext(inptCustomPatternValue);
+        colony.fullRle = getFullRleWithDataFromInpts();
+        saveFullRle(colony.fullRle);
+      } else {
+        infoWindowType.key = 'information';
+        let code = `<strong>Введенный Plaintext-паттерн некорректен!</strong><br>
+Он должен иметь примерный вид:<br><span class="code">.O.<br>..O<br>OOO</span><br>
+где: символ «<span class="code">.</span>» - пустая клетка, символ «<span class="code">O</span>» - живая клетка.
+Размер колонии не должен превышать 2000x2000 клеток`;
+        showInfoWindow(code);
+      }
+    } else {
+      infoWindowType.key = 'information';
+      let code = `Введенные в поле ввода данные не соотвествуют ни
+<a href="https://conwaylife.com/wiki/Run_Length_Encoded">RLE-паттерну</a>, ни
+<a href="https://conwaylife.com/wiki/Plaintext">Plaintext-паттерну</a>.`;
+      showInfoWindow(code);
+    }
+  } else { // Сохранение колонии из мира.
+    if (checkWorldForCells()) {
+      if (!colony.crdnts?.length) enterDataIntoColonyFromWorld();
+      colony.fullRle = getFullRleWithDataFromInpts();
+      saveFullRle(colony.fullRle);
+    } else {
+      infoWindowType.key = 'information';
+      let code = `Создайте свою колонию на карте или введите паттерн колонии в поле ввода!`;
+      showInfoWindow(code);
     }
   }
 });
 
-function checkCustomCrdnts() { //----------------------- функция проверки правильности введенных координат
-  let customStr = inpCustomCrdnts.value; //------------- переменная для введенных пользовательских координат
-  if (!(inpCustomCrdnts.validity.patternMismatch)) { //- если введенное в поле ввода соответсвтует html-паттерну, то
-    customStr = customStr.split(/[\s:,-]+/); //--------- расщепление строки на массив по символам (пробел, двоеточие, запятая, тире)
-    for (let i = 0; i < customStr.length; i++) { //----- цикл перебора массива строк
-      customStr[i] = Number(customStr[i]); //----------- преобразование строк в числа
+function checkWorldForCells() { // Проверить мир на наличие клеток.
+  let cells = (isCurrentGeneration) ? cells1 : cells2;
+  for (let x = 0; x < numberOfCellsWidthWorld; x++) {
+    for (let y = 0; y < numberOfCellsHeightWorld; y++) {
+      if (cells[x][y] === 1) return true;
     }
-    for (const item of customStr) { //- цикл перебора массива
-      if (item < 0 || item > 499) { //- если в массиве есть отрицательные числа ИЛИ числа больше 499, то
-        return false; //--------------- функция возвращает false
-      } else { //---------------------- иначе (если в массиве нет отрицательныx чисел ИЛИ числел больше 499, то)
-        return true; //---------------- функция возвращает true
+  }
+  return false;
+}
+
+function checkValidityOfRle(fullRle) { // Функция проверки валидности RLE-паттерна фигуры.
+  let rle = splitFullRle(fullRle).rle;
+  if (rle) {
+    let plaintext = convertRleToPlaintext(rle);
+    let crdnts = convertPlaintextToCrdnts(plaintext).crdnts;
+    for (let [x, y] of crdnts) {
+      if (x >= 2000 || y >= 2000) {
+        return false;
       }
     }
-  } else { //-------- иначе (если введенное в поле ввода не соответсвтует html-паттерну, то)
-    return false; //- функция возвращает false
+    return true;
+  }
+  return false;
+}
+
+function getFullRleWithDataFromInpts() { // Получить полный RLE-паттерн с данными из полей ввода.
+  let name = (inptCustomName.value) ? `#N ${inptCustomName.value}\n` : ''; // Имя колонии.
+  let author = (inptCustomAuthor.value) ? `#O ${inptCustomAuthor.value}\n` : ''; // Автор колонии.
+  let comments = // Комментарии для колонии.
+    (inptCustomComments.value) ? inptCustomComments.value.split('\n').map(item => `#C ${item}\n`).join('') : '';
+  let rle = colony.rle.replace(/.{70}/g, '$&\n'); // Разделение строки по 70 символов.
+  let sizeAndRule = // Размер колонии и правила жизни.
+    `x = ${colony.width}, y = ${colony.height}, rule = b${colony.rule[0].join('')}/s${colony.rule[1].join('')}\n`;
+  return name + author + comments + sizeAndRule + rle;
+}
+
+function saveFullRle(fullRle) { // Сохранить полный RLE-паттерн.
+  if (inptCustomName.value) {
+    if (inptCustomName.value === '0') inptCustomName.value = '0.'; // Исправление бага при удалении колонии со значением названия '0'.
+    if (!(localStorage.getItem(inptCustomName.value))) {
+      localStorage.setItem(inptCustomName.value, fullRle);
+      slctCustomColony.insertAdjacentHTML('beforeend', `<option value="${inptCustomName.value}">${inptCustomName.value}</option>`);
+      inptCustomName.value = '';
+      inptCustomAuthor.value = '';
+      inptCustomComments.value = '';
+      inptCustomPattern.value = '';
+      btnClearInpts.disabled = true;
+      if (infoWindowType.firstCustomColony === "noOk") showWarningAboutSavingColonies();
+    } else {
+      infoWindowType.key = 'rewriteCustomColony';
+      let code = `У вас уже есть колония под названием "${inptCustomName.value}".<br>Хотите переписать данные колонии "${inptCustomName.value}"?`;
+      showInfoWindow(code);
+    }
+    optFirstSlctCustomColony.textContent = 'Выбрать';
+    slctCustomColony.disabled = false;
+    wrapperSlctCustomColony.classList.remove('disabled');
+  } else {
+    infoWindowType.key = 'information';
+    let code = `Введите название для своей колонии!`;
+    showInfoWindow(code);
   }
 }
 
-//показ информационного окна при наведении на иконку вопроса ввода кользовательских координат
-const icoInpCustomCrdnts = document.querySelector('#icoInpCustomCrdnts'); //- иконка вопроса ввода кользовательских координат
+function showWarningAboutSavingColonies() {  // Показать предупреждение о сохранении колоний в хранилище браузера.
+  let code = `Внимание, паттерны колоний сохраняются только в Вашем браузере и могут удалиться при очистке истории
+или не сохраниться в режиме инкогнито.<br>Если вам важно сохранить паттерны, нажмите на одну из кнопок показа паттернов
+(RLE или Plaintext) в разделе "Паттерн колонии на карте" и сохраните их где-либо в текстовой документ.<br>
+Затем можете восстановить свои колонии, введя паттерны в поле ввода и сохранить их для текущей сессии браузера`;
+  infoWindowType.key = 'firstCustomColony';
+  showInfoWindow(code)
+}
 
-icoInpCustomCrdnts.addEventListener('click', () => { //- при нажатии: показ информационного окна
-  let code = //----------------------------------------- текст информационного окна
-    `<p>Если у вас имеются координаты колонии сгенерированные в данном приложении, можете ввести их поле ввода и нажать "Cохранить".
-    Если оставите поле ввода пустым, сохранятся координаты колонии находящейся на карте.<br />
-    Они должы иметь примерный вид: <span class="code">"y0:1,6,b 1:2,7,c 2:0-2,5-7,a-c"</span>,
-    где первый символ обозначает первую координату в парах координат, пары координат разделены пробелами,
-    первая от второй координаты разделены двоеточием, вторые координаты записаны через запятую для одиночных координат
-    или через тире для диапазонов координат, координаты не могут быть меньше 0 и больше 499,
-    двузначные числа могут быть заменены буквенными символами</p>`
-  dWkey = 'information'; //- обновление ключа для объекта типов информационного окна
-  showWarning(code); //----- запуск функции показа информационного окна
+function checkValidityOfPlaintext(fullPlaintext) { // Проверить валидность Plaintext-паттерна.
+  let plaintext = splitFullPlaintext(fullPlaintext).plaintext;
+  if (plaintext) {
+    let crdnts = convertPlaintextToCrdnts(plaintext).crdnts;
+    for (let [x, y] of crdnts) {
+      if (x >= 2000 || y >= 2000) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+function enterDataIntoColonyFromFullPlaintext(fullPlaintext) {  // Внести данные в объект "colony" из полного Plaintext-паттерна.
+  let data = splitFullPlaintext(fullPlaintext);
+  colony.name = data.name;
+  colony.author = data.author;
+  colony.comments = data.comments;
+  colony.rule = data.rule;
+  colony.plaintext = data.plaintext;
+  let crdnts = convertPlaintextToCrdnts(colony.plaintext);
+  colony.crdnts = crdnts.crdnts;
+  colony.width = crdnts.width;
+  colony.height = crdnts.height;
+  let cells = convertCrdntsToCells(colony.crdnts, colony.width, colony.height);
+  colony.rle = convertCellsToRle(cells);
+}
+
+function convertCrdntsToCells(crdnts, width, height) { // Преобразовать координаты в клетки.
+  let cells = []; // Двумерный массив клеток фигуры.
+  for (let i = 0; i < height; i++) {
+    cells[i] = [];
+    for (let j = 0; j < width; j++) {
+      cells[i][j] = 0;
+    }
+  }
+  for (let [x, y] of crdnts) {
+    cells[y][x] = 1; // Координаты меняются местами.
+  }
+  for (let item of cells) {
+    for (let i = item.length - 1; i >= 0; i--) {
+      if (item[i] === 0) {
+        item.pop(); // Удаление висячих нулей.
+      } else {
+        break;
+      }
+    }
+  }
+  return cells;
+}
+
+function convertCellsToRle(cells) { // Преобразовать массив клеток в RLE-паттерн.
+  return cells.map(item => item.join('')).join('$').replace(/0/g, 'b').replace(/1/g, 'o')
+    .replace(/b{2,}/g, match => match.length + 'b').replace(/o{2,}/g, match => match.length + 'o')
+    .replace(/\${2,}/g, match => match.length + '$') + '!';
+}
+
+function enterDataIntoColonyFromWorld() { // Внести данные в объект "colony" из мира.
+  let nativeCrdnts = getNativeCrdnts(); // Нативные координаты.
+  let crdnts = convertNativeCrdntsToCrdnts(nativeCrdnts); // Массив координат и размер колонии.
+  colony.crdnts = crdnts.crdnts;
+  colony.width = crdnts.width;
+  colony.height = crdnts.height;
+  colony.name = inptCustomName.value;
+  colony.author = inptCustomAuthor.value;
+  colony.comments = inptCustomComments.value.split('\n');
+  colony.rule = [arrCellBirthRule, arrCellSurvivalRule];
+  let cells = convertCrdntsToCells(colony.crdnts, colony.width, colony.height);
+  colony.rle = convertCellsToRle(cells);
+  colony.plaintext = convertCellsToPlaintext(cells);
+}
+
+function convertNativeCrdntsToCrdnts(nativeCrdnts) { // Преобразовать нативные координаты в координаты.
+  const nativeCrdntsX = []; // Массив для X-координат.
+  const nativeCrdntsY = []; // Массив для Y-координат.
+  for (const [x, y] of nativeCrdnts) {
+    nativeCrdntsX.push(x);
+    nativeCrdntsY.push(y);
+  }
+  let minNativeCrdntsX = nativeCrdntsX.reduce((a, b) => a < b ? a : b); // Минимальная X-координата.
+  let minNativeCrdntsY = nativeCrdntsY.reduce((a, b) => a < b ? a : b); // Минимальная Y-координата.
+  let maxNativeCrdntsX = nativeCrdntsX.reduce((a, b) => a > b ? a : b); // Максимальная X-координата.
+  let maxNativeCrdntsY = nativeCrdntsY.reduce((a, b) => a > b ? a : b); // Максимальная Y-координата.
+  let width = maxNativeCrdntsX - minNativeCrdntsX + 1; // Ширина колонии.
+  let height = maxNativeCrdntsY - minNativeCrdntsY + 1; // Высота колонии.
+  let crdnts = nativeCrdnts.map(([x, y]) => [x - minNativeCrdntsX, y - minNativeCrdntsY]); // Координаты колонии сброшенные к началу.
+  return { crdnts, width, height };
+}
+
+function convertCellsToPlaintext(cells) { // Преобразовать массив клеток в Plaintext-паттерн.
+  return cells.map(item => item.join('')).join('\n').replace(/0/g, '.').replace(/1/g, 'O');
+}
+
+// ОЧИСТКА ПОЛЕЙ ВВОДА.
+const btnClearInpts = document.querySelector('#btnClearInpts'); // Кнопка очистки полей ввода.
+const inptsCustomData = // Поля ввода пользовательских данных.
+  document.querySelectorAll('.panel_toggle_custom-colony input, .panel_toggle_custom-colony textarea')
+
+inptsCustomData.forEach(e => e.addEventListener('input', () => {
+  btnClearInpts.disabled = (inptCustomName.value || inptCustomAuthor.value || inptCustomComments.value || inptCustomPattern.value) ?
+    false : true;
+}));
+
+btnClearInpts.addEventListener('click', () => {
+  inptCustomName.value = '';
+  inptCustomAuthor.value = '';
+  inptCustomComments.value = '';
+  inptCustomPattern.value = '';
+  btnClearInpts.disabled = true;
 });
 
-//показ информационного окна при наведении на иконку вопроса ввода констант эволюции
-const icoInpLifeRules = document.querySelector('#icoInpLifeRules'); //- иконка вопроса ввода констант эволюции
+// ПОКАЗ ИНФОРМАЦИОННОГО ОКНА ПРИ НАВЕДЕНИИ НА ИКОНКУ ВОПРОСА ВВОДА КОЛЬЗОВАТЕЛЬСКОГО ПАТТЕРНА.
+const btnInfoCustomPattern = document.querySelector('#btnInfoCustomPattern'); // Иконка вопроса о вводе кользовательского паттерна.
 
-icoInpLifeRules.addEventListener('click', () => { //- при нажатии: показ информационного окна
-  let code = //-------------------------------------- текст информационного окна
-    `<p><b>B</b> – количество-клеток соседей способных зародить новую клетку,<br />
-    <b>S</b> – минимальное и максимальное количество клеток-соседей способных сохранить жизнь клетки.<br />
-    <b>B3S23</b> – правило для классической игры "Жизнь", которая наиболее разнообразна и изучена.<br />
-    Можете попробовать другие правила, например <b>B3S35</b></p>`
-  dWkey = 'information'; //- обновление ключа для объекта типов информационного окна
-  showWarning(code); //----- запуск функции показа информационного окна
+btnInfoCustomPattern.addEventListener('click', () => {
+  infoWindowType.key = 'information';
+  let code = `Поле ввода для паттернов колонии: <a href="https://conwaylife.com/wiki/Run_Length_Encoded">RLE</a> или
+<a href="https://conwaylife.com/wiki/Plaintext">Plaintext</a>.<br>
+Если оставить поле ввода пустым, сохранится RLE-паттерн колонии находящейся на карте.`;
+  showInfoWindow(code);
 });
 
+// ДОБАВЛЕНИЕ ПОЛЬЗОВАТЕЛЬСКИХ КОЛОНИЙ В СЕЛЕКТ ПРИ ЗАГРУЗКЕ.
+const optFirstSlctCustomColony = // Первый "option" селекта пользовательских колоний.
+  document.querySelector('#slctCustomColony option[value="0"]');
+const wrapperSlctCustomColony = document.querySelector('#wrapperSlctCustomColony'); // Обёртка селекта пользовательских колоний.
 
-function arrToStr() { //- функция преобразования координат
-  //преобразование нативных координат в длинные координаты
-  const colony = []; //------------- массив для нативных координат колонии
-  const colonyX = []; //------------ массив для нативных X-координат
-  const colonyY = []; //------------ массив для нативных Y-координат
-  for (let i = 0; i < cW; i++) { //- цикл перебора всех координат (для внедрения координат колонии в массив colony)
-    for (let j = 0; j < cH; j++) {
-      if (cells1[i][j] === 1 || cells2[i][j] === 1) { //- если клетка предыдущего ИЛИ последующего поколения содержит 1, то
-        colony.push([i, j]); //-------------------------- добавление координат в массив colony
-      }
-    }
-  }
-  if (colony.length > 0) { //------- если длина массива для нативных координат колонии больше 0, то
-    for (const item of colony) { //- цикл внесения координат колонии в массивы X и Y координат
-      colonyX.push(item[0]); //----- внесение в массив X-координат
-      colonyY.push(item[1]); //----- внесение в массив Y-координат
-    }
-    for (const item of colony) { //- цикл изменения координат (сброс колонии к началу координат)
-      // X-координата - минимальная X-координата, Y-координата - минимальная Y-координата
-      arrCrdnts.push([item[0] - Math.min(...colonyX), item[1] - Math.min(...colonyY)]); //- изменение координат и внесение в массив координат
-    }
-    //преобразование координат в короткие координаты
-    let strX = xyStrCrdnts(0, 1); //----- переменная строки коротких координат по X принимает значение функции преобразования
-    let strY = xyStrCrdnts(1, 0); //----- переменная строки коротких координат по Y принимает значение функции преобразования
+window.addEventListener('load', addCustomColonyToSelect);
 
-    strX = `x${strX}`; //---------------- добавление символа 'x' к строке коротких координат по X
-    strY = `y${strY}`; //---------------- добавление символа 'y' к строке коротких координат по Y
-    if (strX.length <= strY.length) { //- если длина строки коротких координат по X меньше или равна длине строки коротких координат по Y, то
-      strCrdnts = strX; //--------------- строка координат принимает строку коротких координат по X
-    } else { //-------------------------- иначе (если длина строки коротких координат по X больше длины строки коротких координат по Y, то)
-      strCrdnts = strY; //--------------- строка координат принимает строку коротких координат по Y
-    }
-  }
-
-}
-
-function xyStrCrdnts(a, b) { //------ функция преобразования длинных координат в короткие с аргументами порядка первых и вторых координат
-  const crdntsA = []; //------------- массив для длинных первых координат
-  const crdntsB = []; //------------- массив для длинных вторых координат
-  for (const item of arrCrdnts) { //- цикл перебора длинных координат
-    crdntsA.push(item[a]); //-------- внесение в массив первых координат
-    crdntsB.push(item[b]); //-------- внесение в массив вторых координат
-  }
-  const aClstr = []; //-------------------------------- массив для неповторяющихся первых координат
-  const bClstr = []; //-------------------------------- массив для вторых координат сопряженных с первыми координатами
-  for (let i = 0; i <= Math.max(...crdntsA); i++) { //- цикл перебора для будущих неповторяющихся первых координат (по максимальной первой координате)
-    for (let j = 0; j < crdntsA.length; j++) { //------ цикл перебора первых координат
-      if (crdntsA[j] === i) { //----------------------- если первая координата равна счету, то
-        aClstr.push(i); //----------------------------- внесение счета в массив
-        break; //-------------------------------------- завершение итерации
-      }
-    }
-    bClstr.push([]); //- генерация пустых подмассивов для вторых координат по количеству неповторяющихся первых координат
-  }
-  let bFullClstr = []; //------------------------- массив для полных вторых координат
-  for (let i = 0; i < bClstr.length; i++) { //---- цикл перебора массива для вторых координат сопряженных с первыми координатами
-    for (let j = 0; j < crdntsA.length; j++) { //- цикл перебора первых координат
-      if (crdntsA[j] === i) { //------------------ если первая координата равна счету, то
-        bClstr[i].push(crdntsB[j]); //------------ внесение вторых координат в массив для вторых координат сопряженных с первыми координатами
-      }
-    }
-    //сокращение вторых координат
-    let sliceNum = [0]; //-------------------------- массив для адресов вырезания координат
-    for (let j = 0; j < bClstr[i].length; j++) { //- цикл перебора массива для вторых координат сопряженных с первыми координатами
-      if (bClstr[i][j + 1] - bClstr[i][j] > 1) { //- если вторая координата меньше последующей более чем на 1, то
-        sliceNum.push(j + 1); //-------------------- внесение счета + 1 в массив
-      }
-    }
-    let shortB = []; //---------------------------------------------- массив для вторых координат
-    for (let j = 0; j < sliceNum.length; j++) { //------------------- цикл перебора массива для адресов вырезания координат
-      shortB.push(bClstr[i].slice(sliceNum[j], sliceNum[j + 1])); //- внесение вторых координат группами в массив
-    }
-    for (let j = 0; j < shortB.length; j++) { //---------------------------- цикл перебора массива для вторых координат
-      if (shortB[j].length > 1) { //---------------------------------------- если длина второй координаты больше 1, то
-        shortB[j] = `${shortB[j][0]}-${shortB[j][shortB[j].length - 1]}` //- создание диапазона
-      }
-    }
-    bClstr[i] = shortB; //-------------- вторая координата принимает массив
-    bClstr[i] = bClstr[i].join(','); //- соединение вторых координат запятыми
-    if (bClstr[i] !== '') { //---------- если вторая координата не пуста, то
-      bFullClstr.push(bClstr[i]); //---- внесение второй координаты в массив для полных вторых координат
-    }
-  }
-  let shortStrCrdnst = []; //-------------------------------- массив для коротких координат
-  for (let i = 0; i < aClstr.length; i++) { //--------------- цикл перебора массива для неповторяющихся первых координат
-    shortStrCrdnst.push(`${aClstr[i]}:${bFullClstr[i]}`); //- внесение неповторяющейся первой координаты и полной второй координаты в массив
-  }
-  shortStrCrdnst = shortStrCrdnst.join(' '); //- cоединение строки координат по ' ' (пробелам)
-  shortStrCrdnst = shortStrCrdnst //------------ кодинг чисел на символы 
-    .replaceAll('50', 'α').replaceAll('51', 'β').replaceAll('52', 'γ').replaceAll('53', 'δ').replaceAll('54', 'ε').replaceAll('55', 'ζ')
-    .replaceAll('56', 'η').replaceAll('57', 'θ').replaceAll('58', 'ι').replaceAll('59', 'κ').replaceAll('60', 'λ').replaceAll('61', 'μ')
-    .replaceAll('62', 'ν').replaceAll('63', 'ξ').replaceAll('64', 'ο').replaceAll('65', 'π').replaceAll('66', 'ρ').replaceAll('67', 'σ')
-    .replaceAll('68', 'τ').replaceAll('69', 'υ').replaceAll('70', 'φ').replaceAll('71', 'χ').replaceAll('72', 'ψ').replaceAll('73', 'ω')
-    .replaceAll('74', 'w').replaceAll('75', 'Α').replaceAll('76', 'Β').replaceAll('77', 'Γ').replaceAll('78', 'Δ').replaceAll('79', 'Ε')
-    .replaceAll('80', 'Ζ').replaceAll('81', 'Η').replaceAll('82', 'Θ').replaceAll('83', 'Ι').replaceAll('84', 'Κ').replaceAll('85', 'Λ')
-    .replaceAll('86', 'Μ').replaceAll('87', 'Ν').replaceAll('88', 'Ξ').replaceAll('89', 'Ο').replaceAll('90', 'Π').replaceAll('91', 'Ρ')
-    .replaceAll('92', 'Σ').replaceAll('93', 'Τ').replaceAll('94', 'Υ').replaceAll('95', 'Φ').replaceAll('96', 'Χ').replaceAll('97', 'Ψ')
-    .replaceAll('98', 'Ω').replaceAll('99', 'W').replaceAll('10', 'a').replaceAll('11', 'b').replaceAll('12', 'c').replaceAll('13', 'd')
-    .replaceAll('14', 'e').replaceAll('15', 'f').replaceAll('16', 'g').replaceAll('17', 'h').replaceAll('18', 'i').replaceAll('19', 'j')
-    .replaceAll('20', 'k').replaceAll('21', 'l').replaceAll('22', 'm').replaceAll('23', 'n').replaceAll('24', 'o').replaceAll('25', 'p')
-    .replaceAll('26', 'r').replaceAll('27', 's').replaceAll('28', 't').replaceAll('29', 'u').replaceAll('30', 'A').replaceAll('31', 'B')
-    .replaceAll('32', 'C').replaceAll('33', 'D').replaceAll('34', 'E').replaceAll('35', 'F').replaceAll('36', 'G').replaceAll('37', 'H')
-    .replaceAll('38', 'I').replaceAll('39', 'J').replaceAll('40', 'K').replaceAll('41', 'L').replaceAll('42', 'M').replaceAll('43', 'N')
-    .replaceAll('44', 'O').replaceAll('45', 'P').replaceAll('46', 'R').replaceAll('47', 'S').replaceAll('48', 'T').replaceAll('49', 'U');
-  return shortStrCrdnst; //- возврат короткой закодированной строки координат
-}
-
-function saveStr() { //----------------- функция сохранения координат пользовательских колоний
-  if (inptCustomName.value !== '') { //- если поле ввода имени пользовательской колонии не пустое, то
-    //исправление бага при удалении колонии со значением названия '0'
-    if (inptCustomName.value === '0') { //- если введенный текст в поле ввода равен '0', то
-      inptCustomName.value = '0.'; //------ поле ввода принимает '0.'
-    }
-    if (localStorage.getItem(inptCustomName.value) === null) { //- если ключ локального хранилища с именем колонии введенным в поле возвращает null, то
-      localStorage.setItem(inptCustomName.value, strCrdnts); //--- сохранить данный ключ и значение строки координат в локальном хранилище
-      slctCustomColony.insertAdjacentHTML('beforeend', //--------- добавление html-кода со значением введенным в поле перед закрывающим тегом селекта
-        `<option value="${inptCustomName.value}">
-        ${inptCustomName.value}
-      </option>`);
-      inptCustomName.value = ''; //---------------------- очистка поля ввода имени пользовательской колонии
-      if (dataWarning.firstCustomColony === "noOk") { //- если в объекте dataWarning ключ firstCustomColony === "noOk", то
-        firstCustomColonyShowWarning(); //--------------- запуск функции показа предупреждения о сохранении колоний в хранилище браузера
-      }
-    } else { //----- иначе (если ключ локального хранилища совпал с именем введенным в поле), то
-      let code = //- текст информационного окна
-        `<p>У вас уже есть колония под названием "${inptCustomName.value}".<br />
-      Хотите переписать данные колонии "${inptCustomName.value}"?</p>`
-      dWkey = 'rewriteCustomColony'; //- обновление ключа для объекта типов информационного окна
-      showWarning(code); //------------- запуск функции показа информационного окна
-    }
-    inpCustomCrdnts.value = ''; //----------------------- очистка поля ввода пользовательских координат
-    optFirstSlctCustomColony.textContent = 'Выбрать'; //- обновление текста первого option селекта пользовательских колоний
-    slctCustomColony.disabled = false; //---------------- включение селекта пользовательских колоний
-  } else { //-------------------------------------------- иначе (если поле ввода имени пользовательской колонии пустое), то
-    let code = //---------------------------------------- текст информационного окна
-      `<p>Введите название для своей колонии!</p>`
-    dWkey = 'information'; //- обновление ключа для объекта типов информационного окна
-    showWarning(code); //----- запуск функции показа информационного окна
-  }
-}
-
-function firstCustomColonyShowWarning() {  //- функция показа предупреждения о сохранении колоний в хранилище браузера
-  let code = //------------------------------- текст информационного окна
-    `<p>Внимание, координаты колоний сохраняются только в Вашем браузере и могут удалиться при очистке истории или не сохраниться в режиме инкогнито.<br/ >
-    Если вам важно сохранить свои координаты, нажмите кнопку "Показать" в разделе "Координаты колоний на карте" и сохраните их где-либо,
-    затем можете восстановить свои колонии, введя координаты в поле ввода для координат и сохранить их для текущей сессии</p>`
-  dWkey = 'firstCustomColony'; //- обновление ключа для объекта типов информационного окна
-  showWarning(code); //----------- запуск функции показа информационного окна
-}
-
-//Добавление пользовательских колоний в селект при загрузке
-const optFirstSlctCustomColony = document.querySelector('#slctCustomColony option[value="0"]'); //- первый option селекта пользовательских колоний
-
-window.addEventListener('load', addCustomColonyToSelect); //- при загрузке окна: добавление пользовательских колоний в селекты
-
-function addCustomColonyToSelect() { //---------------- функция добавления пользовательских колоний в селект пользовательских колоний
-  if (localStorage.length !== 0) { //------------------ если локальное хранилище не пусто (длина не равна 0), то
-    for (let i = 0; i < localStorage.length; i++) { //- цикл перебора данных локального хранилища
-      //добавление html-кода со значением ключа локального хранилища перед закрывающим тегом селекта
+function addCustomColonyToSelect() { // Добавить пользовательские колоний в селект пользовательских колоний.
+  if (localStorage.length) {
+    for (let i = 0; i < localStorage.length; i++) {
       slctCustomColony.insertAdjacentHTML('beforeend', `<option value="${localStorage.key(i)}">${localStorage.key(i)}</option>`);
     }
-  } else { //------------------------------------------------------------- иначе (если локальное хранилище пусто (длина равна 0), то)
-    optFirstSlctCustomColony.textContent = 'Здесь будут ваши колонии'; //- обновление текста первого option селекта пользовательских колоний
-    slctCustomColony.disabled = true; //---------------------------------- выключение селекта пользовательских колоний
+    wrapperSlctCustomColony.classList.remove('disabled');
+  } else {
+    optFirstSlctCustomColony.textContent = 'Здесь будут ваши колонии';
+    slctCustomColony.disabled = true;
+    wrapperSlctCustomColony.classList.add('disabled');
   }
 }
 
-//Вывод пользовательских колоний на карту
+// ДОБАВЛЕНИЕ ПРОСЛУШИВАТЕЛЕЙ СОБЫТИЯ ДЛЯ СЕЛЕКТА ПОЛЬЗОВАТЕЛЬСКИХ КОЛОНИЙ.
+slctCustomColony.addEventListener('click', openOrCloseSelectCustomColonies);
+slctCustomColony.addEventListener('change', openOrCloseSelectCustomColonies);
+slctCustomColony.addEventListener('blur', openOrCloseSelectCustomColonies);
 
-slctCustomColony.addEventListener('change', e => { //------- при изменении селекта пользовательских колоний
-  strCrdnts = localStorage.getItem(e.target.value); //------ присвоение переменной строки координат значения из хранилища соответствующего ключа
-  strToArr(); //-------------------------------------------- запуск функции преобразования строки координат в массив координат
-  drawPC(); //---------------------------------------------- запуск функции отрисовки канвас предпросмотра
-  //drawShadow(); //---------------------------------------- запуск функции отрисовки тени колонии
-  slctCustomColony.blur(); //------------------------------- добавление нефокусировки к селекту (разрешение проблемы смены колоний из-за нажатия клавиш)
-  nameColony.textContent = e.target.value; //--------------- обновление текста названия выбранной колонии
-  optFirstSlctCustomColony.textContent = e.target.value; //- обновление текста первого option селекта пользовательских колоний
-  btnDelColony.disabled = false; //------------------------- включение кнопки удаления пользовательской колонии
-});
-
-//Удаление пользовательской колонии
-const btnDelColony = document.querySelector('#btnDelColony'); //- кнопка удаления пользовательской колонии
-btnDelColony.disabled = true; //--------------------------------- выключение кнопки удаления пользовательской колонии
-
-btnDelColony.addEventListener('click', () => { //----------------- при нажатии: запуск выбора для удаление пользовательской колонии
-  if (localStorage.getItem(nameColony.textContent) !== null) { //- если ключ локального хранилища с именем колонии не возвращает null, то
-    let code = //------------------------------------------------- текст информационного окна
-      `<p>Удалить колонию под названием "${nameColony.textContent}"?</p>`
-    dWkey = 'delCustomColony'; //- обновление ключа для объекта типов информационного окна
-    showWarning(code); //--------- запуск функции показа информационного окна
+function openOrCloseSelectCustomColonies() { // Открыть или закрыть селект пользовательских колоний.
+  if (wrapperSlctCustomColony.classList.contains('open')) {
+    wrapperSlctCustomColony.classList.remove('open');
+    wrapperSlctCustomColony.classList.add('close');
+  } else {
+    wrapperSlctCustomColony.classList.remove('close');
+    wrapperSlctCustomColony.classList.add('open');
   }
-});
-
-function delCustomColony() { //---------------------------------------------------------------------- функция удаления пользовательской колонии
-  localStorage.removeItem(nameColony.textContent); //------------------------------------------------ удаление колонии из локального хранилища с выбранным именем ключа
-  document.querySelector(`#slctCustomColony option[value="${nameColony.textContent}"]`).remove(); //- удаление элемента option селекта имен колоний
-  clearPC(); //-------------------------------------------------------------------------------------- запуск функции очистки канвас предпросмотра
-  drawCells(); //------------------------------------------------------------------------------------ запуск функции отрисовки клеток
 }
 
-//Показ строки координат колонии и сохранение строки координат в буфер обмена
-const btnShowStr = document.querySelector('#btnShowStr'); //------------- кнопка показа строки координат
-const btnSaveClipboard = document.querySelector('#btnSaveClipboard'); //- кнопка копирования строки координат в буфер обмена
-const textStr = document.querySelector('#textStr'); //------------------- текст строки координат
-const lengthArr = document.querySelector('#lengthArr'); //--------------- текст количества координат
-const lengthStr = document.querySelector('#lengthStr'); //--------------- текст длины строки координат
+// ВЫВОД ПОЛЬЗОВАТЕЛЬСКИХ КОЛОНИЙ НА КАРТУ.
+const otherData = document.querySelector('#otherData'); // Прочие данные в разделе "Предпросмотр колонии".
 
-btnShowStr.addEventListener('click', () => { //-------------------------- при нажатии: обновление строки координат
-  resetColony() //------------------------------------------------------- запуск функции сброса отрисовки колонии на канвас
-  arrToStr(); //--------------------------------------------------------- запуск функции преобразования координат
-  if (strCrdnts !== '') { //--------------------------------------------- если строка координат не пуста, то
-    btnSaveClipboard.disabled = false; //-------------------------------- включение кнопки копирования строки координат в буфер обмена
-    lengthArr.textContent = `Количество клеток: ${arrCrdnts.length}`; //- текст количества координат
-  } else { //------------------------------------------------------------ иначе (если строка координат пуста, то)
-    btnSaveClipboard.disabled = true; //--------------------------------- отключение кнопки копирования строки координат в буфер обмена
-    lengthArr.textContent = `Количество клеток: 0`; //------------------- текст количества координат
-    let code = `<p>Карта пуста, создайте свою колонию!</p>` //----------- текст информационного окна
-    dWkey = 'information'; //-------------------------------------------- обновление ключа для объекта типов информационного окна
-    showWarning(code); //------------------------------------------------ запуск функции показа информационного окна
-  }
-  textStr.textContent = strCrdnts; //----------------------------- текст строки координат принимает строку переменной
-  lengthStr.textContent = `Длина строки: ${strCrdnts.length}`; //- текст длины строки координат
-  arrCrdnts = []; //---------------------------------------------- очистка массива координат
+slctCustomColony.addEventListener('change', e => { // При изменении: отрисовка колонии на предпросмотре и отрисовка тени на карте.
+  isShadowMode = true;
+  enterDataIntoColonyFromFullRle(localStorage.getItem(e.target.value));
+  displayOtherColonyData();
+  drawPreviewCanvas();
+  slctCustomColony.blur();
+  nameColony.textContent = e.target.value;
+  optFirstSlctCustomColony.textContent = e.target.value;
+  btnResetColony.disabled = false;
+  btnDelColony.disabled = false;
 });
 
-btnSaveClipboard.addEventListener('click', () => {
-  navigator.clipboard.writeText(strCrdnts)
+function displayOtherColonyData() { // Отображение прочих данных в раздел "Предпросмотр колонии".
+  let authorStr = (colony.author) ? `<b>Автор:</b> ${colony.author}<br>` : ''; // Строка автора.
+  let commentsStr = // Строка комментариев.
+    (colony.comments.length) ? `<b>Комментарии:</b><br>${colony.comments.join('<br>')}<br>` : '';
+  let widthLastNum = colony.width.toString().slice(-1); // Последняя цифра ширины.
+  let widthLastTwoNum = colony.width.toString().slice(-2); // Последние 2 цифры ширины.
+  let widthCellsNoun = // Существительное "клетки" ширины.
+    (widthLastTwoNum === '11' || widthLastTwoNum === '12' || widthLastTwoNum === '13' || widthLastTwoNum === '14') ?
+      'клеток' : (widthLastNum === '1') ?
+        'клетка' : (widthLastNum === '2' || widthLastNum === '3' || widthLastNum === '4') ?
+          'клетки' : 'клеток';
+  let widthStr = `<b>Ширина:</b> ${colony.width} ${widthCellsNoun}<br>`; // Строка ширины.
+  let heightLastNum = colony.height.toString().slice(-1); // Последняя цифра высоты.
+  let heightLastTwoNum = colony.height.toString().slice(-2); // Последние 2 цифры высоты.
+  let heightCellsNoun = // Существительное "клетки" высоты.
+    (heightLastTwoNum === '11' || heightLastTwoNum === '12' || heightLastTwoNum === '13' || heightLastTwoNum === '14') ?
+      'клеток' : (heightLastNum === '1') ?
+        'клетка' : (heightLastNum === '2' || heightLastNum === '3' || heightLastNum === '4') ?
+          'клетки' : 'клеток';
+  let heightStr = `<b>Высота:</b> ${colony.height} ${heightCellsNoun}<br>`; // Строка высоты.
+  let ruleStr = `<b>Правило:</b> B${colony.rule[0].join('')}\/S${colony.rule[1].join('')}`; // Строка правила.
+  otherData.innerHTML = authorStr + commentsStr + widthStr + heightStr + ruleStr;
+}
+
+// УДАЛЕНИЕ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛОНИИ.
+const btnDelColony = document.querySelector('#btnDelColony'); // Кнопка удаления пользовательской колонии.
+
+btnDelColony.addEventListener('click', () => { // При нажатии: запуск выбора для удаления пользовательской колонии.
+  infoWindowType.key = 'delCustomColony';
+  let code = `Удалить колонию под названием "${nameColony.textContent}"?`;
+  showInfoWindow(code);
+});
+
+// ПОКАЗ ПАТТЕРНА КОЛОНИИ И СОХРАНЕНИЕ СТРОКИ ПАТТЕРНА В БУФЕР ОБМЕНА.
+const btnShowRle = document.querySelector('#btnShowRle'); // Кнопка показа RLE-паттерна.
+const btnShowPlaintext = document.querySelector('#btnShowPlaintext'); // Кнопка показа Plaintext-паттерна.
+const btnSaveClipboard = document.querySelector('#btnSaveClipboard'); // Кнопка копирования паттерна в буфер обмена.
+const colonyPattern = document.querySelector('#colonyPattern'); // Текст строки паттерна.
+const numberOfColonyCells = document.querySelector('#numberOfColonyCells'); // Текст количества клеток колонии.
+
+btnShowRle.addEventListener('click', () => { // При нажатии: обновление строки шаблона.
+  if (isShadowMode) resetColony();
+  if (checkWorldForCells()) {
+    if (!colony.crdnts?.length) enterDataIntoColonyFromWorld();
+    colony.fullRle = getFullRleWithDataFromInpts();
+    colonyPattern.textContent = colony.fullRle;
+    numberOfColonyCells.textContent = `Количество клеток: ${colony.crdnts.length}`;
+    btnSaveClipboard.disabled = false;
+  } else {
+    btnSaveClipboard.disabled = true;
+    numberOfColonyCells.textContent = `Количество клеток: 0`;
+    infoWindowType.key = 'information';
+    let code = `Карта пуста, создайте свою колонию!`;
+    showInfoWindow(code);
+  }
+});
+
+btnShowPlaintext.addEventListener('click', () => { // При нажатии: обновление строки шаблона.
+  if (isShadowMode) resetColony();
+  if (checkWorldForCells()) {
+    if (!colony.crdnts?.length) enterDataIntoColonyFromWorld();
+    colony.fullPlaintext = getFullPlaintextWithDataFromInpts();
+    colonyPattern.textContent = colony.fullPlaintext;
+    numberOfColonyCells.textContent = `Количество клеток: ${colony.crdnts.length}`;
+    btnSaveClipboard.disabled = false;
+  } else {
+    btnSaveClipboard.disabled = true;
+    numberOfColonyCells.textContent = `Количество клеток: 0`;
+    infoWindowType.key = 'information';
+    let code = `Карта пуста, создайте свою колонию!`;
+    showInfoWindow(code);
+  }
+});
+
+function getFullPlaintextWithDataFromInpts() { // Получить полный Plaintext-паттерн с данными из полей ввода.
+  let name = (inptCustomName.value) ? `!Name: ${inptCustomName.value}\n` : ''; // Имя колонии.
+  let author = (inptCustomAuthor.value) ? `!Author: ${inptCustomAuthor.value}\n` : ''; // Автор колонии.
+  let rule = `!Rule: b${colony.rule[0].join('')}/s${colony.rule[1].join('')}\n`; // Правило.
+  let comments = // Комментарии для колонии.
+    (inptCustomComments.value) ? inptCustomComments.value.split('\n').map(item => `!${item}\n`).join('') : '';
+  let plaintext = colony.plaintext; // Plaintext-паттерн.
+  return name + author + rule + comments + plaintext;
+}
+
+btnSaveClipboard.addEventListener('click', () => { // При нажатии: копирование паттерна в буфер обмена.
+  navigator.clipboard.writeText(colonyPattern.textContent)
     .then(() => {
-      let code = `<p>Координаты скопированы в буфер обмена!</p>` //- текст информационного окна
-      dWkey = 'information'; //------------------------------------- обновление ключа для объекта типов информационного окна
-      showWarning(code); //----------------------------------------- запуск функции показа информационного окна
+      infoWindowType.key = 'information';
+      let code = `Паттерн скопирован в буфер обмена!`;
+      showInfoWindow(code);
     })
     .catch(() => {
-      let text = //- текст информационного окна
-        `<p><string>Координаты НЕ скопировались в буфер обмена!!!</string></p>
-        <p>Выделите координаты вручную и скопируйте, нажав на правую кнопку мыши и выбрав "копировать", или нажмите "Ctrl + C" на клавиатуре.</p>`
-      dWkey = 'information'; //- обновление ключа для объекта типов информационного окна
-      showWarning(text); //----- запуск функции показа информационного окна
+      infoWindowType.key = 'information';
+      let code = `<string>Паттерн НЕ скопировался в буфер обмена!</string><br>Выделите паттерн вручную и скопируйте`;
+      showInfoWindow(code);
     });
 });
 
-//****************************************************************************************************************************************
+//-----------------------------------------------------------------------------------------------------------------------------------------
 //БЛОК ИНФОРМАЦИОННОГО ОКНА
 
-const dataWarning = { //------------- объект для отображения информационного окна
-  inputSizeMore500: 'noOk', //------- ввод размера мира более 500 клеток (одноразовая информация)
-  inputSizeLess1: 'noOk', //--------- ввод размера мира менее 1 клетки (одноразовая информация)
-  inputSizeFrac: 'noOk', //---------- ввод размера мира дробным числом (одноразовая информация)
-  bigWorld: 'noOk', //--------------- генерация большого мира: более 100 000 клеток (одноразовая информация)
-  firstCustomColony: 'noOk', //------ сохранение первой колонии (одноразовая информация)
-  delCustomColony: 'yesOrNo', //----- удаление пользовательской колонии (многоразовый выбор)
-  rewriteCustomColony: 'yesOrNo', //- перезапись пользовательской колонии (многоразовый выбор)
-  bigColony: 'yesOrNo', //----------- увеличение мира под размер большой колонии (многоразовый выбор)
-  information: 'info', //------------ различная многоразовая информация
+const infoWindowType = { // Объект видов информационного окна.
+  key: '', // Свойство для собственных ключей.
+  bigWorld: 'noOk', // Генерация большого мира: более 1_000_000 клеток (одноразовая информация).
+  firstCustomColony: 'noOk', // Сохранение первой колонии (одноразовая информация).
+  delCustomColony: 'yesOrNo', // Удаление пользовательской колонии (многоразовый выбор).
+  rewriteCustomColony: 'yesOrNo', // Перезапись пользовательской колонии (многоразовый выбор).
+  bigColony: 'yesOrNo', // Увеличение мира под размер большой колонии (многоразовый выбор).
+  information: 'info', // Различная многоразовая информация.
 }
 
-const btnOk = document.querySelector('#ok'); //--- кнопка ОК информационного окна
-const btnYes = document.querySelector('#yes'); //- кнопка ДА информационного окна
-const btnNo = document.querySelector('#no'); //--- кнопка НЕТ информационного окна
+const warningPanel = document.querySelector('#warningPanel'); // Панель информационного окна.
+const warningText = document.querySelector('#warningText'); // Текст панели информационного окна.
 
-let dWkey = ''; //- переменная для ключей объекта информационного окна
-
-btnOk.addEventListener('click', () => { //- при нажатии на кнопку: запуск функций в зависимости от ключа объекта информационного окна
-  if (dataWarning[dWkey] === 'noOk') { //-- если ключ объекта информационного окна содержит 'noOk', то
-    dataWarning[dWkey] = 'Ok' //----------- ключ объекта информационного окна присваивает 'Ok'
+function showInfoWindow(code) { // Показать информационное окно.
+  warningPanel.classList.remove('none');
+  warningText.innerHTML = code;
+  if (infoWindowType[infoWindowType.key] === 'noOk' ||
+    infoWindowType[infoWindowType.key] === 'info') {
+    btnYes.classList.add('none');
+    btnNo.classList.add('none');
+    btnOk.classList.remove('none');
+    btnOk.focus();
+  } else if (infoWindowType[infoWindowType.key] === 'yesOrNo') {
+    btnYes.classList.remove('none');
+    btnNo.classList.remove('none');
+    btnOk.classList.add('none');
+    btnNo.focus();
   }
-  hideWarning(); //- запуск функции скрытия информационного окна
+}
+
+const btnOk = document.querySelector('#ok'); // Кнопка "ОК" информационного окна.
+const btnYes = document.querySelector('#yes'); // Кнопка "ДА" информационного окна.
+const btnNo = document.querySelector('#no'); // Кнопка "НЕТ" информационного окна.
+
+btnOk.addEventListener('click', () => { // При нажатии: изменение ключа информационного окна с "noOk" на "Ok".
+  if (infoWindowType[infoWindowType.key] === 'noOk') infoWindowType[infoWindowType.key] = 'Ok';
+  hideInformationWindow();
 });
 
-btnNo.addEventListener('click', () => { //- при нажатии на кнопку: запуск функций в зависимости от ключа объекта информационного окна
-  if (dWkey === 'bigColony') { //---------- если ключ равен увеличению мира под размер большой колонии, то
-    resetColony(); //---------------------- запуск функции сброса отрисовки колонии на канвас
-  }
-  hideWarning(); //- запуск функции скрытия информационного окна
+function hideInformationWindow() { // Cкрыть информационное окно.
+  warningPanel.classList.add('none');
+  infoWindowType.key = '';
+}
+
+btnNo.addEventListener('click', () => {
+  if (infoWindowType.key === 'bigColony') resetColony();
+  hideInformationWindow();
 });
 
-btnYes.addEventListener('click', () => { //- при нажатии на кнопку: запуск функций в зависимости от ключа объекта информационного окна
-
-  if (dWkey === 'delCustomColony') { //- если ключ равен удалению пользовательской колонии, то
-    delCustomColony(); //--------------- запуск функции удаления пользовательской колонии
-    hideWarning(); //------------------- запуск функции скрытия информационного окна
-
-  } else if (dWkey === 'rewriteCustomColony') { //------------ иначе если ключ равен перезаписи пользовательской колонии, то
-    if (dataWarning.firstCustomColony === "noOk") { //-------- если сохранение первой колонии сожержит 'noOk', то
-      firstCustomColonyShowWarning(); //---------------------- запуск функции показа предупреждения о сохранении колоний в хранилище браузера
-    } else { //----------------------------------------------- иначе (если сохранение первой колонии сожержит 'Ok', то)
-      hideWarning(); //--------------------------------------- запуск функции скрытия информационного окна
+btnYes.addEventListener('click', () => {
+  if (infoWindowType.key === 'delCustomColony') {
+    delCustomColony();
+    hideInformationWindow();
+  } else if (infoWindowType.key === 'rewriteCustomColony') {
+    if (infoWindowType.firstCustomColony === "noOk") {
+      showWarningAboutSavingColonies();
+    } else {
+      hideInformationWindow();
     }
-    localStorage.setItem(inptCustomName.value, strCrdnts); //- добавление строки координат пользовательской колонии в хранилище (перезапись)
-    inptCustomName.value = ''; //----------------------------- очистка поля ввода
-
-  } else if (dWkey === 'bigColony') { //------ иначе если ключ равен увеличению мира под размер большой колонии, то
-    sizeWorldForBigColony(); //--------------- запуск функции увеличения размера мира под размер колонии
-    newWorld(); //---------------------------- запуск функции изменения размеров мира
-    if (cW * cH > 100000) { //---------------- если произведение количества ячеек шириы и высоты более 100 000, то
-      bigWorldShowWarning(); //--------------- запуск функции показа предупреждения о большом мире
-      if (dataWarning.bigWorld === 'Ok') { //- если генерация большого мира содержит 'Ok', то
-        hideWarning(); //--------------------- запуск функции скрытия информационного окна
+    localStorage.setItem(inptCustomName.value, colony.fullRle);
+    inptCustomName.value = '';
+    inptCustomAuthor.value = '';
+    inptCustomComments.value = '';
+    inptCustomPattern.value = '';
+    btnClearInpts.disabled = true;
+  } else if (infoWindowType.key === 'bigColony') {
+    increaseWorldSizeForColonySize();
+    changeSizeOfWorld();
+    if (numberOfCellsWidthWorld * numberOfCellsHeightWorld > 1_000_000) {
+      if (infoWindowType.bigWorld === 'Ok') {
+        hideInformationWindow();
+      } else {
+        showBigWorldWarning();
       }
-    } else { //------------------------------- иначе (если произведение количества ячеек шириы и высоты меньше или равно 100 000, то)
-      hideWarning(); //----------------------- запуск функции скрытия информационного окна
+    } else {
+      hideInformationWindow();
     }
   }
 });
 
-const warningPanel = document.querySelector('#warningPanel'); //- панель информационного окна
-const warningText = document.querySelector('#warningText'); //--- текст панели информационного окна
-
-function hideWarning() { //-------------- функция скрытия информационного окна
-  warningPanel.classList.add('none'); //- добавление класса 'none' для информационного окна
-  dWkey = ''; //------------------------- сброс значения ключа объекта информационного окна
+function delCustomColony() { // Удалить пользовательскую колонию.
+  localStorage.removeItem(nameColony.textContent);
+  document.querySelector(`#slctCustomColony option[value="${nameColony.textContent}"]`).remove();
+  clearPreviewCanvas();
+  drawInitialCells();
 }
 
-function showWarning(a) { //------------------------ функция показа информационного окна
-  warningPanel.classList.remove('none'); //--------- удаление класса 'none' для информационного окна
-  warningText.innerHTML = a; //--------------------- присваивание тексту информационного окна аргумента a
-  if (dataWarning[dWkey] === 'noOk' || //----------- если ключ объекта информационного окна содержит 'noOk' ИЛИ
-    dataWarning[dWkey] === 'info') { //------------- ключ объекта информационного окна содержит 'info', то
-    btnYes.classList.add('none'); //---------------- добавление класса 'none' для кнопки ДА информационного окна
-    btnNo.classList.add('none'); //----------------- добавление класса 'none' для кнопки НЕТ информационного окна
-    btnOk.classList.remove('none'); //-------------- удаление класса 'none' для кнопки ОК информационного окна
-  } else if (dataWarning[dWkey] === 'yesOrNo') { //- иначе если ключ объекта информационного окна содержит yesOrNo, то
-    btnYes.classList.remove('none'); //------------- удаление класса 'none' для кнопки ДА информационного окна
-    btnNo.classList.remove('none'); //-------------- удаление класса 'none' для кнопки НЕТ информационного окна
-    btnOk.classList.add('none'); //----------------- добавление класса 'none' для кнопки ОК информационного окна
-  }
-}
+btnOk.addEventListener('mouseover', () => btnOk.blur());
 
-function sizeWorldForBigColony() { //------------------------------------------ функция увеличения размера мира под размер колонии
-  cW = worldNewSize; //-------------------------------------------------------- значение ширины мира присваивает новый размер мира
-  cH = worldNewSize; //-------------------------------------------------------- значение высоты мира присваивает новый размер мира
-  inptCnW.value = worldNewSize; //--------------------------------------------- селект количества ячеек ширины присваивает новый размер мира
-  inptCnH.value = worldNewSize; //--------------------------------------------- селект количества ячеек высоты присваивает новый размер мира
-  if ((cW / Math.floor(wrapperCanvas.clientWidth * 0.99 / cellSize) > 4) || //- если ширина мира деленная на размер окна по ширине деленный на размер клетки больше 4 ИЛИ
-    (cH / Math.floor(wrapperCanvas.clientHeight * 0.99 / cellSize)) > 4) { //-- высота мира деленная на размер окна по высоте деленный на размер клетки больше 4, то
-    scaleSmaller(); //--------------------------------------------------------- запуск функции уменьшения масштаба х3
-    scaleSmaller();
-    scaleSmaller();
-  } else if ((cW / Math.floor(wrapperCanvas.clientWidth * 0.99 / cellSize) > 2) || //- иначе (аналогично для меньшей разницы)
-    (cH / Math.floor(wrapperCanvas.clientHeight * 0.99 / cellSize)) > 2) {
-    scaleSmaller();
-    scaleSmaller();
-  } else if (((cW / Math.floor(wrapperCanvas.clientWidth * 0.99 / cellSize) > 1) ||
-    (cH / Math.floor(wrapperCanvas.clientHeight * 0.99 / cellSize)) > 1)) {
-    scaleSmaller();
-  }
-  if ((Math.floor(wrapperCanvas.clientWidth * 0.99 / cellSize) *
-    (Math.floor(wrapperCanvas.clientHeight * 0.99 / cellSize))) < 100000) { //- если произведение ширины и высоты нового размера мира меньше 100 000, то
-    inWindow(); //------------------------------------------------------------- запуск функции вписывания мира в окно просмотра
-  }
-}
-
-//****************************************************************************************************************************************
-//ПРОЧИЕ ФУНКЦИИ
-
-//Сброс значений селектов
-window.addEventListener('click', () => { //- при клике где либо в окне
-  resetSelects(); //------------------------ запуск функции сброса значений селектов
+btnYes.addEventListener('mouseover', () => {
+  btnYes.blur();
+  btnNo.blur();
 });
-function resetSelects() { //------------------------------------------------------- функция сброса значений селектов
-  const slctsDefaultColony = document.querySelectorAll('#defaultColony select') //- все селекты готовых колоний
-  slctsDefaultColony.forEach(e => { //--------------------------------------------- для каждого селекта готовых колоний
-    e.value = 0; //---------------------------------------------------------------- значение присваивает 0
-  });
-  slctCustomColony.value = 0; //- сброс значения для селекта пользовательских колоний
+
+btnNo.addEventListener('mouseover', () => {
+  btnYes.blur();
+  btnNo.blur();
+});
+
+function increaseWorldSizeForColonySize() { // Увеличить размера мира под размер колонии.
+  if (colony.width > numberOfCellsWidthWorld || colony.height > numberOfCellsHeightWorld) {
+    numberOfCellsWidthWorld = numberOfCellsHeightWorld = Math.max(colony.width, colony.height);
+    inptNumberOfCellsWidthWorld.value = numberOfCellsWidthWorld;
+    inptNumberOfCellsHeightWorld.value = numberOfCellsHeightWorld;
+  }
+  if (colony.width < maxNumberOfCellsWidthCanvas[cellSize] &&
+    colony.height < maxNumberOfCellsHeightCanvas[cellSize]) {
+    fitWorldIntoWindow();
+  }
+  if (colony.width > maxNumberOfCellsWidthCanvas[cellSize] ||
+    colony.height > maxNumberOfCellsHeightCanvas[cellSize]) {
+    if (cellSize === 0.5) return;
+    zoomOutOfWorld();
+    increaseWorldSizeForColonySize();
+  }
 }
 
-//Управление с клавиатуры
-let inputFocus = false; //--------------------------------------------- переменная фокуса полей ввода данных (для отключения управления с клавиатуры)
-inptCnW.addEventListener('focus', () => inputFocus = true); //--------- при фокусировке на селект количества ячеек ширины
-inptCnW.addEventListener('blur', () => inputFocus = false); //--------- при нефокусировке на селект количества ячеек ширины
-inptCnH.addEventListener('focus', () => inputFocus = true); //--------- при фокусировке на селект количества ячеек высоты
-inptCnH.addEventListener('blur', () => inputFocus = false); //--------- при нефокусировке на селект количества ячеек высоты
-inptCustomName.addEventListener('focus', () => inputFocus = true); //-- при фокусировке на поле ввода имени пользовательской колонии
-inptCustomName.addEventListener('blur', () => inputFocus = false); //-- при нефокусировке на поле ввода имени пользовательской колонии
-inpCustomCrdnts.addEventListener('focus', () => inputFocus = true); //- при фокусировке на поле ввода пользовательских координат
-inpCustomCrdnts.addEventListener('blur', () => inputFocus = false); //- при нефокусировке на поле ввода пользовательских координат
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// ПРОЧИЕ ФУНКЦИИ.
 
-window.addEventListener('keyup', e => { //--------- при отжатии клавиши
-  if (!inputFocus) { //---------------------------- если переменная фокуса false, то
-    switch (e.code) { //--------------------------- если отжата кнопка с кодом case, то запуск соответствующей функции
-      case 'KeyQ': horizReflection(); drawPC(); //- запуск функций: отражения колонии по горизонтали, отрисовки канвас предпросмотра
+// УПРАВЛЕНИЕ С КЛАВИАТУРЫ.
+let isInputOnFocus = false; // Переменная фокуса полей ввода данных (для отключения управления с клавиатуры).
+const inpts = document.querySelectorAll('.inpt'); // Поля ввода.
+
+inpts.forEach(item => {
+  item.addEventListener('focus', () => isInputOnFocus = true);
+  item.addEventListener('blur', () => isInputOnFocus = false);
+});
+
+window.addEventListener('keyup', e => {
+  if (!isInputOnFocus) {
+    switch (e.code) {
+      case 'KeyQ': flipHorizontally(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas();
         break;
-      case 'KeyW': vertReflection(); drawPC(); //-- запуск функций: отражения колонии по вертикали, отрисовки канвас предпросмотра
+      case 'KeyW': flipVertically(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas();
         break;
-      case 'KeyE': leftTurn(); drawPC(); //-------- запуск функций: поворота колонии влево на 90 градусов, отрисовки канвас предпросмотра
+      case 'KeyE': turnLeft(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas();
         break;
-      case 'KeyR': rightTurn(); drawPC(); //------- запуск функций: поворота колонии вправо на 90 градусов, отрисовки канвас предпросмотра
+      case 'KeyR': turnRight(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas();
         break;
-      case 'KeyT': rotate180deg(); drawPC(); //---- запуск функций: поворота колонии на 180 градусов, отрисовки канвас предпросмотра
+      case 'KeyT': rotate180deg(); drawShadow(); displayOtherColonyData(); drawPreviewCanvas();
         break;
-      case 'KeyA': startStopGame(); //------------- запуск функции старт/стоп
+      case 'KeyA': startOrStopGame();
         break;
-      case 'KeyD': limitedWorld(); //-------------- запуск функции смены режима границ мира
+      case 'KeyD': turnTrackModeOnOrOff();
         break;
-      case 'KeyF': trackModeFunc(); //------------- запуск функции смены режима следов
+      case 'KeyF': removeOrDrawGrid();
         break;
-      case 'KeyG': inWindow(); //------------------ запуск функции вписывания мира в окно просмотра
+      case 'KeyG': fitWorldIntoWindow();
         break;
-      case 'NumpadAdd': scaleLarger(); //---------- запуск функции увелисения масштаба
+      case 'NumpadAdd': zoomInOfWorld();
         break;
-      case 'Equal': scaleLarger(); //-------------- запуск функции увелисения масштаба
+      case 'Equal': zoomInOfWorld();
         break;
-      case 'NumpadSubtract': scaleSmaller(); //---- запуск функции уменьшения масштаба
+      case 'NumpadSubtract': zoomOutOfWorld();
         break;
-      case 'Minus': scaleSmaller(); //------------- запуск функции уменьшения масштаба
+      case 'Minus': zoomOutOfWorld();
         break;
-      case 'Delete': clearGame(); //--------------- запуск функции очистки мира
+      case 'Delete': clearGame();
         break;
-      case 'NumpadDecimal': clearGame(); //-------- запуск функции очистки мира
+      case 'NumpadDecimal': clearGame();
+        break;
+
+    }
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if (!isInputOnFocus) {
+    switch (e.code) {
+      case 'KeyS': makeOneStepOfGame();
+        break;
+      case 'ArrowLeft': scrollLeft();
+        break;
+      case 'ArrowUp': scrollUp();
+        break;
+      case 'ArrowRight': scrollRight();
+        break;
+      case 'ArrowDown': scrollDown();
         break;
     }
   }
 });
 
-window.addEventListener('keydown', e => { //- при нажатии на клавишу
-  if (!inputFocus) { //---------------------- если переменная фокуса false, то
-    switch (e.code) { //--------------------- если нажата кнопка с кодом case, то
-      case 'KeyS': oneStepGame(); //--------- запуск функции одного шага игры
-        break;
-    }
-  }
-});
+//-----------------------------------------------------------------------------------------------------------------------------------------
+// БЛОК ДЛЯ ОФОРМЛЕНИЯ СТРАНИЦЫ.
 
-//****************************************************************************************************************************************
-//БЛОК ДЛЯ ОФОРМЛЕНИЯ СТРАНИЦЫ
+// ОТКРЫТИЕ/ЗАКРЫТИЕ ВЫПАДАЮЩИХ-СМЕНЯЮЩИХСЯ ПАНЕЛЕЙ.
+const btnsDropDown = document.querySelectorAll('.btn_tab_drop-down_toggle'); // Кнопки для выпадающих-сменяющихся панелей.
+const divsPanelsDropDown = document.querySelectorAll('.panel_drop-down_toggle'); // Выпадающие-сменяющиеся панели.
+const dropDownToggleBox = document.querySelector('#dropDownToggleBox'); // Блок выпадающих-сменяющихся панелей.
 
-//Открытие/закрытие выпадающих-сменяющихся панелей
-const btnsDropDown = document.querySelectorAll('.btn_tab_drop-down_toggle'); //----- кнопки для выпадающих-сменяющихся панелей
-const divsPanelsDropDown = document.querySelectorAll('.panel_drop-down_toggle'); //- выпадающие-сменяющиеся панели div
-const dropDownToggleBox = document.querySelector('#dropDownToggleBox'); //---------- секция выпадающих-сменяющихся панелей
-
-for (let i = 0; i < btnsDropDown.length; i++) { //------- цикл перебора кнопок для выпадающих-сменябщихся панелей
-  btnsDropDown[i].addEventListener('click', () => { //--- при нажатии на кнопку: открытие/закрытие выпадающих-сменябщихся панелей
-    if (btnsDropDown[i].classList.contains('open')) { //- если кнопка содержит класс 'open', то (закрытие соответствующей панели)
-      btnsDropDown[i].classList.remove('open'); //------- удаление класса 'open' для кнопки
-      btnsDropDown[i].classList.add('close'); //--------- добавление класса 'close' для кнопки
-      divsPanelsDropDown[i].classList.add('none'); //---- добавление класса 'none' для панели div
-      dropDownToggleBox.classList.add('none'); //-------- добавление класса 'none' для секции выпадающих-сменябщихся панелей
-      for (let i = 0; i < btnsDropDown.length; i++) { //- цикл перебора кнопок
-        btnsDropDown[i].classList.add('all-close'); //--- добавление класса 'all-close' для всех кнопок, так как все закрыты
+for (let i = 0; i < btnsDropDown.length; i++) {
+  btnsDropDown[i].addEventListener('click', () => {
+    if (btnsDropDown[i].classList.contains('open')) {
+      btnsDropDown[i].classList.remove('open');
+      btnsDropDown[i].classList.add('close');
+      divsPanelsDropDown[i].classList.add('none');
+      dropDownToggleBox.classList.add('none');
+      for (let i = 0; i < btnsDropDown.length; i++) {
+        btnsDropDown[i].classList.add('all-close');
       }
-    } else { //------------------------------------------- иначе (если кнопка не содежит класс 'open', то)
-      for (let i = 0; i < btnsDropDown.length; i++) { //-- цикл перебора кнопок для выпадающих-сменябщихся панелей (закрытие всех панелей)
-        btnsDropDown[i].classList.remove('open'); //------ удаление класса 'open' для кнопки
-        btnsDropDown[i].classList.add('close'); //-------- добавление класса 'close' для кнопки
-        divsPanelsDropDown[i].classList.add('none'); //--- добавление класса 'none' для панели div
-        btnsDropDown[i].classList.remove('all-close'); //- удаление класса 'all-close' для всех кнопок, так как одна будет открыта
+    } else {
+      for (let i = 0; i < btnsDropDown.length; i++) {
+        btnsDropDown[i].classList.remove('open');
+        btnsDropDown[i].classList.add('close');
+        divsPanelsDropDown[i].classList.add('none');
+        btnsDropDown[i].classList.remove('all-close');
       }
-      //Открытие соответствующей панели
-      btnsDropDown[i].classList.remove('close'); //------ удаление класса close для кнопки
-      btnsDropDown[i].classList.add('open'); //---------- добавление класса 'open' для кнопки
-      divsPanelsDropDown[i].classList.remove('none'); //- удаление класса 'none' для панели div
-      dropDownToggleBox.classList.remove('none'); //----- удаление класса 'none' для секции выпадающих-сменябщихся панелей
-    }
-  });
-}
-
-function hideDropDownToggleBox() { //---------------- функция сворачивания выпадающих-сменяющихся панелей
-  for (let i = 0; i < btnsDropDown.length; i++) { //- цикл перебора кнопок для выпадающих-сменяющихся панелей
-    btnsDropDown[i].classList.remove('open'); //----- удаление класса 'open' для кнопки
-    btnsDropDown[i].classList.add('close'); //------- добавление класса 'close' для кнопки
-    btnsDropDown[i].classList.add('all-close'); //--- добавление класса 'all-close' для кнопки
-    divsPanelsDropDown[i].classList.add('none'); //-- добавление класса 'none' для панели
-    dropDownToggleBox.classList.add('none'); //------ добавление класса 'none' для секции выпадающих-сменяющихся панелей
-  }
-}
-
-//выпадающие субпанели вкладки колонии
-const btnsTabDropDownColony = document.querySelectorAll('.btn_tab_drop-down_colony'); //- кнопки открытия/скрытия субпанелей вкладки колонии
-const panelsDropDownColony = document.querySelectorAll('.panel_drop-down_colony'); //---- выпадающие субпанели вкладки колонии
-
-for (let i = 0; i < btnsTabDropDownColony.length; i++) { //------- цикл перебора кнопок для выпадающих панелей
-  btnsTabDropDownColony[i].addEventListener('click', () => { //--- при нажатии на кнопку: открытие/закрытие выпадающих панелей
-    if (btnsTabDropDownColony[i].classList.contains('open')) { //- если кнопка содержит класс 'open', то (закрытие соответствующей панели)
-      btnsTabDropDownColony[i].classList.remove('open'); //------- удаление класса 'open' для кнопки
-      btnsTabDropDownColony[i].classList.add('close'); //--------- добавление класса 'close' для кнопки
-      panelsDropDownColony[i].classList.add('none'); //------ добавление класса 'none' для панели section
-    } else { //--------------------------------------------- иначе (если кнопка не содежит класс 'open', то)
-      btnsTabDropDownColony[i].classList.remove('close'); //------ удаление класса close для кнопки
-      btnsTabDropDownColony[i].classList.add('open'); //---------- добавление класса 'open' для кнопки
-      panelsDropDownColony[i].classList.remove('none'); //--- удаление класса 'none' для панели section
+      // Открытие соответствующей панели.
+      btnsDropDown[i].classList.remove('close');
+      btnsDropDown[i].classList.add('open');
+      divsPanelsDropDown[i].classList.remove('none');
+      dropDownToggleBox.classList.remove('none');
     }
   });
 }
 
-//выпадающие субпанели вкладки готовых колонии
-function dropDownFunc() { //- функция функционирования открытия закрытия выпадающих субпанаелей вкладки готовых колоний
+// ВЫПАДАЮЩИЕ СУБПАНЕЛИ ВКЛАДКИ КОЛОНИИ.
+const btnsTabDropDownColony = document.querySelectorAll('.btn_tab_drop-down_colony'); // Кнопки открытия/скрытия субпанелей вкладки колонии.
+const panelsDropDownColony = document.querySelectorAll('.panel_drop-down_colony'); // Выпадающие субпанели вкладки колонии.
 
-  const btnsTabDropDC = document.querySelectorAll('.btn_tab_drop-down_default-colony'); //- кнопки открытия/скрытия панелей
-  const panelDropDownDC = document.querySelectorAll('.panel_drop-down_default-colony'); //- выпадающие субпанели вкладки готовых колонии
-
-  for (let i = 0; i < btnsTabDropDC.length; i++) { //------- цикл перебора кнопок для выпадающих панелей
-    btnsTabDropDC[i].addEventListener('click', () => { //--- при нажатии на кнопку: открытие/закрытие выпадающих панелей
-      if (btnsTabDropDC[i].classList.contains('open')) { //- если кнопка содержит класс 'open', то (закрытие соответствующей панели)
-        btnsTabDropDC[i].classList.remove('open'); //------- удаление класса 'open' для кнопки
-        btnsTabDropDC[i].classList.add('close'); //--------- добавление класса 'close' для кнопки
-        panelDropDownDC[i].classList.add('none'); //-------- добавление класса 'none' для панели section
-      } else { //------------------------------------------- иначе (если кнопка не содежит класс 'open', то)
-        btnsTabDropDC[i].classList.remove('close'); //------ удаление класса close для кнопки
-        btnsTabDropDC[i].classList.add('open'); //---------- добавление класса 'open' для кнопки
-        panelDropDownDC[i].classList.remove('none'); //----- удаление класса 'none' для панели section
-      }
-    });
-  }
-}
-
-//сменяющиеся панели
-const subTabBtns = document.querySelectorAll('.btn_tab_toggle'); //- кнопки для субпанелей колоний
-const subPanels = document.querySelectorAll('.panel_toggle'); //---- субпанели колоний
-
-for (let i = 0; i < subTabBtns.length; i++) { //----- цикл перебора кнопок для субпанелей
-  subTabBtns[i].addEventListener('click', () => { //- при нажатии на кнопку: вывод соответствкющей субпанели
-    for (let i = 0; i < subTabBtns.length; i++) { //- цикл преребора кнопок для субпанелей (закрытие всех субпанелей)
-      subTabBtns[i].classList.remove('open'); //----- удаление класса open для кнопки
-      subTabBtns[i].classList.add('close'); //------- добавление класса 'close' для кнопки
-      subPanels[i].classList.add('none'); //--------- добавление класса 'none' для субпанели
+for (let i = 0; i < btnsTabDropDownColony.length; i++) {
+  btnsTabDropDownColony[i].addEventListener('click', () => { // При нажатии: открытие/закрытие выпадающих панелей.
+    if (btnsTabDropDownColony[i].classList.contains('open')) {
+      btnsTabDropDownColony[i].classList.remove('open');
+      btnsTabDropDownColony[i].classList.add('close');
+      panelsDropDownColony[i].classList.add('none');
+    } else {
+      btnsTabDropDownColony[i].classList.remove('close');
+      btnsTabDropDownColony[i].classList.add('open');
+      panelsDropDownColony[i].classList.remove('none');
     }
-    //открытие соответствующей субпанели
-    subTabBtns[i].classList.remove('close'); //- удаление класса 'close' для кнопки
-    subTabBtns[i].classList.add('open'); //----- добавление класса 'open' для кнопки
-    subPanels[i].classList.remove('none'); //--- удаление класса 'none' для субпанели
   });
 }
 
-//режим широкого вида вкладки колоний
-const btnLandscapeMode = document.querySelector('#btnLandscapeMode'); //- кнопка изменения видов вкладки колоний
+// СМЕНЯЮЩИЕСЯ ПАНЕЛИ.
+const subTabBtns = document.querySelectorAll('.btn_tab_toggle'); // Кнопки для субпанелей колоний.
+const subPanels = document.querySelectorAll('.panel_toggle'); // Субпанели колоний.
 
-btnLandscapeMode.addEventListener('click', () => { //---------- при нажатии: смена видов вкладки
-  if (document.body.clientWidth > 630) { //-------------------- если ширина элемента body больше 630
-    if (document.body.classList.contains('landscape')) { //---- если элемент body содержит класс 'landscape', то
-      document.body.classList.remove('landscape'); //---------- удаление класса 'landscape' для элемента body
-      btnLandscapeMode.textContent = 'Широкий вид вкладки'; //- обновление текста кнопки изменения видов вкладки
-      btnsTabDropDownColony.forEach(e => { //------------------ для каждой кнопки открытия/скрытия субпанелей вкладки колонии
-        e.classList.remove('open'); //------------------------- удаление класса 'open'
-        e.classList.add('close'); //--------------------------- добавление класса 'close'
-      });
-      panelsDropDownColony.forEach(e => { //- для каждой выпадающей субпанели вкладки колонии
-        e.classList.add('none'); //---------- добавление класса 'none'
-      });
-    } else { //---------------------------------------------- иначе (если элемент body не содержит класс 'landscape', то)
-      document.body.classList.add('landscape'); //----------- добавление класса 'landscape' для элемента body
-      btnLandscapeMode.textContent = 'Узкий вид вкладки'; //- обновление текста кнопки изменения видов вкладки
-      btnsTabDropDownColony.forEach(e => { //---------------- для каждой кнопки открытия/скрытия субпанелей вкладки колонии
-        e.classList.remove('close'); //---------------------- удаление класса 'close'
-        e.classList.add('open'); //-------------------------- добавление класса 'open'
-      });
-      panelsDropDownColony.forEach(e => { //- для каждой выпадающей субпанели вкладки колонии
-        e.classList.remove('none'); //------- удаление класса 'none'
-      });
+for (let i = 0; i < subTabBtns.length; i++) {
+  subTabBtns[i].addEventListener('click', () => { // При нажатии: вывод соответствкющей субпанели.
+    for (let i = 0; i < subTabBtns.length; i++) {
+      subTabBtns[i].classList.remove('open');
+      subTabBtns[i].classList.add('close');
+      subPanels[i].classList.add('none');
     }
-  } else { //- иначе (если ширина элемента body меньше 630, то)
-    //для возможности скрытия вкладки при повороте экрана
-    if (document.body.classList.contains('landscape')) { //---- если элемент body содержит класс 'landscape', то 
-      document.body.classList.remove('landscape'); //---------- удаление класса 'landscape' для элемента body
-      btnLandscapeMode.textContent = 'Широкий вид вкладки'; //- обновление текста кнопки изменения видов вкладки
-      btnsTabDropDownColony.forEach(e => { //------------------ для каждой кнопки открытия/скрытия субпанелей вкладки колонии
-        e.classList.remove('open'); //------------------------- удаление класса 'open'
-        e.classList.add('close'); //--------------------------- добавление класса 'close'
-      });
-      panelsDropDownColony.forEach(e => { //- для каждой выпадающей субпанели вкладки колонии
-        e.classList.add('none'); //---------- добавление класса 'none'
-      });
-    } else { //------------------------------------------------ иначе (если элемент body не содержит класс 'landscape', то)
-      dWkey = 'information'; //-------------------------------- обновление ключа для объекта типов информационного окна
-      let code = ''; //---------------------------------------- переменная текста информационного окна
-      if (screen.orientation.type === 'portrait-primary') { //- если ориентация экрана книжная, то
-        code = //---------------------------------------------- обновление текста информационного окна
-          `<p>Ширина экрана не позволяет показать широкий вид вкладки,
-          попробуйте изменить положение экрана на альбомный</p>`
-      } else { //- иначе (если ориентация экрана альбомная, то)
-        code = //- обновление текста информационного окна
-          `<p>К сожалению, ширина экрана не позволяет показать широкий вид вкладки</p>`
-      }
-      showWarning(code); //- запуск функции показа информационного окна
-    }
-  }
+    // Открытие соответствующей субпанели.
+    subTabBtns[i].classList.remove('close');
+    subTabBtns[i].classList.add('open');
+    subPanels[i].classList.remove('none');
+  });
+}
 
+// СБРОС ЗНАЧЕНИЙ ВСЕХ СЕЛЕКТОВ.
+window.addEventListener('click', () => { // При нажатии: сброс селектов.
+  const slctsDefaultColonies = document.querySelectorAll('.slct_default-colony'); // Селекты готовых колоний.
+  slctsDefaultColonies.forEach(e => e.value = 0);
+  slctCustomColony.value = 0;
 });
 
-const btnDropDownToggleSettings = document.querySelector('#btnDropDownToggleSettings'); //- кнопка выпадающе-сменяющейся панели настроек
+// РЕЖИМ ШИРОКОГО ВИДА ВКЛАДКИ КОЛОНИЙ.
+const btnLandscapeMode = document.querySelector('#btnLandscapeMode'); // Кнопка изменения видов вкладки колоний.
 
-btnDropDownToggleSettings.addEventListener('click', () => { //- при нажатии: сброс широкого вида вкладки
-  if (document.body.classList.contains('landscape')) { //------ если элемент body содержит класс 'landscape', то
-    document.body.classList.remove('landscape'); //------------ удаление класса 'landscape' для элемента body
-    btnLandscapeMode.textContent = 'Широкий вид вкладки'; //--- обновление текста кнопки изменения видов вкладки
-    btnsTabDropDownColony.forEach(e => { //-------------------- для каждой кнопки открытия/скрытия субпанелей вкладки колонии
-      e.classList.remove('open'); //--------------------------- удаление класса 'open'
-      e.classList.add('close'); //----------------------------- добавление класса 'close'
-    });
-    panelsDropDownColony.forEach(e => { //- для каждой выпадающей субпанели вкладки колонии
-      e.classList.add('none'); //---------- добавление класса 'none'
-    });
+let isLandscapeMode = false; // Режим широкого вида окна вкладки.
+
+btnLandscapeMode.addEventListener('click', () => { // При нажатии: смена видов вкладки.
+  if (document.body.clientWidth > 620) {
+    if (document.body.classList.contains('landscape')) {
+      showPortraitTabColony();
+      isLandscapeMode = false;
+    } else {
+      showLandscapeTabColony();
+      isLandscapeMode = true;
+    }
+  } else {
+    if (document.body.classList.contains('landscape')) {
+      showPortraitTabColony(); // Для возможности скрытия вкладки при повороте экрана.
+      isLandscapeMode = false;
+    } else {
+      infoWindowType.key = 'information';
+      let code = (screen.orientation.type === 'portrait-primary') ?
+        `Ширина экрана не позволяет показать широкий вид вкладки, попробуйте изменить положение экрана на альбомный` :
+        `К сожалению, ширина экрана не позволяет показать широкий вид вкладки`;
+      showInfoWindow(code);
+    }
   }
 });
+
+window.addEventListener('load', () => { if (document.body.clientWidth > 620) isLandscapeMode = true });
+
+const btnDropDownToggleSettings = document.querySelector('#btnDropDownToggleSettings'); // Кнопка выпадающе-сменяющейся панели настроек.
+
+btnDropDownToggleSettings.addEventListener('click', () => { // При нажатии: сброс широкого вида вкладки.
+  if (document.body.classList.contains('landscape')) document.body.classList.remove('landscape');
+});
+
+const btnDropDownToggleColony = document.querySelector('#btnDropDownToggleColony'); // Кнопка выпадающе-сменяющейся панели колоний.
+
+btnDropDownToggleColony.addEventListener('click', () => { // При нажатии: показ широкого вида вкладки (при ширине экрана более 620px).
+  if (isLandscapeMode) showLandscapeTabColony();
+  if (document.body.clientWidth < 620) { showPortraitTabColony(); isLandscapeMode = false; }
+});
+
+function showPortraitTabColony() { // Показать узкий вид вкладки.
+  document.body.classList.remove('landscape');
+  btnLandscapeMode.textContent = 'Широкий вид вкладки';
+  btnsTabDropDownColony.forEach(e => { e.classList.remove('open'); e.classList.add('close'); });
+  panelsDropDownColony.forEach(e => e.classList.add('none'));
+}
+
+function showLandscapeTabColony() { // Показать широкий вид вкладки.
+  document.body.classList.add('landscape');
+  btnLandscapeMode.textContent = 'Узкий вид вкладки';
+  btnsTabDropDownColony.forEach(e => { e.classList.remove('close'); e.classList.add('open'); });
+  panelsDropDownColony.forEach(e => e.classList.remove('none'));
+}
