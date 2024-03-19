@@ -189,24 +189,18 @@ function drawGeneration(cellsA, cellsB) { // Отобразить поколен
   if (cellSize === 0.5 && !isTrackMode) drawBackground();
   let nextCluster = []; // Переменная координат для прогона в следующем поколении.
   for (let [x, y] of cellsForViewing) {
-    let nbrs = 0; // Переменная клеток-соседей.
-    // Проверка каждой клетки-соседки.
-    if (cellsA[xsw(x) - 1][xsh(y) - 1] === 1) nbrs++; // Если клетка в положении X-1  и Y-1 существует, то nbrs + 1, и т.д.
-    if (cellsA[xsw(x) - 1][y] === 1) nbrs++;
-    if (cellsA[xsw(x) - 1][xlh(y) + 1] === 1) nbrs++;
-    if (cellsA[x][xsh(y) - 1] === 1) nbrs++;
-    if (cellsA[x][xlh(y) + 1] === 1) nbrs++;
-    if (cellsA[xlw(x) + 1][xsh(y) - 1] === 1) nbrs++;
-    if (cellsA[xlw(x) + 1][y] === 1) nbrs++;
-    if (cellsA[xlw(x) + 1][xlh(y) + 1] === 1) nbrs++;
+    let nbrs = // Переменная клеток-соседей.
+      // добавление каждой клетки-соседки.
+      cellsA[xsw(x) - 1][xsh(y) - 1] +
+      cellsA[xsw(x) - 1][y] +
+      cellsA[xsw(x) - 1][xlh(y) + 1] +
+      cellsA[x][xsh(y) - 1] +
+      cellsA[x][xlh(y) + 1] +
+      cellsA[xlw(x) + 1][xsh(y) - 1] +
+      cellsA[xlw(x) + 1][y] +
+      cellsA[xlw(x) + 1][xlh(y) + 1];
     // Применение правила игры.
-    if (cellsA[x][y] === 0) {
-      if (arrCellBirthRule.some(item => item === nbrs)) {
-        cellsB[x][y] = 1;
-        nextCluster.push([x, y]);
-        drawLivingCell(x - horizontalShift, y - verticalShift);
-      }
-    } else {
+    if (cellsA[x][y]) {
       if (arrCellSurvivalRule.some(item => item === nbrs)) {
         cellsB[x][y] = 1;
         drawLivingCell(x - horizontalShift, y - verticalShift);
@@ -215,6 +209,12 @@ function drawGeneration(cellsA, cellsB) { // Отобразить поколен
         drawEmptyCell(x - horizontalShift, y - verticalShift);
         nextCluster.push([x, y]);
         if (isTrackMode) drawTraceCell(x, y);
+      }
+    } else {
+      if (arrCellBirthRule.some(item => item === nbrs)) {
+        cellsB[x][y] = 1;
+        nextCluster.push([x, y]);
+        drawLivingCell(x - horizontalShift, y - verticalShift);
       }
     }
   }
@@ -227,25 +227,26 @@ function drawGeneration(cellsA, cellsB) { // Отобразить поколен
   spanGenerationCount.textContent = generationCount;
 }
 
-function getCellsToView(cluster) { // Получить ячейки для просмотра.
-  let arr = []; // Массив для координат клетки и её клеток-соседок.
+function getCellsToView(cluster) { // Получить клетки для просмотра.
+  let arr = []; // Массив для координат клетки и её клеток-соседок (арифметически склеенный).
   for (let [x, y] of cluster) {
-    let a = `${xsw(x) - 1} ${xsh(y) - 1}`;
-    let b = `${xsw(x) - 1} ${y}`;
-    let c = `${xsw(x) - 1} ${xlh(y) + 1}`;
-    let d = `${x} ${xsh(y) - 1}`;
-    let e = `${x} ${y}`;
-    let f = `${x} ${xlh(y) + 1}`;
-    let g = `${xlw(x) + 1} ${xsh(y) - 1}`;
-    let h = `${xlw(x) + 1} ${y}`;
-    let k = `${xlw(x) + 1} ${xlh(y) + 1}`;
-    arr.push(a, b, c, d, e, f, g, h, k);
+    arr.push(
+      (xsw(x) - 1) * 10_000 + (xsh(y) - 1),
+      (xsw(x) - 1) * 10_000 + y,
+      (xsw(x) - 1) * 10_000 + (xlh(y) + 1),
+      x * 10_000 + (xsh(y) - 1),
+      x * 10_000 + y,
+      x * 10_000 + (xlh(y) + 1),
+      (xlw(x) + 1) * 10_000 + (xsh(y) - 1),
+      (xlw(x) + 1) * 10_000 + y,
+      (xlw(x) + 1) * 10_000 + (xlh(y) + 1));
   }
   let set = new Set(arr); // Множество строк неповторяющихся координат.
   let result = []; // Массив результата для координат клетки и её клеток-соседок.
   for (let item of set) {
-    item = item.split(' ');
-    result.push([Number(item[0]), Number(item[1])]);
+    let x = item / 10_000 ^ 0;
+    let y = item - x * 10_000;
+    result.push([x, y])
   }
   return result;
 }
