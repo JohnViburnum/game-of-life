@@ -63,8 +63,8 @@
         <button class="btn btn_scroll none" id="btnScrollUp">
           <span class="ico ico_scroll ico_scroll-up"></span>
         </button>
-        <div class="slider-wrapper slider-wrapper_vertical" id="sliderWrapperVertical">
-          <div class="slider slider_vertical" id="sliderVertical"></div>
+        <div class="slider slider-vertical" id="sliderVertical">
+          <div class="thumb thumb-vertical" id="thumbVertical"></div>
         </div>
         <button class="btn btn_scroll none" id="btnScrollDown">
           <span class="ico ico_scroll ico_scroll-down"></span>
@@ -74,8 +74,8 @@
         <button class="btn btn_scroll none" id="btnScrollLeft">
           <span class="ico ico_scroll ico_scroll-left"></span>
         </button>
-        <div class="slider-wrapper slider-wrapper_horizontal" id="sliderWrapperHorizontal">
-          <div class="slider slider_horizontal" id="sliderHorizontal"></div>
+        <div class="slider slider-horizontal" id="sliderHorizontal">
+          <div class="thumb thumb-horizontal" id="thumbHorizontal"></div>
         </div>
         <button class="btn btn_scroll none" id="btnScrollRight">
           <span class="ico ico_scroll ico_scroll-right"></span>
@@ -189,6 +189,7 @@
       <button class="btn btn_remove-or-draw-grid" id="btnRemoveOrDrawGrid">Удалить сетку</button>
       <label class="lbl lbl_gen-speed" for="slctGenSpeed">Скорость смены поколений (мс)</label>
       <select class="slct slct_gen-speed" id="slctGenSpeed">
+        <option>0</option>
         <option>5</option>
         <option>25</option>
         <option>50</option>
@@ -196,6 +197,10 @@
         <option>250</option>
         <option>500</option>
       </select>
+      <label class="lbl lbl_super-speed" for="inptSuperSpeed">Отрисовать поколение
+        <button class="btn-info" id="btnInfoSuperSpeed">?</button>
+      </label>
+      <input class="inpt inpt_super-speed" id="inptSuperSpeed" type="number" min="1" step="1" value="1"></input>
       <h3 class="sub-title sub-title_h3">Константы эволюции: <button class="btn-info" id="btnInfoRule">?</button>
       </h3>
       <label class="lbl lbl_life-rule flx_all-center" for="inptBirthRule">B</label>
@@ -205,12 +210,12 @@
       <label class="lbl lbl_num-rules flx_all-center" for="inptNumberOfRule">Номер правила:</label>
       <input class="inpt inpt_num-rules" type="number" id="inptNumberOfRule" value="1558" min="1" max="261121">
       <h2 class="sub-title sub-title_color-settings">Цветовое оформление</h2>
-      <label class="lbl lbl_colony-color" for="inptLivingСellСolor">для колоний<br>(живые клетки)</label>
-      <input class="inpt inpt_color inpt_colony-color" type="color" id="inptLivingСellСolor" />
+      <label class="lbl lbl_colony-color" for="inptLivingCellColor">для колоний<br>(живые клетки)</label>
+      <input class="inpt inpt_color inpt_colony-color" type="color" id="inptLivingCellColor" />
       <label class="lbl lbl_empty-color" for="inptEmptyCellColor">для фона<br>(пустые клетки)</label>
       <input class="inpt inpt_color inpt_empty-color" type="color" id="inptEmptyCellColor" />
-      <label class="lbl lbl_track-color" for="inptTraceCellColor">для клеток следа<br></label>
-      <input class="inpt inpt_color inpt_track-color" type="color" id="inptTraceCellColor" />
+      <label class="lbl lbl_track-color" for="inptTrackCellColor">для клеток следа<br></label>
+      <input class="inpt inpt_color inpt_track-color" type="color" id="inptTrackCellColor" />
       <button class="btn btn_reset-set" id="btnResetSet">Сбросить настройки</button>
       <button class="btn btn_inform-keys" id="btnInformKeys">Об управлении с клавиатуры</button>
     </div>

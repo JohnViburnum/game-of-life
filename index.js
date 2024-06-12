@@ -27,10 +27,10 @@ let isCurrentGeneration = true; // Переменная смены поколе�
 let isTrackMode = false; // Переменная режима следов (true - активирован, false - деактивирован).
 
 const maxNumberOfCellsWidthCanvas = // Максимальное количество ячеек ширины окна канвас при различных размерах клеток.
-  { 0.5: 0, 1: 0, 2: 0, 5: 0, 10: 0, 20: 0 };
+  { 0.25: 0, 0.5: 0, 1: 0, 2: 0, 5: 0, 10: 0, 20: 0 };
 
 const maxNumberOfCellsHeightCanvas = // Максимальное колчичество ячеек высоты окна канвас при различных размерах клеток.
-  { 0.5: 0, 1: 0, 2: 0, 5: 0, 10: 0, 20: 0 };
+  { 0.25: 0, 0.5: 0, 1: 0, 2: 0, 5: 0, 10: 0, 20: 0 };
 
 for (let key in maxNumberOfCellsWidthCanvas) {
   maxNumberOfCellsWidthCanvas[key] = Math.floor((wrapperCanvas.clientWidth - 35) / key); // Расчет количества ячеек в окне канвас.
@@ -48,9 +48,9 @@ let worldWidth = 0; // Ширина мира (px).
 let worldHeight = 0; // Высота мира (px).
 
 // ФУНКЦИИ ОТРИСОВКИ ОСНОВНОГО КАНВАС.
-const inptLivingСellСolor = document.querySelector('#inptLivingСellСolor'); // Поле ввода цвета живой клетки.
+const inptLivingCellColor = document.querySelector('#inptLivingCellColor'); // Поле ввода цвета живой клетки.
 const inptEmptyCellColor = document.querySelector('#inptEmptyCellColor'); // Поле ввода цвета пустой клетки.
-const inptTraceCellColor = document.querySelector('#inptTraceCellColor'); // Поле ввода цвета клетки в режиме следов.
+const inptTrackCellColor = document.querySelector('#inptTrackCellColor'); // Поле ввода цвета клетки в режиме следов.
 
 function drawBackground() { // Отрисовать фон.
   context.fillStyle = inptEmptyCellColor.value;
@@ -69,43 +69,55 @@ function drawGrid() { // Отрисовать сетку.
 }
 
 function drawLivingCell(x, y) { // Отрисовать живую клетку.
-  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
-  context.fillStyle = inptLivingСellСolor.value;
-  context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1); // Координаты отрисовки, размер клетки.
-  if (cellSize <= 2 || isGridMode) {
+  if (x >= maxNumberOfCellsWidthCanvas[cellSize] || y >= maxNumberOfCellsHeightCanvas[cellSize]) return;
+  context.fillStyle = inptLivingCellColor.value;
+  if (cellSize <= 0.5) {
+    context.fillRect(Math.ceil(x * cellSize), Math.ceil(y * cellSize), 1, 1);
+  } else if (cellSize <= 2 || isGridMode) {
     context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  } else {
+    context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
   }
 }
 
 function drawEmptyCell(x, y) { // Отрисовать пустую клетку.
-  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
+  if (x >= maxNumberOfCellsWidthCanvas[cellSize] || y >= maxNumberOfCellsHeightCanvas[cellSize]) return;
   context.fillStyle = inptEmptyCellColor.value;
-  context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
-  if (cellSize <= 2 || isGridMode) {
+  if (cellSize <= 0.5) {
+    context.fillRect(Math.ceil(x * cellSize), Math.ceil(y * cellSize), 1, 1);
+  } else if (cellSize <= 2 || isGridMode) {
     context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  } else {
+    context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
   }
 }
 
 function drawShadowCell(x, y) { // Отрисовать клетку тени.
-  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
+  if (x >= maxNumberOfCellsWidthCanvas[cellSize] || y >= maxNumberOfCellsHeightCanvas[cellSize]) return;
   context.fillStyle = 'lightgray';
-  context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
-  if (cellSize <= 2 || isGridMode) {
+  if (cellSize <= 0.5) {
+    context.fillRect(Math.ceil(x * cellSize), Math.ceil(y * cellSize), 1, 1);
+  } else if (cellSize <= 2 || isGridMode) {
     context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  } else {
+    context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
   }
 }
 
-function drawTraceCell(x, y) { // Отрисовать клетку для отслеживания следа.
-  if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld) return;
-  context.fillStyle = inptTraceCellColor.value;
-  context.fillRect((x - horizontalShift) * cellSize, (y - verticalShift) * cellSize, cellSize - 1, cellSize - 1);
-  if (cellSize <= 2 || isGridMode) {
-    context.fillRect((x - horizontalShift) * cellSize, (y - verticalShift) * cellSize, cellSize, cellSize);
+function drawTrackCell(x, y) { // Отрисовать клетку для отслеживания следа.
+  if (x >= maxNumberOfCellsWidthCanvas[cellSize] || y >= maxNumberOfCellsHeightCanvas[cellSize]) return;
+  context.fillStyle = inptTrackCellColor.value;
+  if (cellSize <= 0.5) {
+    context.fillRect(Math.ceil(x * cellSize), Math.ceil(y * cellSize), 1, 1);
+  } else if (cellSize <= 2 || isGridMode) {
+    context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  } else {
+    context.fillRect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
   }
 }
 
 function drawInitialCells() { // Отрисовать стартовые клетки.
-  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  const cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
   for (let x = 0; x < numberOfCellsWidthWorld; x++) {
     for (let y = 0; y < numberOfCellsHeightWorld; y++) {
       if (cells[x][y] === 1) {
@@ -123,7 +135,7 @@ const btnStartStop = document.querySelector('#btnStartStop'); // Кнопка с
 const slctGenSpeed = document.querySelector('#slctGenSpeed'); // Селект скорости смены колоний.
 
 let isStart = false; // Переменная старта автоматической смены колоний.
-let interval; // Переменная интервала для скорости смены колоний.
+let interval = null; // Переменная интервала для скорости смены колоний.
 
 btnStartStop.addEventListener('click', startOrStopGame);
 
@@ -133,6 +145,13 @@ function startOrStopGame() { // Начать или остановить игр�
     btnStartStop.classList.remove('start');
     btnStartStop.classList.add('stop');
     clearInterval(interval);
+    if (superSpeedValue) {
+      drawBackground();
+      drawGrid();
+      drawTracks();
+      drawInitialCells();
+      setClusters.clear();
+    }
   } else {
     isStart = true;
     btnStartStop.classList.add('start');
@@ -151,124 +170,225 @@ function changeRateOfGenerationalChange() { // Изменить скорость
   }
 }
 
+function changeGeneration() { // Cменить поколение.
+
+  let cellsA, cellsB; // Переменные для массивов клеток.
+  if (isCurrentGeneration) {
+    isCurrentGeneration = false;
+    cellsA = cells1;
+    cellsB = cells2;
+  } else {
+    isCurrentGeneration = true;
+    cellsA = cells2;
+    cellsB = cells1;
+  }
+
+  // Если включен режим следов и весь мир заполнен следами.
+  if (isTrackMode && setTrackCells.size === numberOfCellsWidthWorld * numberOfCellsHeightWorld) {
+    setTrackCells.clear();
+    drawBackground();
+    drawGrid();
+    drawInitialCells();
+  }
+
+  if (superSpeedValue) {
+
+    const cluster = calculateGeneration(cellsA, cellsB)[0]; // Вычисленные данные для отрисовки.
+    cellsForViewing = getCellsToView(cluster);
+
+    if (generationCount % superSpeedValue === 0) { // Если пришел черед определенного поколения.
+      drawSuperSpeed(cellsB, setClusters);
+      setClusters.clear();
+    }
+
+  } else {
+
+    const [cluster, livingCells, emptyCells] = calculateGeneration(cellsA, cellsB); // Вычисленные данные для отрисовки.
+    if (cellSize > 0.5) drawCells(livingCells, emptyCells);
+    else drawCellsMini(livingCells, emptyCells);
+    cellsForViewing = getCellsToView(cluster);
+
+  }
+}
+
+let generationCount = 0; // Переменная счета поколений.
+const spanGenerationCount = document.querySelector('#spanGenerationCount'); // Текст счета поколений.
+let cellsForViewing = null; // Коллекция клеток для просмотра.
+const setClusters = new Set(); // Коллекция склеенных координат клеток для просмотра для режима супер скорости.
+
+function calculateGeneration(cellsA, cellsB) { // Расчитать данные для отображения поколения.
+
+  generationCount++;
+  spanGenerationCount.textContent = generationCount;
+
+  if (!cellsForViewing) return [[], [], []];
+
+  const cluster = []; // Массив координат для прогона в следующем поколении.
+  const livingCells = new Set(); // Коллекция координат для отрисовки живых клеток.
+  const emptyCells = new Set(); // Коллекция координат для отрисовки пустых клеток.
+
+  for (const item of cellsForViewing) {
+    const x = item / 10_000 ^ 0;
+    const y = item - x * 10_000;
+    // Условия телепортирования клеток с краев карты.
+    let toRight = x;
+    let toLeft = x;
+    let toBottom = y;
+    let toUp = y;
+    if (x === 0) toRight = numberOfCellsWidthWorld;
+    else if (x === numberOfCellsWidthWorld - 1) toLeft = -1;
+    if (y === 0) toBottom = numberOfCellsHeightWorld;
+    else if (y === numberOfCellsHeightWorld - 1) toUp = -1;
+    const nbrs = // Переменная клеток-соседей.
+      // добавление каждой клетки-соседки.
+      cellsA[toRight - 1][toBottom - 1] +
+      cellsA[toRight - 1][y] +
+      cellsA[toRight - 1][toUp + 1] +
+      cellsA[x][toBottom - 1] +
+      cellsA[x][toUp + 1] +
+      cellsA[toLeft + 1][toBottom - 1] +
+      cellsA[toLeft + 1][y] +
+      cellsA[toLeft + 1][toUp + 1];
+    // Применение правила игры.
+    if (cellsA[x][y]) {
+      if (arrCellSurvivalRule.includes(nbrs)) {
+        cellsB[x][y] = 1;
+        if (cellSize > 0.5) livingCells.add([x, y]);
+        else livingCells.add(Math.ceil(x * cellSize) * 10_000 + Math.ceil(y * cellSize));
+      } else {
+        cellsB[x][y] = 0;
+        cluster.push([x, y]);
+        if (cellSize > 0.5) emptyCells.add([x, y]);
+        else emptyCells.add(Math.ceil(x * cellSize) * 10_000 + Math.ceil(y * cellSize));
+        if (superSpeedValue && isStart) setClusters.add(x * 10_000 + y);
+        if (isTrackMode) setTrackCells.add(x * 10_000 + y);
+      }
+    } else if (!cellsA[x][y] && arrCellBirthRule.includes(nbrs)) {
+      cellsB[x][y] = 1;
+      cluster.push([x, y]);
+      if (cellSize > 0.5) livingCells.add([x, y]);
+      else livingCells.add(Math.ceil(x * cellSize) * 10_000 + Math.ceil(y * cellSize));
+      if (superSpeedValue && isStart) setClusters.add(x * 10_000 + y);
+    }
+  }
+  for (const [x, y] of cluster) {
+    cellsA[x][y] = 0; // Очистка ячеек текущего поколения которые вошли в перечень для прогона.
+  }
+  return [cluster, livingCells, emptyCells];
+}
+
+function getCellsToView(cluster) { // Получить клетки для просмотра.
+  const set = new Set(); // Множество строк неповторяющихся координат.
+  for (const [x, y] of cluster) {
+    // Условия телепортирования клеток с краев карты.
+    let toRight = x;
+    let toLeft = x;
+    let toBottom = y;
+    let toUp = y;
+    if (x === 0) toRight = numberOfCellsWidthWorld;
+    if (x === numberOfCellsWidthWorld - 1) toLeft = -1;
+    if (y === 0) toBottom = numberOfCellsHeightWorld;
+    if (y === numberOfCellsHeightWorld - 1) toUp = -1;
+    set.add((toRight - 1) * 10_000 + (toBottom - 1));
+    set.add((toRight - 1) * 10_000 + y);
+    set.add((toRight - 1) * 10_000 + (toUp + 1));
+    set.add(x * 10_000 + (toBottom - 1));
+    set.add(x * 10_000 + y);
+    set.add(x * 10_000 + (toUp + 1));
+    set.add((toLeft + 1) * 10_000 + (toBottom - 1));
+    set.add((toLeft + 1) * 10_000 + y);
+    set.add((toLeft + 1) * 10_000 + (toUp + 1));
+  }
+  return set;
+}
+
+function drawSuperSpeed(cells, set) { // Отрисовать клетки в определенной области (для режима супер скорости).
+  for (const item of set) {
+    const x = item / 10_000 ^ 0;
+    const y = item - x * 10_000;
+    if (cells[x][y]) {
+      drawLivingCell(x - horizontalShift, y - verticalShift);
+    } else {
+      if (isTrackMode) drawTrackCell(x - horizontalShift, y - verticalShift);
+      else drawEmptyCell(x - horizontalShift, y - verticalShift);
+    }
+  }
+}
+
+function drawCells(livingCells, emptyCells) { // Отрисовать клетки.
+  for (const [x, y] of livingCells) {
+    drawLivingCell(x - horizontalShift, y - verticalShift);
+  }
+  for (const [x, y] of emptyCells) {
+    if (isTrackMode) drawTrackCell(x - horizontalShift, y - verticalShift);
+    else drawEmptyCell(x - horizontalShift, y - verticalShift);
+  }
+}
+
+function drawCellsMini(livingCells, emptyCells) { // Отрисовать клетки.
+  for (const item of livingCells) {
+    const x = item / 10_000 ^ 0;
+    const y = item - x * 10_000;
+    context.fillStyle = inptLivingCellColor.value;
+    context.fillRect(x - horizontalShift, y - verticalShift, 1, 1);
+  }
+  for (const item of emptyCells) {
+    const x = item / 10_000 ^ 0;
+    const y = item - x * 10_000;
+    if (isTrackMode) {
+      context.fillStyle = inptTrackCellColor.value;
+      context.fillRect(x - horizontalShift, y - verticalShift, 1, 1);
+    } else {
+      context.fillStyle = inptEmptyCellColor.value;
+      context.fillRect(x - horizontalShift, y - verticalShift, 1, 1);
+    }
+  }
+}
+
 // ОДИН ШАГ ИГРЫ.
 const btnOneStep = document.querySelector('#btnOneStep'); // Кнопка одного шага игры.
-
 btnOneStep.addEventListener('click', makeOneStepOfGame);
 
-function makeOneStepOfGame() { // Сделать один шаг игры.
+function makeOneStepOfGame() { // Сделать один шаг игры (режим супер скорости игнорируется).
+
   if (isStart) {
     isStart = false;
     btnStartStop.classList.remove('start');
     btnStartStop.classList.add('stop');
     clearInterval(interval);
-  }
-  changeGeneration();
-}
-
-function changeGeneration() { // Cменить поколение.
-  if (isCurrentGeneration) {
-    drawGeneration(cells1, cells2);
-    isCurrentGeneration = false;
-  } else {
-    drawGeneration(cells2, cells1);
-    isCurrentGeneration = true;
-  }
-}
-
-// ОТОБРАЖЕНИЕ ПОКОЛЕНИЙ КЛЕТОК.
-const spanGenerationCount = document.querySelector('#spanGenerationCount'); // Текст счета поколений.
-
-let generationCount = 0; // Переменная счета поколений.
-let cellsForViewing = []; // Массив клеток для просмотра.
-let arrCellBirthRule = []; // Массив констант эволюции для зарождения клеток.
-let arrCellSurvivalRule = []; // Массив констант эволюции для сохранения клеток.
-
-function drawGeneration(cellsA, cellsB) { // Отобразить поколение.
-  // Для очистки фонового загрязнения в маштабе 0.5 пикселя, в случае режима следов, фоновое загрязнение остается.
-  if (cellSize === 0.5 && !isTrackMode) drawBackground();
-  let nextCluster = []; // Переменная координат для прогона в следующем поколении.
-  for (let [x, y] of cellsForViewing) {
-    let nbrs = // Переменная клеток-соседей.
-      // добавление каждой клетки-соседки.
-      cellsA[xsw(x) - 1][xsh(y) - 1] +
-      cellsA[xsw(x) - 1][y] +
-      cellsA[xsw(x) - 1][xlh(y) + 1] +
-      cellsA[x][xsh(y) - 1] +
-      cellsA[x][xlh(y) + 1] +
-      cellsA[xlw(x) + 1][xsh(y) - 1] +
-      cellsA[xlw(x) + 1][y] +
-      cellsA[xlw(x) + 1][xlh(y) + 1];
-    // Применение правила игры.
-    if (cellsA[x][y]) {
-      if (arrCellSurvivalRule.some(item => item === nbrs)) {
-        cellsB[x][y] = 1;
-        drawLivingCell(x - horizontalShift, y - verticalShift);
-      } else {
-        cellsB[x][y] = 0;
-        drawEmptyCell(x - horizontalShift, y - verticalShift);
-        nextCluster.push([x, y]);
-        if (isTrackMode) drawTraceCell(x, y);
-      }
-    } else {
-      if (arrCellBirthRule.some(item => item === nbrs)) {
-        cellsB[x][y] = 1;
-        nextCluster.push([x, y]);
-        drawLivingCell(x - horizontalShift, y - verticalShift);
-      }
+    if (superSpeedValue) {
+      setClusters.clear();
+      drawBackground();
+      drawGrid();
+      drawTracks();
+      drawInitialCells();
     }
   }
-  for (let [x, y] of nextCluster) {
-    cellsA[x][y] = 0; // Очистка ячеек текущего поколения которые вошли в перечень для прогона.
+
+  let cellsA, cellsB; // Переменные для массивов клеток.
+  if (isCurrentGeneration) {
+    isCurrentGeneration = false;
+    cellsA = cells1;
+    cellsB = cells2;
+  } else {
+    isCurrentGeneration = true;
+    cellsA = cells2;
+    cellsB = cells1;
   }
-  cellsForViewing = [];
-  cellsForViewing = getCellsToView(nextCluster);
-  generationCount++;
-  spanGenerationCount.textContent = generationCount;
-}
 
-function getCellsToView(cluster) { // Получить клетки для просмотра.
-  let arr = []; // Массив для координат клетки и её клеток-соседок (арифметически склеенный).
-  for (let [x, y] of cluster) {
-    arr.push(
-      (xsw(x) - 1) * 10_000 + (xsh(y) - 1),
-      (xsw(x) - 1) * 10_000 + y,
-      (xsw(x) - 1) * 10_000 + (xlh(y) + 1),
-      x * 10_000 + (xsh(y) - 1),
-      x * 10_000 + y,
-      x * 10_000 + (xlh(y) + 1),
-      (xlw(x) + 1) * 10_000 + (xsh(y) - 1),
-      (xlw(x) + 1) * 10_000 + y,
-      (xlw(x) + 1) * 10_000 + (xlh(y) + 1));
+  const [cluster, livingCells, emptyCells] = calculateGeneration(cellsA, cellsB); // Вычисленные данные для отрисовки.
+  if (cellSize > 0.5) drawCells(livingCells, emptyCells);
+  else drawCellsMini(livingCells, emptyCells);
+  cellsForViewing = getCellsToView(cluster);
+
+  // Если включен режим следов и весь мир заполнен следами.
+  if (isTrackMode && setTrackCells.size === numberOfCellsWidthWorld * numberOfCellsHeightWorld) {
+    setTrackCells.clear();
+    drawBackground();
+    drawGrid();
+    drawInitialCells();
   }
-  let set = new Set(arr); // Множество строк неповторяющихся координат.
-  let result = []; // Массив результата для координат клетки и её клеток-соседок.
-  for (let item of set) {
-    let x = item / 10_000 ^ 0;
-    let y = item - x * 10_000;
-    result.push([x, y])
-  }
-  return result;
-}
 
-function xlh(c) { // Функция для телепортирования клетки с низа в верх.
-  if (c === numberOfCellsHeightWorld - 1) c = -1;
-  return c;
-}
-
-function xlw(c) { // Функция для телепортирования клетки с права в лево.
-  if (c === numberOfCellsWidthWorld - 1) c = -1;
-  return c;
-}
-
-function xsh(c) { // Функция для телепортирования клетки с верха в низ.
-  if (c === 0) c = numberOfCellsHeightWorld;
-  return c;
-}
-
-function xsw(c) { // Функция для телепортирования клетки с лева в право.
-  if (c === 0) c = numberOfCellsWidthWorld;
-  return c;
 }
 
 // ОЧИСТКА МИРА.
@@ -281,7 +401,9 @@ function clearGame() { // Очистить игру.
   drawBackground();
   drawGrid();
   clearInterval(interval);
-  cellsForViewing = [];
+  cellsForViewing = null;
+  setClusters.clear();
+  setTrackCells.clear();
   isCurrentGeneration = true;
   isStart = false;
   generationCount = 0;
@@ -311,7 +433,9 @@ btnZoomOutOfWorld.addEventListener('click', zoomOutOfWorld);
 
 function zoomInOfWorld() { // Увеличить масштаб мира.
   switch (cellSize) {
-    case 0.5: cellSize = 1; btnZoomOutOfWorld.disabled = false;
+    case 0.25: cellSize = 0.5; btnZoomOutOfWorld.disabled = false;
+      break;
+    case 0.5: cellSize = 1;
       break;
     case 1: cellSize = 2;
       break;
@@ -327,6 +451,7 @@ function zoomInOfWorld() { // Увеличить масштаб мира.
   setScrolling();
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
 }
 
@@ -340,18 +465,23 @@ function zoomOutOfWorld() { // Уменьшить масштаб мира.
       break;
     case 2: cellSize = 1;
       break;
-    case 1: cellSize = 0.5; btnZoomOutOfWorld.disabled = true;
+    case 1: cellSize = 0.5;
       break;
-    case 0.5: return;
+    case 0.5: cellSize = 0.25; btnZoomOutOfWorld.disabled = true;
+      break;
+    case 0.25: return;
   }
   btnRemoveOrDrawGrid.disabled = (cellSize <= 2) ? true : false;
   setScrolling();
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
 }
 
 // РЕЖИМ СЛЕДОВ.
+const setTrackCells = new Set(); // Коллекция клеток следов.
+
 const btnTrackMode = document.querySelector('#btnTrackMode'); // Кнопка включения/выключения режима следов.
 
 btnTrackMode.addEventListener('click', turnTrackModeOnOrOff);
@@ -359,13 +489,23 @@ btnTrackMode.addEventListener('click', turnTrackModeOnOrOff);
 function turnTrackModeOnOrOff() { // Включить или выключить режим следа.
   if (isTrackMode) {
     isTrackMode = false;
+    setTrackCells.clear();
+    btnTrackMode.textContent = 'Включить режим следов';
     drawBackground();
     drawGrid();
     drawInitialCells();
-    btnTrackMode.textContent = 'Включить режим следов';
   } else {
     isTrackMode = true;
     btnTrackMode.textContent = 'Выключить режим следов';
+  }
+}
+
+function drawTracks() { // Отрисовать следы.
+  if (!isTrackMode) return;
+  for (const item of setTrackCells) {
+    const x = item / 10_000 ^ 0;
+    const y = item - x * 10_000;
+    drawTrackCell(x - horizontalShift, y - verticalShift);
   }
 }
 
@@ -386,14 +526,38 @@ function removeOrDrawGrid() { // Удалить или нарисовать се
   }
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
 }
+
+// РЕЖИМ СУПЕР СКОРОСТИ
+const btnInfoSuperSpeed = document.querySelector('#btnInfoSuperSpeed'); // Кнопка информации о режиме супер скорости.
+const inptSuperSpeed = document.querySelector('#inptSuperSpeed'); // Поле ввода поколения которое следует отображать.
+let superSpeedValue = false; // Значение поколения которое следует отображать.
+
+btnInfoSuperSpeed.addEventListener('click', () => {
+  infoWindowType.key = 'information';
+  showInfoWindow(`Число введенное в поле показывает какое поколение периодично отображать (каждое 1-е, 2-е, 3-е и т.д.).
+Это может ускорить большие паттерны клеток.`);
+});
+
+inptSuperSpeed.addEventListener('input', e => {
+  let value = Number(e.target.value);
+  if (value < 1) {
+    value = 1;
+    inptSuperSpeed.value = 1;
+  }
+  if (value === 1) superSpeedValue = false;
+  else superSpeedValue = value;
+});
 
 // КОНСТАНТЫ ЭВОЛЮЦИИ.
 const inptBirthRule = document.querySelector('#inptBirthRule'); // Поле ввода количества соседей для зарождения клетки (правило зарождения).
 const inptSurvivalRule = document.querySelector('#inptSurvivalRule'); // Поле ввода количества соседей для выживания клетки (правило выживания).
 const inptNumberOfRule = document.querySelector('#inptNumberOfRule'); // Поле ввода порядкового номера правила.
 const spanRuleText = document.querySelector('#spanRuleText'); // Текст правила.
+let arrCellBirthRule = []; // Массив констант эволюции для зарождения клеток.
+let arrCellSurvivalRule = []; // Массив констант эволюции для сохранения клеток.
 
 inptBirthRule.addEventListener('input', () => {
   if (/^[0-9]+$/.test(inptBirthRule.value)) {
@@ -490,15 +654,14 @@ inptNumberOfRule.addEventListener('input', () => { // При вводе: изм�
 });
 
 // ПОКАЗ ИНФОРМАЦИОННОГО ОКНА ПРИ НАВЕДЕНИИ НА ИКОНКУ ВОПРОСА ВВОДА КОНСТАНТ ЭВОЛЮЦИИ.
-const btnInfoRule = document.querySelector('#btnInfoRule'); // Иконка вопроса о правиле.
+const btnInfoRule = document.querySelector('#btnInfoRule'); // Кнопка информации о правиле.
 
 btnInfoRule.addEventListener('click', () => {
   infoWindowType.key = 'information';
-  let code = `<b>B</b> – количество клеток-соседей способных зародить новую клетку,<br>
+  showInfoWindow(`<b>B</b> – количество клеток-соседей способных зародить новую клетку,<br>
 <b>S</b> – количество клеток-соседей способных сохранить жизнь клетки.<br>
 <b>B3/S23</b> – правило для классической игры «Жизнь», которая наиболее разнообразна и изучена.<br>
-Можете попробовать другие правила, например <b>B3/S35</b>, «HighLife» <b>B36/S23</b>, «LowDeath» <b>B368/S238</b>`;
-  showInfoWindow(code);
+Можете попробовать другие правила, например <b>B3/S35</b>, «HighLife» <b>B36/S23</b>, «LowDeath» <b>B368/S238</b>`);
 });
 
 // ИЗМЕНЕНИЕ РАЗМЕРА МИРА.
@@ -524,14 +687,14 @@ function changeSizeOfWorld() { // Измененить размер мира.
   setScrolling();
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
 }
 
 function showBigWorldWarning() { // Показать предупреждение о большом мире.
   if (infoWindowType.bigWorld === 'Ok') return;
   infoWindowType.key = 'bigWorld';
-  let code = `Внимание, большие карты могут замедлить работу браузера!`;
-  showInfoWindow(code);
+  showInfoWindow(`Внимание, большие карты могут замедлить работу браузера!`);
 }
 
 function clearCellsOutsideWorld() { // Очистить клетки вне мира.
@@ -554,12 +717,41 @@ let canvasHeight = 0; // Высота окна канвас (px).
 btnInWindow.addEventListener('click', fitWorldIntoWindow); // При нажатии: вписывание мира в окно просмотра.
 
 function fitWorldIntoWindow() { // Вписать мир в окно просмотра.
+
   let nativeCrdntsFromCanvas = getNativeCrdntsFromCanvas(); // Переменная нативных координат находящихся в окне канвас.
   clearCells();
-  let leftShift = (numberOfCellsWidthWorld < maxNumberOfCellsWidthCanvas[cellSize]) ?
-    Math.floor((maxNumberOfCellsWidthCanvas[cellSize] - numberOfCellsWidthWorld) / 2) : 0; // Переменная смещения колонии слева. 
-  let topShift = (numberOfCellsHeightWorld < maxNumberOfCellsHeightCanvas[cellSize]) ?
-    Math.floor((maxNumberOfCellsHeightCanvas[cellSize] - numberOfCellsHeightWorld) / 2) : 0; // Переменная смещения колонии сверху.
+  let leftShift = (numberOfCellsWidthWorld < maxNumberOfCellsWidthCanvas[cellSize]) // Переменная смещения колонии слева. 
+    ? Math.floor((maxNumberOfCellsWidthCanvas[cellSize] - numberOfCellsWidthWorld) / 2)
+    : 0;
+  let topShift = (numberOfCellsHeightWorld < maxNumberOfCellsHeightCanvas[cellSize]) // Переменная смещения колонии сверху.
+    ? Math.floor((maxNumberOfCellsHeightCanvas[cellSize] - numberOfCellsHeightWorld) / 2)
+    : 0;
+  const cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
+  for (const [x, y] of nativeCrdntsFromCanvas) { // Внесение клеток в текущее окно.
+    cells[x + leftShift][y + topShift] = 1;
+  }
+
+  if (isTrackMode) {
+    let leftShiftTrack = (numberOfCellsWidthWorld < maxNumberOfCellsWidthCanvas[cellSize]) // Переменная смещения следа слева. 
+      ? Math.floor((maxNumberOfCellsWidthCanvas[cellSize] - numberOfCellsWidthWorld) / 2)
+      : Math.ceil((maxNumberOfCellsWidthCanvas[cellSize] - numberOfCellsWidthWorld) / 2);
+    let topShiftTrack = (numberOfCellsHeightWorld < maxNumberOfCellsHeightCanvas[cellSize]) // Переменная смещения следа сверху.
+      ? Math.floor((maxNumberOfCellsHeightCanvas[cellSize] - numberOfCellsHeightWorld) / 2)
+      : Math.ceil((maxNumberOfCellsHeightCanvas[cellSize] - numberOfCellsHeightWorld) / 2);
+
+    const temp = Array.from(setTrackCells);
+    setTrackCells.clear();
+    for (const item of temp) {
+      const x = item / 10_000 ^ 0;
+      const y = item - x * 10_000;
+      // Условие для обрезки следов с краев.
+      if (x >= numberOfCellsWidthWorld || y >= numberOfCellsHeightWorld || x < horizontalShift || y < verticalShift) continue;
+      const a = (horizontalShift) ? leftShiftTrack + horizontalShift : 0;
+      const b = (verticalShift) ? topShiftTrack + verticalShift : 0;
+      setTrackCells.add((x + leftShiftTrack - a) * 10_000 + (y + topShiftTrack - b));
+    }
+  }
+
   main.style.gridTemplateColumns = '1fr 0px';
   main.style.gridTemplateRows = '1fr 0px';
   inptNumberOfCellsHeightWorld.value = numberOfCellsHeightWorld = maxNumberOfCellsHeightCanvas[cellSize];
@@ -569,15 +761,12 @@ function fitWorldIntoWindow() { // Вписать мир в окно просм�
   if (numberOfCellsWidthWorld * numberOfCellsHeightWorld > 1_000_000) {
     showBigWorldWarning();
   }
-  let cells = (isCurrentGeneration) ? cells1 : cells2; // Массив для ячеек поколения клеток.
-  for (const [x, y] of nativeCrdntsFromCanvas) { // Внесение клеток в текущее окно.
-    cells[x + leftShift][y + topShift] = 1;
-  }
-  cellsForViewing = [];
+
   cellsForViewing = getCellsToView(getNativeCrdnts());
   setScrolling();
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
 }
 
@@ -636,8 +825,9 @@ function scrollRight() { // Прокрутить мир вправо.
   horizontalShift++;
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
-  changeSliderHorizontalPosition()
+  changeThumbHorizontalPosition();
 }
 
 function scrollLeft() { // Прокрутить мир влево.
@@ -647,8 +837,9 @@ function scrollLeft() { // Прокрутить мир влево.
   horizontalShift--;
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
-  changeSliderHorizontalPosition();
+  changeThumbHorizontalPosition();
 }
 
 function scrollDown() { // Прокрутить мир вниз.
@@ -659,8 +850,9 @@ function scrollDown() { // Прокрутить мир вниз.
   verticalShift++;
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
-  changeSliderVerticalPosition();
+  changeThumbVerticalPosition();
 }
 
 function scrollUp() { // Прокрутить мир вверх.
@@ -670,8 +862,9 @@ function scrollUp() { // Прокрутить мир вверх.
   verticalShift--;
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
-  changeSliderVerticalPosition();
+  changeThumbVerticalPosition();
 }
 
 function setScrolling() { // Установить прокрутку.
@@ -692,7 +885,7 @@ function setScrolling() { // Установить прокрутку.
     main.style.gridTemplateRows = '1fr 25px';
     horizontalShift = Math.floor((numberOfCellsWidthWorld - maxNumberOfCellsWidthCanvas[cellSize]) / 2); // Перемещение к центру.
     if (horizontalShift === 0) btnScrollLeft.disabled = true;
-    changeSliderHorizontalPosition();
+    changeThumbHorizontalPosition();
   }
   if (numberOfCellsHeightWorld <= maxNumberOfCellsHeightCanvas[cellSize]) {
     btnScrollDown.disabled = true;
@@ -711,7 +904,7 @@ function setScrolling() { // Установить прокрутку.
     main.style.gridTemplateColumns = '1fr 25px';
     verticalShift = Math.floor((numberOfCellsHeightWorld - maxNumberOfCellsHeightCanvas[cellSize]) / 2); // Перемещение к центру.
     if (verticalShift === 0) btnScrollUp.disabled = true;
-    changeSliderVerticalPosition();
+    changeThumbVerticalPosition();
   }
   worldWidth = numberOfCellsWidthWorld * cellSize;
   worldHeight = numberOfCellsHeightWorld * cellSize;
@@ -730,113 +923,98 @@ function setScrolling() { // Установить прокрутку.
 }
 
 // ПРОКРУТКА ПОЛЗУНКОВ.
-const sliderWrapperVertical = document.querySelector('#sliderWrapperVertical'); // Вертикальная обёртка ползунка (вертикальный желоб).
-const sliderVertical = document.querySelector('#sliderVertical'); // Вертикальный ползунок.
-const sliderWrapperHorizontal = document.querySelector('#sliderWrapperHorizontal'); // Горизонтальная обёртка ползунка (горизонтальный желоб).
-const sliderHorizontal = document.querySelector('#sliderHorizontal'); // Горизонтальный ползунок.
+const sliderVertical = document.querySelector('#sliderVertical'); // Вертикальный слайдер (желоб).
+const thumbVertical = document.querySelector('#thumbVertical'); // Вертикальный ползунок.
+const sliderHorizontal = document.querySelector('#sliderHorizontal'); // Горизонтальный слайдер (желоб).
+const thumbHorizontal = document.querySelector('#thumbHorizontal'); // Горизонтальный ползунок.
 
-function changeSliderVerticalPosition() { // Сменить позицию вертикального ползунка.
-  sliderWrapperVertical.style.gridTemplateRows = `repeat(${numberOfCellsHeightWorld}, 1fr)`;
-  sliderVertical.style.gridRow = `${verticalShift + 1}/${verticalShift + 1 + maxNumberOfCellsHeightCanvas[cellSize]}`;
+function changeThumbVerticalPosition() { // Сменить позицию вертикального ползунка.
+  sliderVertical.style.gridTemplateRows = `repeat(${numberOfCellsHeightWorld}, 1fr)`;
+  thumbVertical.style.gridRow = `${verticalShift + 1}/${verticalShift + 1 + maxNumberOfCellsHeightCanvas[cellSize]}`;
 }
 
-function changeSliderHorizontalPosition() { // Сменить позицию горизонтального ползунка.
-  sliderWrapperHorizontal.style.gridTemplateColumns = `repeat(${numberOfCellsWidthWorld}, 1fr)`;
-  sliderHorizontal.style.gridColumn = `${horizontalShift + 1}/${horizontalShift + 1 + maxNumberOfCellsWidthCanvas[cellSize]}`;
+function changeThumbHorizontalPosition() { // Сменить позицию горизонтального ползунка.
+  sliderHorizontal.style.gridTemplateColumns = `repeat(${numberOfCellsWidthWorld}, 1fr)`;
+  thumbHorizontal.style.gridColumn = `${horizontalShift + 1}/${horizontalShift + 1 + maxNumberOfCellsWidthCanvas[cellSize]}`;
 }
 
-let isSliderHorizontalMode = false; // Режим горизонтального сдвига ползунка.
-let isSliderVerticalMode = false; // Режим вертикального сдвига ползунка.
-
-sliderWrapperHorizontal.addEventListener('mousedown', e => {
-  isSliderHorizontalMode = true;
-  sliderHorizontal.classList.add('focus');
-  changeSliderHorizontalPositionManually(e.x);
-});
-sliderWrapperHorizontal.addEventListener('touchstart', e => {
-  isSliderHorizontalMode = true;
-  sliderHorizontal.classList.add('focus');
-  changeSliderHorizontalPositionManually(e.touches[0].clientX);
-});
-
-sliderWrapperVertical.addEventListener('mousedown', e => {
-  isSliderVerticalMode = true;
-  sliderVertical.classList.add('focus');
-  changeSliderVerticalPositionManually(e.y);
-});
-sliderWrapperVertical.addEventListener('touchstart', e => {
-  isSliderVerticalMode = true;
-  sliderVertical.classList.add('focus');
-  changeSliderVerticalPositionManually(e.touches[0].clientY);
+let yCoordOfThumb = 0; // Y-координата нажатия на ползунок.
+thumbVertical.addEventListener('pointerdown', e => { // Назначить обработчики для вертикального ползунка.
+  thumbVertical.setPointerCapture(e.pointerId);
+  yCoordOfThumb = e.clientY - thumbVertical.getBoundingClientRect().top;
+  changeThumbVerticalPositionManually(e);
+  thumbVertical.addEventListener('pointermove', changeThumbVerticalPositionManually);
+  thumbVertical.ondragstart = e => e.preventDefault();
+  thumbVertical.onpointerup = () => {
+    thumbVertical.removeEventListener('pointermove', changeThumbVerticalPositionManually);
+    thumbVertical.ondragstart = null;
+    thumbVertical.onpointerup = null;
+  };
 });
 
-window.addEventListener('mousemove', e => {
-  changeSliderHorizontalPositionManually(e.x);
-  changeSliderVerticalPositionManually(e.y);
-});
-window.addEventListener('touchmove', e => {
-  changeSliderHorizontalPositionManually(e.touches[0].clientX);
-  changeSliderVerticalPositionManually(e.touches[0].clientY);
-});
-window.addEventListener('mouseup', () => {
-  isSliderHorizontalMode = false;
-  isSliderVerticalMode = false;
-  sliderVertical.classList.remove('focus');
-  sliderHorizontal.classList.remove('focus');
-});
-window.addEventListener('touchend', () => {
-  isSliderHorizontalMode = false;
-  isSliderVerticalMode = false;
-  sliderVertical.classList.remove('focus');
-  sliderHorizontal.classList.remove('focus');
+let xCoordOfThumb = 0; // X-координата нажатия на ползунок.
+thumbHorizontal.addEventListener('pointerdown', e => { // Назначить обработчики для горизонтального ползунка.
+  thumbHorizontal.setPointerCapture(e.pointerId);
+  xCoordOfThumb = e.clientX - thumbHorizontal.getBoundingClientRect().left;
+  changeThumbHorizontalPositionManually(e);
+  thumbHorizontal.addEventListener('pointermove', changeThumbHorizontalPositionManually);
+  thumbHorizontal.ondragstart = e => e.preventDefault();
+  thumbHorizontal.onpointerup = () => {
+    thumbHorizontal.removeEventListener('pointermove', changeThumbHorizontalPositionManually);
+    thumbHorizontal.ondragstart = null;
+    thumbHorizontal.onpointerup = null;
+  };
 });
 
-function changeSliderVerticalPositionManually(coursorYpos) { // Изменить позицию вертикального ползунка вручную.
-  if (!isSliderVerticalMode) return;
-  let topIndent = sliderWrapperVertical.getBoundingClientRect().top; // Отступ вертикального желоба от левого края окна (px).
-  let yCoordinateOfPressing = coursorYpos - topIndent; // Y-координата нажатия на горизонтальный желоб.
-  let sliderWrapperHeight = sliderWrapperVertical.offsetHeight; // Высота вертикального желоба включая границы.
-  let sliderWrapperHeightToOneCell = // Высота вертикального желоба соответствующая одной ячейке.
-    sliderWrapperHeight / numberOfCellsHeightWorld;
-  let halfNumberOfCellsCanvas = // Половина от количества ячеек высоты канвас (неактивная высота горизонтального желоба).
-    Math.floor(maxNumberOfCellsHeightCanvas[cellSize] / 2);
-  let countCell = // Счет ячейки с учетом вычета неактивной высоты горизонтального желоба.
-    Math.floor(yCoordinateOfPressing / sliderWrapperHeightToOneCell) - halfNumberOfCellsCanvas;
+function changeThumbVerticalPositionManually(e) { // Изменить позицию вертикального ползунка вручную.
+  let yCoordOfSlider = e.clientY - sliderVertical.getBoundingClientRect().top; // Y-координата нажатия на слайдер.
+  let sliderHeight = sliderVertical.offsetHeight; // Высота вертикального желоба включая границы.
+  let sliderHeightToOneCell = // Высота вертикального желоба соответствующая одной ячейке.
+    sliderHeight / numberOfCellsHeightWorld;
+  let yPositionPointer = // Положение указателя по вертикали.
+    Math.floor(yCoordOfThumb / sliderHeightToOneCell);
+  let countCell = // Счет ячейки с учетом вычета положения указателя.
+    Math.floor(yCoordOfSlider / sliderHeightToOneCell) - yPositionPointer;
   let remainingHeightCells = numberOfCellsHeightWorld - maxNumberOfCellsHeightCanvas[cellSize]; // Остаток клеток высоты.
   verticalShift = (countCell < 0) ? 0 : (countCell > remainingHeightCells) ? remainingHeightCells : countCell;
   btnScrollUp.disabled = (verticalShift === 0) ? true : false;
   btnScrollDown.disabled = (verticalShift === remainingHeightCells) ? true : false;
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
-  changeSliderVerticalPosition();
+  changeThumbVerticalPosition();
 }
 
-function changeSliderHorizontalPositionManually(coursorXpos) { // Изменить позицию горизонтального ползунка вручную.
-  if (!isSliderHorizontalMode) return;
-  let leftIndent = sliderWrapperHorizontal.getBoundingClientRect().left; // Отступ горизонтального желоба от левого края окна (px).
-  let xCoordinateOfPressing = coursorXpos - leftIndent; // X-координата нажатия на горизонтальный желоб.
-  let sliderWrapperWidth = sliderWrapperHorizontal.offsetWidth; // Ширина горизонтального желоба включая границы.
-  let sliderWrapperWidthToOneCell = // Ширина горизонтального желоба соответствующая одной ячейке.
-    sliderWrapperWidth / numberOfCellsWidthWorld;
-  let halfNumberOfCellsCanvas = // Половина от количества ячеек ширины канвас (неактивная ширина горизонтального желоба).
-    Math.floor(maxNumberOfCellsWidthCanvas[cellSize] / 2);
-  let countCell = // Счет ячейки с учетом вычета неактивной ширины горизонтального желоба.
-    Math.floor(xCoordinateOfPressing / sliderWrapperWidthToOneCell) - halfNumberOfCellsCanvas;
+function changeThumbHorizontalPositionManually(e) { // Изменить позицию горизонтального ползунка вручную.
+  let xCoordOfSlider = e.clientX - sliderHorizontal.getBoundingClientRect().left; // X-координата нажатия слайдер.
+  let sliderWidth = sliderHorizontal.offsetWidth; // Ширина горизонтального желоба включая границы.
+  let sliderWidthToOneCell = // Ширина горизонтального желоба соответствующая одной ячейке.
+    sliderWidth / numberOfCellsWidthWorld;
+  let xPositionPointer = // Положение указателя по вертикали.
+    Math.floor(xCoordOfThumb / sliderWidthToOneCell);
+  let countCell = // Счет ячейки с учетом вычета положения указателя.
+    Math.floor(xCoordOfSlider / sliderWidthToOneCell) - xPositionPointer;
   let remainingWidthCells = numberOfCellsWidthWorld - maxNumberOfCellsWidthCanvas[cellSize]; // Остаток клеток ширины.
   horizontalShift = (countCell < 0) ? 0 : (countCell > remainingWidthCells) ? remainingWidthCells : countCell;
   btnScrollLeft.disabled = (horizontalShift === 0) ? true : false;
   btnScrollRight.disabled = (horizontalShift === remainingWidthCells) ? true : false;
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
-  changeSliderHorizontalPosition();
+  changeThumbHorizontalPosition();
 }
 
 // ЦВЕТОВОЕ ОФОРМЛЕНИЕ.
 const inptsColor = document.querySelectorAll('.inpt_color'); // Поля ввода цвета цветового оформления.
 
-inptsColor.forEach(e => e.addEventListener('change', () => { drawBackground(); drawGrid(); drawInitialCells(); }));
+inptsColor.forEach(e => e.addEventListener('change', () => {
+  drawBackground();
+  drawGrid();
+  drawTracks();
+  drawInitialCells();
+}));
 
 // НАЧАЛЬНЫЕ НАСТРОЙКИ / СБРОС НАСТРОЕК.
 const btnResetSet = document.querySelector('#btnResetSet'); // Кнопка сброса настроек.
@@ -852,15 +1030,17 @@ function setInitialSettings() { // Установить стартовые на�
   arrCellSurvivalRule = [2, 3];
   spanRuleText.textContent = 'B3/S23';
   inptNumberOfRule.value = '1558';
-  inptLivingСellСolor.value = '#800080';
+  inptLivingCellColor.value = '#800080';
   inptEmptyCellColor.value = '#FFFFFF';
-  inptTraceCellColor.value = '#61D6A0';
+  inptTrackCellColor.value = '#61D6A0';
   btnZoomInOfWorld.disabled = false;
   btnZoomOutOfWorld.disabled = false;
   slctGenSpeed.value = 100;
+  inptSuperSpeed.value = 1;
   isTrackMode = false;
-  canvas.classList.remove('border');
+  setTrackCells.clear();
   btnTrackMode.textContent = 'Включить режим следов';
+  canvas.classList.remove('border');
   fitWorldIntoWindow();
   changeRateOfGenerationalChange();
 }
@@ -870,8 +1050,7 @@ const btnInformKeys = document.querySelector('#btnInformKeys'); // Кнопка 
 
 btnInformKeys.addEventListener('click', () => {
   infoWindowType.key = 'information';
-  let code =
-    `<ul class="inform-keys">
+  showInfoWindow(`<ul class="inform-keys">
       <h2 class="sub-title">Управление:</h2>
       <li><span class="key">A</span> - старт / стоп</li>
       <li><span class="key">S</span> - 1 шаг Игры</li>
@@ -890,15 +1069,22 @@ btnInformKeys.addEventListener('click', () => {
       <li><span class="key">-</span> - уменьшить масштаб</li>
       <li>
         <div style="display: flex;">
-          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_up" src="icons/ico-arrow.svg" alt=""></span>
-          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_down" src="icons/ico-arrow.svg" alt=""></span>
-          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_left" src="icons/ico-arrow.svg" alt=""></span>
-          <span class="key key_arrow"><img class="ico ico-arrow ico-arrow_right" src="icons/ico-arrow.svg" alt=""></span>
+          <span class="key key_arrow">
+            <img class="ico ico-arrow ico-arrow_up" src="icons/ico-arrow-up.svg" alt="">
+          </span>
+          <span class="key key_arrow">
+            <img class="ico ico-arrow ico-arrow_down" src="icons/ico-arrow-down.svg" alt="">
+          </span>
+          <span class="key key_arrow">
+            <img class="ico ico-arrow ico-arrow_left" src="icons/ico-arrow-left.svg" alt="">
+          </span>
+          <span class="key key_arrow">
+            <img class="ico ico-arrow ico-arrow_right" src="icons/ico-arrow-right.svg" alt="">
+          </span>
           &nbsp;- прокрутить карту
         </div>
       </li>  
-    </ul>`
-  showInfoWindow(code);
+    </ul>`);
 });
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
@@ -961,6 +1147,7 @@ function drawShadow() { // Отрисовать тень колонии.
   if (colony.width <= numberOfCellsWidthWorld && colony.height <= numberOfCellsHeightWorld) {
     drawBackground();
     drawGrid();
+    drawTracks();
     drawInitialCells();
     let stopDrawingWidth = // Переменная количества ячеек которые позволят не отрисовывать тень за границей по ширине.
       (coursorX > numberOfCellsWidthWorld - colony.width - horizontalShift) ?
@@ -976,8 +1163,7 @@ function drawShadow() { // Отрисовать тень колонии.
     }
   } else {
     infoWindowType.key = 'bigColony';
-    let code = `Карта меньше выбранной вами колонии.<br>Увеличить карту под подходящий размер для колонии?`;
-    showInfoWindow(code);
+    showInfoWindow(`Карта меньше выбранной вами колонии.<br>Увеличить карту под подходящий размер для колонии?`);
   }
 }
 
@@ -1061,6 +1247,7 @@ function resetColony() { // Сбросить отрисовку колонии �
   clearPreviewCanvas();
   drawBackground();
   drawGrid();
+  drawTracks();
   drawInitialCells();
 }
 
@@ -1196,7 +1383,8 @@ function addDefaultColonyToSelect(data, currentPanel) { // Добавить го
         select.insertAdjacentHTML('beforeend', `<option>${colony.name}</option>`);
       }
     } else {
-      currentPanel.innerHTML += `<button class="btn btn_tab btn_tab_drop-down btn_tab_drop-down_default-colony close">${group.name}</button>`;
+      currentPanel.innerHTML += `<button class="btn btn_tab btn_tab_drop-down
+btn_tab_drop-down_default-colony close">${group.name}</button>`;
       let nextPanel = document.createElement('div'); // Выпадающая панель внутренняя.
       nextPanel.setAttribute('class', 'panel panel_drop-down panel_drop-down_default-colony none');
       currentPanel.appendChild(nextPanel);
@@ -1230,7 +1418,8 @@ function addEventListenersForSlctsDefaultColonies() { // Добавить про
 }
 
 function openOrCloseSelectsDefaultColonies(eventListener) { // Открыть или закрыть селекты готовых колоний.
-  const wrappersSlctsDefaultColonies = document.querySelectorAll('.wrapper-slct_default-colony'); // Обёртки селектов готовых колоний.
+  const wrappersSlctsDefaultColonies = // Обёртки селектов готовых колоний.
+    document.querySelectorAll('.wrapper-slct_default-colony');
   const slctsDefaultColonies = document.querySelectorAll('.slct_default-colony'); // Селекты готовых колоний.
   for (let i = 0; i < slctsDefaultColonies.length; i++) {
     slctsDefaultColonies[i].addEventListener(eventListener, () => {
@@ -1407,12 +1596,11 @@ btnSavePattern.addEventListener('click', () => { // При нажатии: со�
         saveFullRle(colony.fullRle);
       } else {
         infoWindowType.key = 'information';
-        let code = `<strong>Введенный RLE-паттерн некорректен!</strong><br>
+        showInfoWindow(`<strong>Введенный RLE-паттерн некорректен!</strong><br>
 Он должен иметь примерный вид: «<span class="code">bo$2bo$3o!</span>»,
 где: символ «<span class="code">b</span>» - пустая клетка, символ «<span class="code">o</span>» - живая клетка,
 символ «<span class="code">$</span>» - перенос строки, числа перед символами означают количество символов.
-Размер колонии не должен превышать 2000x2000 клеток`;
-        showInfoWindow(code);
+Размер колонии не должен превышать 2000x2000 клеток`);
       }
     } else if (/[.O]+/.test(pattern)) { // Plaintext.
       if (checkValidityOfPlaintext(inptCustomPatternValue)) {
@@ -1421,18 +1609,16 @@ btnSavePattern.addEventListener('click', () => { // При нажатии: со�
         saveFullRle(colony.fullRle);
       } else {
         infoWindowType.key = 'information';
-        let code = `<strong>Введенный Plaintext-паттерн некорректен!</strong><br>
+        showInfoWindow(`<strong>Введенный Plaintext-паттерн некорректен!</strong><br>
 Он должен иметь примерный вид:<br><span class="code">.O.<br>..O<br>OOO</span><br>
 где: символ «<span class="code">.</span>» - пустая клетка, символ «<span class="code">O</span>» - живая клетка.
-Размер колонии не должен превышать 2000x2000 клеток`;
-        showInfoWindow(code);
+Размер колонии не должен превышать 2000x2000 клеток`);
       }
     } else {
       infoWindowType.key = 'information';
-      let code = `Введенные в поле ввода данные не соотвествуют ни
+      showInfoWindow(`Введенные в поле ввода данные не соотвествуют ни
 <a href="https://conwaylife.com/wiki/Run_Length_Encoded">RLE-паттерну</a>, ни
-<a href="https://conwaylife.com/wiki/Plaintext">Plaintext-паттерну</a>.`;
-      showInfoWindow(code);
+<a href="https://conwaylife.com/wiki/Plaintext">Plaintext-паттерну</a>.`);
     }
   } else { // Сохранение колонии из мира.
     if (checkWorldForCells()) {
@@ -1441,8 +1627,7 @@ btnSavePattern.addEventListener('click', () => { // При нажатии: со�
       saveFullRle(colony.fullRle);
     } else {
       infoWindowType.key = 'information';
-      let code = `Создайте свою колонию на карте или введите паттерн колонии в поле ввода!`;
-      showInfoWindow(code);
+      showInfoWindow(`Создайте свою колонию на карте или введите паттерн колонии в поле ввода!`);
     }
   }
 });
@@ -1497,26 +1682,24 @@ function saveFullRle(fullRle) { // Сохранить полный RLE-патт�
       if (infoWindowType.firstCustomColony === "noOk") showWarningAboutSavingColonies();
     } else {
       infoWindowType.key = 'rewriteCustomColony';
-      let code = `У вас уже есть колония под названием "${inptCustomName.value}".<br>Хотите переписать данные колонии "${inptCustomName.value}"?`;
-      showInfoWindow(code);
+      showInfoWindow(`У вас уже есть колония под названием "${inptCustomName.value}".<br>
+Хотите переписать данные колонии "${inptCustomName.value}"?`);
     }
     optFirstSlctCustomColony.textContent = 'Выбрать';
     slctCustomColony.disabled = false;
     wrapperSlctCustomColony.classList.remove('disabled');
   } else {
     infoWindowType.key = 'information';
-    let code = `Введите название для своей колонии!`;
-    showInfoWindow(code);
+    showInfoWindow(`Введите название для своей колонии!`);
   }
 }
 
 function showWarningAboutSavingColonies() {  // Показать предупреждение о сохранении колоний в хранилище браузера.
-  let code = `Внимание, паттерны колоний сохраняются только в Вашем браузере и могут удалиться при очистке истории
+  infoWindowType.key = 'firstCustomColony';
+  showInfoWindow(`Внимание, паттерны колоний сохраняются только в Вашем браузере и могут удалиться при очистке истории
 или не сохраниться в режиме инкогнито.<br>Если вам важно сохранить паттерны, нажмите на одну из кнопок показа паттернов
 (RLE или Plaintext) в разделе "Паттерн колонии на карте" и сохраните их где-либо в текстовой документ.<br>
-Затем можете восстановить свои колонии, введя паттерны в поле ввода и сохранить их для текущей сессии браузера`;
-  infoWindowType.key = 'firstCustomColony';
-  showInfoWindow(code)
+Затем можете восстановить свои колонии, введя паттерны в поле ввода и сохранить их для текущей сессии браузера`)
 }
 
 function checkValidityOfPlaintext(fullPlaintext) { // Проверить валидность Plaintext-паттерна.
@@ -1578,11 +1761,10 @@ function convertCellsToRle(cells) { // Преобразовать массив �
 }
 
 function enterDataIntoColonyFromWorld() { // Внести данные в объект "colony" из мира.
-  let nativeCrdnts = getNativeCrdnts(); // Нативные координаты.
-  let crdnts = convertNativeCrdntsToCrdnts(nativeCrdnts); // Массив координат и размер колонии.
-  colony.crdnts = crdnts.crdnts;
-  colony.width = crdnts.width;
-  colony.height = crdnts.height;
+  const coords = convertNativeCrdntsToCrdnts(getNativeCrdnts()); // Массив координат и размер колонии.
+  colony.crdnts = coords.crdnts;
+  colony.width = coords.width;
+  colony.height = coords.height;
   colony.name = inptCustomName.value;
   colony.author = inptCustomAuthor.value;
   colony.comments = inptCustomComments.value.split('\n');
@@ -1636,10 +1818,9 @@ const btnInfoCustomPattern = document.querySelector('#btnInfoCustomPattern'); //
 
 btnInfoCustomPattern.addEventListener('click', () => {
   infoWindowType.key = 'information';
-  let code = `Поле ввода для паттернов колонии: <a href="https://conwaylife.com/wiki/Run_Length_Encoded">RLE</a> или
+  showInfoWindow(`Поле ввода для паттернов колонии: <a href="https://conwaylife.com/wiki/Run_Length_Encoded">RLE</a> или
 <a href="https://conwaylife.com/wiki/Plaintext">Plaintext</a>.<br>
-Если оставить поле ввода пустым, сохранится RLE-паттерн колонии находящейся на карте.`;
-  showInfoWindow(code);
+Если оставить поле ввода пустым, сохранится RLE-паттерн колонии находящейся на карте.`);
 });
 
 // ДОБАВЛЕНИЕ ПОЛЬЗОВАТЕЛЬСКИХ КОЛОНИЙ В СЕЛЕКТ ПРИ ЗАГРУЗКЕ.
@@ -1699,18 +1880,18 @@ function displayOtherColonyData() { // Отображение прочих да�
   let widthLastNum = colony.width.toString().slice(-1); // Последняя цифра ширины.
   let widthLastTwoNum = colony.width.toString().slice(-2); // Последние 2 цифры ширины.
   let widthCellsNoun = // Существительное "клетки" ширины.
-    (widthLastTwoNum === '11' || widthLastTwoNum === '12' || widthLastTwoNum === '13' || widthLastTwoNum === '14') ?
-      'клеток' : (widthLastNum === '1') ?
-        'клетка' : (widthLastNum === '2' || widthLastNum === '3' || widthLastNum === '4') ?
-          'клетки' : 'клеток';
+    (widthLastTwoNum === '11' || widthLastTwoNum === '12' || widthLastTwoNum === '13' || widthLastTwoNum === '14')
+      ? 'клеток' : (widthLastNum === '1')
+        ? 'клетка' : (widthLastNum === '2' || widthLastNum === '3' || widthLastNum === '4')
+          ? 'клетки' : 'клеток';
   let widthStr = `<b>Ширина:</b> ${colony.width} ${widthCellsNoun}<br>`; // Строка ширины.
   let heightLastNum = colony.height.toString().slice(-1); // Последняя цифра высоты.
   let heightLastTwoNum = colony.height.toString().slice(-2); // Последние 2 цифры высоты.
   let heightCellsNoun = // Существительное "клетки" высоты.
-    (heightLastTwoNum === '11' || heightLastTwoNum === '12' || heightLastTwoNum === '13' || heightLastTwoNum === '14') ?
-      'клеток' : (heightLastNum === '1') ?
-        'клетка' : (heightLastNum === '2' || heightLastNum === '3' || heightLastNum === '4') ?
-          'клетки' : 'клеток';
+    (heightLastTwoNum === '11' || heightLastTwoNum === '12' || heightLastTwoNum === '13' || heightLastTwoNum === '14')
+      ? 'клеток' : (heightLastNum === '1')
+        ? 'клетка' : (heightLastNum === '2' || heightLastNum === '3' || heightLastNum === '4')
+          ? 'клетки' : 'клеток';
   let heightStr = `<b>Высота:</b> ${colony.height} ${heightCellsNoun}<br>`; // Строка высоты.
   let ruleStr = `<b>Правило:</b> B${colony.rule[0].join('')}\/S${colony.rule[1].join('')}`; // Строка правила.
   otherData.innerHTML = authorStr + commentsStr + widthStr + heightStr + ruleStr;
@@ -1721,8 +1902,7 @@ const btnDelColony = document.querySelector('#btnDelColony'); // Кнопка у
 
 btnDelColony.addEventListener('click', () => { // При нажатии: запуск выбора для удаления пользовательской колонии.
   infoWindowType.key = 'delCustomColony';
-  let code = `Удалить колонию под названием "${nameColony.textContent}"?`;
-  showInfoWindow(code);
+  showInfoWindow(`Удалить колонию под названием «${nameColony.textContent}»?`);
 });
 
 // ПОКАЗ ПАТТЕРНА КОЛОНИИ И СОХРАНЕНИЕ СТРОКИ ПАТТЕРНА В БУФЕР ОБМЕНА.
@@ -1735,7 +1915,7 @@ const numberOfColonyCells = document.querySelector('#numberOfColonyCells'); // �
 btnShowRle.addEventListener('click', () => { // При нажатии: обновление строки шаблона.
   if (isShadowMode) resetColony();
   if (checkWorldForCells()) {
-    if (!colony.crdnts?.length) enterDataIntoColonyFromWorld();
+    enterDataIntoColonyFromWorld();
     colony.fullRle = getFullRleWithDataFromInpts();
     colonyPattern.textContent = colony.fullRle;
     numberOfColonyCells.textContent = `Количество клеток: ${colony.crdnts.length}`;
@@ -1744,15 +1924,14 @@ btnShowRle.addEventListener('click', () => { // При нажатии: обно�
     btnSaveClipboard.disabled = true;
     numberOfColonyCells.textContent = `Количество клеток: 0`;
     infoWindowType.key = 'information';
-    let code = `Карта пуста, создайте свою колонию!`;
-    showInfoWindow(code);
+    showInfoWindow(`Карта пуста, создайте свою колонию!`);
   }
 });
 
 btnShowPlaintext.addEventListener('click', () => { // При нажатии: обновление строки шаблона.
   if (isShadowMode) resetColony();
   if (checkWorldForCells()) {
-    if (!colony.crdnts?.length) enterDataIntoColonyFromWorld();
+    enterDataIntoColonyFromWorld();
     colony.fullPlaintext = getFullPlaintextWithDataFromInpts();
     colonyPattern.textContent = colony.fullPlaintext;
     numberOfColonyCells.textContent = `Количество клеток: ${colony.crdnts.length}`;
@@ -1761,8 +1940,7 @@ btnShowPlaintext.addEventListener('click', () => { // При нажатии: о�
     btnSaveClipboard.disabled = true;
     numberOfColonyCells.textContent = `Количество клеток: 0`;
     infoWindowType.key = 'information';
-    let code = `Карта пуста, создайте свою колонию!`;
-    showInfoWindow(code);
+    showInfoWindow(`Карта пуста, создайте свою колонию!`);
   }
 });
 
@@ -1780,13 +1958,11 @@ btnSaveClipboard.addEventListener('click', () => { // При нажатии: к�
   navigator.clipboard.writeText(colonyPattern.textContent)
     .then(() => {
       infoWindowType.key = 'information';
-      let code = `Паттерн скопирован в буфер обмена!`;
-      showInfoWindow(code);
+      showInfoWindow(`Паттерн скопирован в буфер обмена!`);
     })
     .catch(() => {
       infoWindowType.key = 'information';
-      let code = `<string>Паттерн НЕ скопировался в буфер обмена!</string><br>Выделите паттерн вручную и скопируйте`;
-      showInfoWindow(code);
+      showInfoWindow(`<string>Паттерн НЕ скопировался в буфер обмена!</string><br>Выделите паттерн вручную и скопируйте`);
     });
 });
 
@@ -1806,9 +1982,9 @@ const infoWindowType = { // Объект видов информационног
 const warningPanel = document.querySelector('#warningPanel'); // Панель информационного окна.
 const warningText = document.querySelector('#warningText'); // Текст панели информационного окна.
 
-function showInfoWindow(code) { // Показать информационное окно.
+function showInfoWindow(html) { // Показать информационное окно.
   warningPanel.classList.remove('none');
-  warningText.innerHTML = code;
+  warningText.innerHTML = html;
   if (infoWindowType[infoWindowType.key] === 'noOk' ||
     infoWindowType[infoWindowType.key] === 'info') {
     btnYes.classList.add('none');
@@ -1877,7 +2053,6 @@ function delCustomColony() { // Удалить пользовательскую 
   localStorage.removeItem(nameColony.textContent);
   document.querySelector(`#slctCustomColony option[value="${nameColony.textContent}"]`).remove();
   clearPreviewCanvas();
-  drawInitialCells();
 }
 
 btnOk.addEventListener('mouseover', () => btnOk.blur());
@@ -1904,7 +2079,7 @@ function increaseWorldSizeForColonySize() { // Увеличить размера
   }
   if (colony.width > maxNumberOfCellsWidthCanvas[cellSize] ||
     colony.height > maxNumberOfCellsHeightCanvas[cellSize]) {
-    if (cellSize === 0.5) return;
+    if (cellSize === 0.25) return;
     zoomOutOfWorld();
     increaseWorldSizeForColonySize();
   }
@@ -2074,10 +2249,10 @@ btnLandscapeMode.addEventListener('click', () => { // При нажатии: с�
       isLandscapeMode = false;
     } else {
       infoWindowType.key = 'information';
-      let code = (screen.orientation.type === 'portrait-primary') ?
-        `Ширина экрана не позволяет показать широкий вид вкладки, попробуйте изменить положение экрана на альбомный` :
-        `К сожалению, ширина экрана не позволяет показать широкий вид вкладки`;
-      showInfoWindow(code);
+      const html = (screen.orientation.type === 'portrait-primary')
+        ? `Ширина экрана не позволяет показать широкий вид вкладки, попробуйте изменить положение экрана на альбомный`
+        : `К сожалению, ширина экрана не позволяет показать широкий вид вкладки`;
+      showInfoWindow(html);
     }
   }
 });
